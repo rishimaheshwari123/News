@@ -1,9 +1,13 @@
 import React from "react";
-
+import Navbar from "../components/comman/Navbar";
+import BreakingNews from "../components/core/HomePage/BreakingNews";
+import News from "../components/core/HomePage/News";
 const Home = () => {
   return (
     <div>
-      <h1>Home</h1>
+      <Navbar />
+      <BreakingNews />
+      <News />
     </div>
   );
 };

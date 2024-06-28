@@ -1,15 +1,11 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken, setUser } from "../../../redux/authSlice";
-import Swal from "sweetalert2";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { login } from "../../../services/operations/admin";
 
 function Login() {
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -34,52 +30,7 @@ function Login() {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    try {
-      Swal.fire({
-        title: "Loading",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        allowEnterKey: false,
-        showConfirmButton: false,
-      });
-
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/admin/login`,
-        formData
-      );
-      console.log(response);
-      Swal.close();
-
-      if (!response?.data?.success) {
-        Swal.fire({
-          title: "Login Failed",
-          text:
-            response.data.message ||
-            "Something went wrong, please try again later",
-          icon: "error",
-        });
-        return;
-      }
-
-      Swal.fire({
-        title: "Login Successfully",
-        text: "",
-        icon: "success",
-      });
-      dispatch(setToken(response.data.token));
-      dispatch(setUser(response.data.user));
-      navigate("/dashboard");
-    } catch (error) {
-      Swal.close();
-
-      Swal.fire({
-        title: "Error",
-        text:
-          error.response?.data?.message ||
-          "Something went wrong, please try again later",
-        icon: "error",
-      });
-    }
+    login(formData.email, formData.password, navigate, dispatch);
   };
 
   return (
