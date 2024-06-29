@@ -7,3 +7,18 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+/* Form Input */
+.form-input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out; /* Smooth transition for border color */
+}
+
+.form-input:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #3182ce; /* Highlight border color on focus */
+}

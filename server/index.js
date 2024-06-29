@@ -7,6 +7,14 @@ const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db")
 
+//routes
+const authRoutes = require("./routes/authRoute")
+const newsRoutes = require("./routes/newsRoute")
+const categoryRoutes = require("./routes/categoryRoutes")
+const subcategoryRoutes = require("./routes/subcategoryRoutes")
+const imageRoute = require("./routes/imageRoute");
+
+
 dotenv.config();
 
 const PORT = process.env.PORT || 8080
@@ -34,13 +42,18 @@ cloudinaryConnect();
 
 
 // routes  
-app.use("/api/v1/auth", require("./routes/authRoute"))
+app.use("/api/v1/auth", authRoutes)
+app.use("/api/v1/news", newsRoutes)
+app.use("/api/v1/category", categoryRoutes)
+app.use("/api/v1/subcategory", subcategoryRoutes)
+app.use("/api/v1/image", imageRoute);
+
 
 // default route 
 app.get("/", (req, res) => {
     return res.json({
         success: true,
-        message: "Ha Bhai chal rha hu useke jaisa nhi me."
+        message: "Your server is up and running ..."
     })
 })
 

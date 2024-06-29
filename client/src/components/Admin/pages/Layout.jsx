@@ -6,7 +6,7 @@ function Layout() {
     <div className="">
       <Sidebar />
 
-      <div className="lg:ml-24 mx-5 mt-3">
+      <div className="lg:ml-24 mx-5 mt-3 ml-[100px]">
         <Outlet />
       </div>
     </div>

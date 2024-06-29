@@ -52,14 +52,14 @@ const Sidebar = () => {
       ref={sidebarRef}
       className={`fixed h-screen top-0   ${
         isCollapsed ? "w-16" : "w-64"
-      } bg-white transition-all duration-300`}
+      } bg-gray-900 transition-all duration-300`}
     >
       <div className="flex items-center justify-between p-4">
         {/* Logo section */}
         <div
           className={`${
             isCollapsed ? "hidden" : "block"
-          } text-black font-bold text-xl`}
+          } text-white font-bold text-xl`}
         >
           <img
             src={""}
@@ -70,14 +70,14 @@ const Sidebar = () => {
         {/* Toggle button */}
         <button
           onClick={handleToggle}
-          className="bg-transparent border-none w-8 h-8 flex justify-center items-center cursor-pointer text-black"
+          className="bg-transparent border-none w-8 h-8 flex justify-center items-center cursor-pointer text-white"
         >
           {isCollapsed ? <CiMenuFries size={22} /> : <RxCross1 size={22} />}
         </button>
       </div>
 
       {/* Navigation links */}
-      <ul className="text-black list-none flex flex-col gap-2 p-4 mb-14">
+      <ul className="text-white list-none flex flex-col gap-2 p-4 mb-14">
         {isCollapsed ? (
           <>
             {[
@@ -94,14 +94,14 @@ const Sidebar = () => {
                 label: "Gallery",
               },
               {
-                to: "/admin/addProduct",
+                to: "/admin/addnews",
                 icon: <FcPlus />,
-                label: "Add Product",
+                label: "Add News",
               },
               {
-                to: "/admin/getProduct",
+                to: "/admin/allnews",
                 icon: <FcPieChart />,
-                label: "Get Product",
+                label: "All News ",
               },
             ].map((item) => (
               <NavLink
@@ -110,8 +110,8 @@ const Sidebar = () => {
                 // exact={true}
                 // onClick={handleToggle}
                 className={({ isActive }) =>
-                  `text-black py-4 flex items-center hover:border-r-4 hover:border-black ${
-                    isActive ? "border-r-4 border-black" : ""
+                  `text-white py-4 flex items-center hover:border-r-4 hover:border-black ${
+                    isActive ? "border-r-4 border-white" : ""
                   }`
                 }
               >
@@ -143,12 +143,12 @@ const Sidebar = () => {
               {
                 to: "/admin/addProduct",
                 icon: <FcPlus />,
-                label: "Add Product",
+                label: "Add News",
               },
               {
                 to: "/admin/getProduct",
                 icon: <FcPieChart />,
-                label: "Get Product",
+                label: "All News",
               },
             ].map((item) => (
               <NavLink
@@ -157,8 +157,8 @@ const Sidebar = () => {
                 // exact={true}
                 onClick={handleToggle}
                 className={({ isActive }) =>
-                  `text-black py-4 flex items-center hover:border-r-4 hover:border-black ${
-                    isActive ? "border-r-4 border-black" : ""
+                  `text-white py-4 flex items-center hover:border-r-4 hover:border-black ${
+                    isActive ? "border-r-4 border-white b text-blue-500" : ""
                   }`
                 }
               >
