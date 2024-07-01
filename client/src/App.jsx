@@ -11,6 +11,13 @@ import OpenRoute from "./components/Admin/auth/OpenRoute";
 import { getAllNews } from "./services/operations/admin";
 import { useDispatch, useSelector } from "react-redux";
 import AllNews from "./components/Admin/pages/AllNews";
+import NewsDetails from "./pages/NewsDetails";
+import SingleCategory from "./pages/SingleCategory";
+import BreakingNews from "./components/core/HomePage/BreakingNews";
+import Category from "./components/Admin/pages/Category";
+import Subcategory from "./components/Admin/pages/Subcategory";
+import Livestreming from "./components/Admin/pages/Livestreming";
+import Breaking from "./components/Admin/pages/Breaking";
 
 const App = () => {
 
@@ -24,10 +31,16 @@ useEffect(()=>{
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/newsdetails/:id" element={<NewsDetails />} />
+        <Route path="/category/:id" element={<SingleCategory />} />
+
+
+
+
+
         <Route path="/login" element={
           <OpenRoute>
-            
-          <Login />
+                      <Login />
           </OpenRoute>
           } />
 
@@ -42,6 +55,13 @@ useEffect(()=>{
           <Route path="admin/addnews" element={<AddNews />} />
           <Route path="admin/addnews/:id" element={<AddNews />} />
           <Route path="admin/allnews" element={<AllNews />} />
+
+          <Route path="admin/breaking" element={<Breaking />} />
+          <Route path="admin/category" element={<Category />} />
+          {/* <Route path="admin/subcategory" element={<Subcategory />} /> */}
+          <Route path="admin/livestriming" element={<Livestreming />} />
+
+
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

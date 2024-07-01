@@ -33,7 +33,7 @@ function AddNews() {
     const fetchCategoryMain = async () => {
       try {
         const response = await fetchCategory();
-        setCategories(response);
+        setCategories(response?.categories);
       } catch (error) {
         // console.error("Error fetching categories:", error);
       }

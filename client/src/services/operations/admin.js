@@ -322,7 +322,7 @@ export const fetchCategory = async() =>{
       throw new Error("Could Not Fetch News Categories")
     }
 
-    result = response?.data?.categories
+    result = response?.data
   } catch (error) {
     console.log("News_CATEGORY_API API ERROR............", error)
    

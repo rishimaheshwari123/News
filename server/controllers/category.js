@@ -27,12 +27,26 @@ const createCategory = async (req, res) => {
 
 // Get all categories with populated subCategories
 const getAllCategories = async (req, res) => {
-    try {
-        const categories = await Category.find().populate("subCategories");
-        res.json({ success: true, categories });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
+  try {
+      const categories = await Category.find().populate("subCategories").populate("news");
+      
+      // Function to get random elements from an array
+      const getRandomElements = (arr, num) => {
+          const shuffled = arr.sort(() => 0.5 - Math.random());
+          return shuffled.slice(0, num);
+      };
+
+      // Select a random subset of categories, e.g., 3 random categories
+      const randomCategories = getRandomElements(categories, 3);
+
+      res.json({ 
+          success: true, 
+          categories, 
+          randomCategories 
+      });
+  } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 // Get a single category by ID with populated subCategories

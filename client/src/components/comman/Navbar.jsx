@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
-
+import logo from "../../assest/logo.jpg"
 const navLinks = [
   {
     id: "close",
@@ -58,7 +58,7 @@ const Navbar = () => {
     <nav className="bg-blue-900 text-white text-xl lg:px-16">
       <div className="container mx-auto px-4 py-3 flex justify-between lg:gap-20 lg:justify-evenly items-center">
         <div className="text-2xl font-bold">
-          <Link to="/">Brand</Link>
+          <Link to="/"><img src={logo} className="w-16" alt="" /></Link>
         </div>
 
         <div className="md:hidden" onClick={handleNavClick}>
