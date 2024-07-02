@@ -18,15 +18,14 @@ import Category from "./components/Admin/pages/Category";
 import Subcategory from "./components/Admin/pages/Subcategory";
 import Livestreming from "./components/Admin/pages/Livestreming";
 import Breaking from "./components/Admin/pages/Breaking";
+import ScrollToTop from "./components/comman/ScrollToTop";
 import Poll from "./components/Admin/pages/Poll";
 
 const App = () => {
-
-  
-const dispatch = useDispatch()
-useEffect(()=>{
-  dispatch(getAllNews())
-},[])
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllNews());
+  }, []);
 
   return (
     <div>
@@ -35,15 +34,14 @@ useEffect(()=>{
         <Route path="/newsdetails/:id" element={<NewsDetails />} />
         <Route path="/category/:id" element={<SingleCategory />} />
 
-
-
-
-
-        <Route path="/login" element={
-          <OpenRoute>
-                      <Login />
-          </OpenRoute>
-          } />
+        <Route
+          path="/login"
+          element={
+            <OpenRoute>
+              <Login />
+            </OpenRoute>
+          }
+        />
 
         <Route
           element={
@@ -62,11 +60,10 @@ useEffect(()=>{
           <Route path="admin/category" element={<Category />} />
           {/* <Route path="admin/subcategory" element={<Subcategory />} /> */}
           <Route path="admin/livestriming" element={<Livestreming />} />
-
-
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
+      <ScrollToTop />
     </div>
   );
 };

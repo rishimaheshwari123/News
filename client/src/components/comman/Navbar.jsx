@@ -8,14 +8,14 @@ import {
 } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
-import logo from "../../assest/logo.jpg"
+import logo from "../../assest/logo.jpg";
+
 const navLinks = [
   {
     id: "close",
     name: "होम",
     href: "/",
   },
-
   {
     name: "मनोरंजन",
     icon: <MdKeyboardArrowDown />,
@@ -55,10 +55,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-900 text-white text-xl lg:px-16">
+    <nav className="bg-blue-900 text-white text-xl lg:px-16 fixed w-screen h-[90px] top-0 ">
       <div className="container mx-auto px-4 py-3 flex justify-between lg:gap-20 lg:justify-evenly items-center">
         <div className="text-2xl font-bold">
-          <Link to="/"><img src={logo} className="w-16" alt="" /></Link>
+          <Link to="/">
+            <img src={logo} className="w-16 rounded-md" alt="Logo" />
+          </Link>
         </div>
 
         <div className="md:hidden" onClick={handleNavClick}>
@@ -67,22 +69,16 @@ const Navbar = () => {
 
         <ul className="hidden md:flex space-x-6 items-center">
           {navLinks.map((link, index) => (
-            <li key={index} className="hover:text-gray-300 relative">
+            <li key={index} className="hover:text-gray-300 relative group">
               <Link
                 to={link.href || "#"}
                 className="flex items-center space-x-1"
-                onClick={(e) => {
-                  if (link.dropdown) {
-                    e.preventDefault();
-                    handleDropdownClick(index);
-                  }
-                }}
               >
                 <span>{link.name}</span>
                 {link.icon && <span className="mt-1">{link.icon}</span>}
               </Link>
-              {link.dropdown && dropdown === index && (
-                <ul className="absolute left-0 mt-2 w-48 bg-blue-800 rounded-lg py-2 shadow-lg">
+              {link.dropdown && (
+                <ul className="absolute left-0 mt-2 w-48 bg-blue-800 rounded-lg py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
                   {link.dropdown.map((item, idx) => (
                     <li key={idx} className="px-4 py-2 hover:bg-blue-700">
                       <Link to={item.href}>{item.name}</Link>
@@ -96,15 +92,15 @@ const Navbar = () => {
 
         {/* Social media icons */}
         <div className="hidden md:flex items-center space-x-4">
-          <a href="https://www.facebook.com">
+          <Link to="https://www.facebook.com">
             <FaFacebook size={24} className="text-white hover:text-gray-300" />
-          </a>
-          <a href="https://www.instagram.com">
+          </Link>
+          <Link to="https://www.instagram.com">
             <FaInstagram size={24} className="text-white hover:text-gray-300" />
-          </a>
-          <a href="https://www.youtube.com">
+          </Link>
+          <Link to="https://www.youtube.com">
             <FaYoutube size={24} className="text-white hover:text-gray-300" />
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -123,8 +119,8 @@ const Navbar = () => {
                   e.preventDefault();
                   handleDropdownClick(index);
                 }
-                {
-                  link.id === "close" && setNav(false);
+                if (link.id === "close") {
+                  setNav(false);
                 }
               }}
             >
@@ -149,13 +145,13 @@ const Navbar = () => {
 
         {/* Social media icons */}
         <div className="flex items-center justify-center space-x-4">
-          <Link href="https://www.facebook.com">
+          <Link to="https://www.facebook.com">
             <FaFacebook size={24} className="text-white hover:text-gray-300" />
           </Link>
-          <Link href="https://www.instagram.com">
+          <Link to="https://www.instagram.com">
             <FaInstagram size={24} className="text-white hover:text-gray-300" />
           </Link>
-          <Link href="https://www.youtube.com">
+          <Link to="https://www.youtube.com">
             <FaYoutube size={24} className="text-white hover:text-gray-300" />
           </Link>
         </div>
