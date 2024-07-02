@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchSingleCategory } from "../services/operations/admin";
 import Navbar from "../components/comman/Navbar";
+import Footer from "../components/comman/Footer";
 
 function SingleCategory() {
   const { id } = useParams();
@@ -53,7 +54,17 @@ function SingleCategory() {
 
           <div className="flex flex-col lg:flex-row p-4 gap-4 ">
             {/* Main News Card */}
-            <div className="w-full lg:w-7/12">
+
+            {
+              !news?.news?.length ? (
+                <div className="w-full lg:w-7/12  p-4 ">
+No News Are Found In This Category 
+              </div>
+              
+              
+              ):(<>
+
+                <div className="w-full lg:w-7/12">
               {news && (
                 <div className="bg-white shadow-md rounded-lg p-4 mb-4">
                   {news?.news?.map((newsItem) => (
@@ -62,7 +73,7 @@ function SingleCategory() {
                         to={`/newsdetails/${newsItem._id}`}
                         className="text-lg font-semibold mb-2 text-blue-600 underline"
                       >
-                        {newsItem.title}
+                        {newsItem.title}rr
                       </Link>
                       <img
                         src={newsItem?.images[0]?.url}
@@ -78,9 +89,12 @@ function SingleCategory() {
                 </div>
               )}
             </div>
+              </>)
+            }
+        
 
             {/* Related News */}
-            <div className="w-full lg:w-5/12  top-10 ">
+            <div className="w-full lg:w-5/12  top-10 min-h-[80vh] ">
               <div className="bg-blue-500 p-2 text-white">
                 <h3>Related News</h3>
               </div>
@@ -109,6 +123,9 @@ function SingleCategory() {
           </div>
         </div>
       )}
+
+      <Footer />
+
     </div>
   );
 }

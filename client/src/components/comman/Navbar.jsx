@@ -15,7 +15,7 @@ const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [dropdownIndex, setDropdownIndex] = useState(null);
   const [categories, setCategories] = useState([]);
-  const[click,setClick] = useState(false)
+  const [click, setClick] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -49,35 +49,43 @@ const Navbar = () => {
         </div>
 
         <ul className="hidden md:flex space-x-6 items-center">
+          <li>
+            <Link to="/" className="flex items-center space-x-1 text-white">
+              <span>होम</span>
+            </Link>
+          </li>
           {categories.map((category, index) => (
             <li
               key={category._id}
               className=" group"
-              onMouseEnter={() =>{ handleDropdownClick(index) ; setClick(true)}}
-              onMouseLeave={() => {handleDropdownClick(null); setClick(false)}}
+              onMouseEnter={() => {
+                handleDropdownClick(index);
+                setClick(true);
+              }}
+              onMouseLeave={() => {
+                handleDropdownClick(null);
+                setClick(false);
+              }}
               onClick={() => setNav(false)}
             >
-              <Link
-                to={`/category/${category._id}`}
-                className={`flex items-center space-x-1 ${
-                  dropdownIndex === index ? "text-gray-300" : "text-white"
-                }`}
-              >
-                <span>{category.name}</span>
-                {category.icon && (
-                  <span className="mt-1">
-                    <MdKeyboardArrowDown />
-                  </span>
-                )}
-              </Link>
+              <div>
+                <Link
+                  to={`/category/${category._id}`}
+                  className={`flex items-center space-x-1 ${
+                    dropdownIndex === index ? "text-gray-300" : "text-white"
+                  }`}
+                  onClick={() => setClick(false)}
+                >
+                  <span>{category.name}</span>
+                </Link>
+              </div>
 
               {/* &&                category?.subCategories?.length !== 0  */}
-              {dropdownIndex === index && click
-              && (
-                  <div className="absolute top-12 left-0 bg-blue-900 text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
-
+              {dropdownIndex === index && click && (
+                <div className="absolute top-12 left-0 bg-blue-900 text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
                   <ul className=" text-[13px]">
-                    {category.subCategories && category?.subCategories?.length !== 0  &&
+                    {category.subCategories &&
+                      category?.subCategories?.length !== 0 &&
                       category.subCategories.map((subCategory) => (
                         <li key={subCategory._id} className="py-1">
                           <Link to={`/subcategory/${subCategory._id}`}>
@@ -88,23 +96,44 @@ const Navbar = () => {
                   </ul>
 
                   <div>
-                  <div className="grid grid-cols-4 gap-4 mt-2">
-                        {category.news && category.news.slice(0, 4).map((newsItem) => (
-                          <div key={newsItem._id} className="border rounded-md overflow-hidden hover:shadow-lg">
-                            <Link to={`/newsdetails/${newsItem._id}`}  onClick={()=>setClick(false)}>
-                              <img src={newsItem?.images[0]?.url} alt={newsItem.title} className="w-full h-32 object-cover" />
+                    <div className="grid grid-cols-4 gap-4 mt-2">
+                      {category.news &&
+                        category.news.slice(0, 4).map((newsItem) => (
+                          <div
+                            key={newsItem._id}
+                            className="border rounded-md overflow-hidden hover:shadow-lg"
+                          >
+                            <Link
+                              to={`/newsdetails/${newsItem._id}`}
+                              onClick={() => setClick(false)}
+                            >
+                              <img
+                                src={newsItem?.images[0]?.url}
+                                alt={newsItem.title}
+                                className="w-full h-32 object-cover"
+                              />
                               <div className="p-2">
-                                <h3 className="text-sm font-medium">{newsItem.title}</h3>
+                                <h3 className="text-sm font-medium">
+                                  {newsItem.title}
+                                </h3>
                               </div>
                             </Link>
                           </div>
                         ))}
-                      </div>
+                    </div>
                   </div>
-                  </div>
-                )}
+                </div>
+              )}
             </li>
+
+
+            
           ))}
+          <li>
+            <Link to="/live" className="flex items-center space-x-1 text-white">
+              <span>Live Streaming</span>
+            </Link>
+          </li>
         </ul>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -125,6 +154,11 @@ const Navbar = () => {
           nav ? "block" : "hidden"
         } bg-blue-900 px-4 py-6 space-y-4`}
       >
+        <li>
+          <Link to="/" className="flex items-center space-x-1 text-white">
+            <span>होम</span>
+          </Link>
+        </li>
         {categories.map((category, index) => (
           <li key={category._id} className="hover:text-gray-300">
             <div to={category.href || "#"} className="flex items-center gap-4">

@@ -21,6 +21,7 @@ import Breaking from "./components/Admin/pages/Breaking";
 import ScrollToTop from "./components/comman/ScrollToTop";
 import Poll from "./components/Admin/pages/Poll";
 import SubCategorySingle from "./pages/SubCategorySingle";
+import Live from "./pages/Live";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,9 @@ const App = () => {
         <Route path="/newsdetails/:id" element={<NewsDetails />} />
         <Route path="/category/:id" element={<SingleCategory />} />
         <Route path="/subcategory/:id" element={<SubCategorySingle />} />
+
+        <Route path="/live" element={<Live />} />
+
 
         <Route
           path="/login"
