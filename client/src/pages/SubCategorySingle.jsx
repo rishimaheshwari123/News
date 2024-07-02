@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { fetchSingleCategory } from "../services/operations/admin";
+import { fetchSingleSubCategory } from "../services/operations/admin";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../components/comman/Navbar";
-import Footer from "../components/comman/Footer";
 
-function SingleCategory() {
+function SubCategorySingle() {
   const { id } = useParams();
   const [news, setNews] = useState([]);
   const [related, setRelated] = useState([]);
@@ -14,22 +13,21 @@ function SingleCategory() {
     const fetchNews = async (id) => {
       setLoading(true);
       try {
-        const response = await fetchSingleCategory(id);
+        const response = await fetchSingleSubCategory(id);
         console.log(response);
-        setNews(response.category);
-        setRelated(response.randomCategory);
+        setNews(response.subCategories);
+        setRelated(response.randomCategories);
       } catch (error) {
         console.error("Error fetching news:", error);
       }
       setLoading(false);
     };
     fetchNews(id);
-    window.scrollTo(0, 0);
   }, [id]);
 
-
-
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <Navbar />
@@ -39,14 +37,14 @@ function SingleCategory() {
           <div className="spinner"></div>
         </div>
       ) : (
-        <div>
+        <>
           <div className=" w-screen mt-[120px] ">
             <div className=" w-[90%] mx-auto">
               {/* <img
-                src={news.image}
-                alt={news.name}
-                className="w- h- object-cover rounded-lg mb-4"
-              /> */}
+              src={news.image}
+              alt={news.name}
+              className="w- h- object-cover rounded-lg mb-4"
+            /> */}
               <h3 className="text-xl font-semibold mb-2">{news.name}</h3>
               <h4 className="text-md font-light mb-4">{news.description}</h4>
             </div>
@@ -54,17 +52,7 @@ function SingleCategory() {
 
           <div className="flex flex-col lg:flex-row p-4 gap-4 ">
             {/* Main News Card */}
-
-            {
-              !news?.news?.length ? (
-                <div className="w-full lg:w-7/12  p-4 ">
-No News Are Found In This Category 
-              </div>
-              
-              
-              ):(<>
-
-                <div className="w-full lg:w-7/12">
+            <div className="w-full lg:w-7/12">
               {news && (
                 <div className="bg-white shadow-md rounded-lg p-4 mb-4">
                   {news?.news?.map((newsItem) => (
@@ -73,7 +61,7 @@ No News Are Found In This Category
                         to={`/newsdetails/${newsItem._id}`}
                         className="text-lg font-semibold mb-2 text-blue-600 underline"
                       >
-                        {newsItem.title}rr
+                        {newsItem.title}
                       </Link>
                       <img
                         src={newsItem?.images[0]?.url}
@@ -89,12 +77,9 @@ No News Are Found In This Category
                 </div>
               )}
             </div>
-              </>)
-            }
-        
 
             {/* Related News */}
-            <div className="w-full lg:w-5/12  top-10 min-h-[80vh] ">
+            <div className="w-full lg:w-5/12  top-10 ">
               <div className="bg-blue-500 p-2 text-white">
                 <h3>Related News</h3>
               </div>
@@ -121,13 +106,10 @@ No News Are Found In This Category
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-
-      <Footer />
-
     </div>
   );
 }
 
-export default SingleCategory;
+export default SubCategorySingle;

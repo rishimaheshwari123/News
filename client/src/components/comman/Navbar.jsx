@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaBars,
   FaTimes,
@@ -9,54 +9,35 @@ import {
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
 import logo from "../../assest/logo.jpg";
-
-const navLinks = [
-  {
-    id: "close",
-    name: "होम",
-    href: "/",
-  },
-  {
-    name: "मनोरंजन",
-    icon: <MdKeyboardArrowDown />,
-    dropdown: [
-      { name: "Option 1", href: "/" },
-      { name: "Option 2", href: "/option2" },
-    ],
-  },
-  {
-    name: "राज्य",
-    icon: <MdKeyboardArrowDown />,
-    dropdown: [
-      { name: "Uttar Pradesh", href: "/uttar-pradesh" },
-      { name: "Bihar", href: "/bihar" },
-      { name: "Delhi", href: "/delhi" },
-    ],
-  },
-  {
-    id: "close",
-    name: "चुनाव 2024 ",
-    href: "/",
-  },
-  {
-    id: "close",
-    name: "खेल",
-    href: "/",
-  },
-];
+import { fetchCategory } from "../../services/operations/admin";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
-  const [dropdown, setDropdown] = useState(null);
+  const [dropdownIndex, setDropdownIndex] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [click, setClick] = useState(false);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await fetchCategory();
+        setCategories(categoriesData?.categories || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleNavClick = () => setNav(!nav);
+
   const handleDropdownClick = (index) => {
-    setDropdown(dropdown === index ? null : index);
+    setDropdownIndex(index === dropdownIndex ? null : index);
   };
 
   return (
-    <nav className="bg-blue-900 text-white text-xl lg:px-16 fixed w-screen h-[90px] top-0 ">
-      <div className="container mx-auto px-4 py-3 flex justify-between lg:gap-20 lg:justify-evenly items-center">
+    <nav className="bg-blue-900 text-white text-xl lg:px-16 fixed w-screen h-[90px] top-0 z-50 ">
+      <div className="container mx-auto px-4 py-3 flex justify-between lg:justify-evenly items-center relative">
         <div className="text-2xl font-bold">
           <Link to="/">
             <img src={logo} className="w-16 rounded-md" alt="Logo" />
@@ -68,29 +49,93 @@ const Navbar = () => {
         </div>
 
         <ul className="hidden md:flex space-x-6 items-center">
-          {navLinks.map((link, index) => (
-            <li key={index} className="hover:text-gray-300 relative group">
-              <Link
-                to={link.href || "#"}
-                className="flex items-center space-x-1"
-              >
-                <span>{link.name}</span>
-                {link.icon && <span className="mt-1">{link.icon}</span>}
-              </Link>
-              {link.dropdown && (
-                <ul className="absolute left-0 mt-2 w-48 bg-blue-800 rounded-lg py-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                  {link.dropdown.map((item, idx) => (
-                    <li key={idx} className="px-4 py-2 hover:bg-blue-700">
-                      <Link to={item.href}>{item.name}</Link>
-                    </li>
-                  ))}
-                </ul>
+          <li>
+            <Link to="/" className="flex items-center space-x-1 text-white">
+              <span>होम</span>
+            </Link>
+          </li>
+          {categories.map((category, index) => (
+            <li
+              key={category._id}
+              className=" group"
+              onMouseEnter={() => {
+                handleDropdownClick(index);
+                setClick(true);
+              }}
+              onMouseLeave={() => {
+                handleDropdownClick(null);
+                setClick(false);
+              }}
+              onClick={() => setNav(false)}
+            >
+              <div>
+                <Link
+                  to={`/category/${category._id}`}
+                  className={`flex items-center space-x-1 ${
+                    dropdownIndex === index ? "text-gray-300" : "text-white"
+                  }`}
+                  onClick={() => setClick(false)}
+                >
+                  <span>{category.name}</span>
+                </Link>
+              </div>
+
+              {/* &&                category?.subCategories?.length !== 0  */}
+              {dropdownIndex === index && click && (
+                <div className="absolute top-12 left-0 bg-blue-900 text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
+                  <ul className=" text-[13px]">
+                    {category.subCategories &&
+                      category?.subCategories?.length !== 0 &&
+                      category.subCategories.map((subCategory) => (
+                        <li key={subCategory._id} className="py-1">
+                          <Link to={`/subcategory/${subCategory._id}`}>
+                            {subCategory.name}
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
+
+                  <div>
+                    <div className="grid grid-cols-4 gap-4 mt-2">
+                      {category.news &&
+                        category.news.slice(0, 4).map((newsItem) => (
+                          <div
+                            key={newsItem._id}
+                            className="border rounded-md overflow-hidden hover:shadow-lg"
+                          >
+                            <Link
+                              to={`/newsdetails/${newsItem._id}`}
+                              onClick={() => setClick(false)}
+                            >
+                              <img
+                                src={newsItem?.images[0]?.url}
+                                alt={newsItem.title}
+                                className="w-full h-32 object-cover"
+                              />
+                              <div className="p-2">
+                                <h3 className="text-sm font-medium">
+                                  {newsItem.title}
+                                </h3>
+                              </div>
+                            </Link>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
               )}
             </li>
+
+
+            
           ))}
+          <li>
+            <Link to="/live" className="flex items-center space-x-1 text-white">
+              <span>Live Streaming</span>
+            </Link>
+          </li>
         </ul>
 
-        {/* Social media icons */}
         <div className="hidden md:flex items-center space-x-4">
           <Link to="https://www.facebook.com">
             <FaFacebook size={24} className="text-white hover:text-gray-300" />
@@ -109,33 +154,45 @@ const Navbar = () => {
           nav ? "block" : "hidden"
         } bg-blue-900 px-4 py-6 space-y-4`}
       >
-        {navLinks.map((link, index) => (
-          <li key={index} className="hover:text-gray-300">
-            <Link
-              to={link.href || "#"}
-              className="flex items-center justify-between"
-              onClick={(e) => {
-                if (link.dropdown) {
-                  e.preventDefault();
-                  handleDropdownClick(index);
-                }
-                if (link.id === "close") {
-                  setNav(false);
-                }
-              }}
-            >
-              <span>{link.name}</span>
-              {link.icon && <span>{link.icon}</span>}
-            </Link>
-            {link.dropdown && dropdown === index && (
-              <ul className="pl-4">
-                {link.dropdown.map((item, idx) => (
+        <li>
+          <Link to="/" className="flex items-center space-x-1 text-white">
+            <span>होम</span>
+          </Link>
+        </li>
+        {categories.map((category, index) => (
+          <li key={category._id} className="hover:text-gray-300">
+            <div to={category.href || "#"} className="flex items-center gap-4">
+              <Link
+                to={`/category/${category._id}`}
+                onClick={() => setNav(false)}
+              >
+                {category.name}
+              </Link>
+              {category?.subCategories?.length !== 0 && (
+                <span>
+                  <MdKeyboardArrowDown
+                    className=" bg-black rounded-full"
+                    onClick={() => {
+                      if (category.subCategories.length !== 0) {
+                        handleDropdownClick(index);
+                        return;
+                      }
+                      setNav(false);
+                    }}
+                  />
+                </span>
+              )}
+            </div>
+            {dropdownIndex === index && category.subCategories && (
+              <ul className="pl-6 ">
+                {category.subCategories.map((subCategory) => (
                   <li
-                    key={idx}
+                    key={subCategory._id}
                     className="py-2 hover:text-gray-300"
-                    onClick={() => setNav(false)}
                   >
-                    <Link to={item.href}>{item.name}</Link>
+                    <Link to={`/subcategory/${subCategory._id}`}>
+                      {subCategory.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -143,7 +200,6 @@ const Navbar = () => {
           </li>
         ))}
 
-        {/* Social media icons */}
         <div className="flex items-center justify-center space-x-4">
           <Link to="https://www.facebook.com">
             <FaFacebook size={24} className="text-white hover:text-gray-300" />

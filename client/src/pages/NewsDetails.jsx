@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getSingleNews } from "../services/operations/admin";
 import Navbar from "../components/comman/Navbar";
-
+import Footer from "../components/comman/Footer";
 function NewsDetails() {
   const [product, setProduct] = useState({});
   const { id } = useParams();
@@ -35,6 +35,9 @@ function NewsDetails() {
     return videoId;
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
   return (
     <>
       <Navbar />
@@ -126,6 +129,8 @@ function NewsDetails() {
           </div>
         </div>
       </div>
+      <Footer />
+
     </>
   );
 }
