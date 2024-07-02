@@ -47,6 +47,7 @@ app.use("/api/v1/news", newsRoutes)
 app.use("/api/v1/category", categoryRoutes)
 app.use("/api/v1/subcategory", subcategoryRoutes)
 app.use("/api/v1/image", imageRoute);
+app.use("/api/v1/breakingNews", require("./routes/breakingNewsRoute"));
 
 
 // default route 

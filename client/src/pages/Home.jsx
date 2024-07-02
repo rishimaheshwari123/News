@@ -3,6 +3,7 @@ import Navbar from "../components/comman/Navbar";
 import BreakingNews from "../components/core/HomePage/BreakingNews";
 import News from "../components/core/HomePage/News";
 import Footer from "../components/comman/Footer";
+import Reels from "../components/core/HomePage/Reels";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
         <News />
         <News />
         <News />
+        <Reels />
       </div>
       <br />
       <br />

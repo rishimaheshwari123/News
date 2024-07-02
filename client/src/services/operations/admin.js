@@ -30,7 +30,13 @@ const {
   GET_ALL_SUBCATEGORY_API,
   UPDATE_SUBCATEGORY_API,
   DELETE_SUBCATEGORY_API,
-  DETAILS_SUBCATEGORY_API
+  DETAILS_SUBCATEGORY_API,
+
+
+  CREATE_BREAKING_NEWS,
+  GET_ALL_BREAKING_NEWS,
+  DELETE_BREAKING_NEWS,
+  ACTIVE_BREAKING_NEWS
 } = adminEndpoints;
 
 
@@ -622,6 +628,106 @@ export const fetchSingleSubCategory = async (id) => {
     console.log("FETCH SINGLE SubCategory API ERROR............", error);
   }
   return result;
+};
+
+// breakig news 
+
+export const createBreakingNews = async (data, token) => {
+  console.log(data)
+  const toastId = Swal.fire({
+    title: 'Loading...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  try {
+    const response = await apiConnector("POST", CREATE_BREAKING_NEWS, data, {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log("Breaking news API RESPONSE............", response);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Add breaking news Details");
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Breaking News Added Successfully',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+
+  } catch (error) {
+    console.log("CREATE breaking news API ERROR............", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message
+    });
+  } finally {
+    Swal.close(toastId);
+  }
+};
+
+
+export const fetchBreakingNews = async () => {
+  try {
+    const response = await apiConnector("GET", GET_ALL_BREAKING_NEWS);
+    if (!response?.data?.success) {
+      throw new Error("Could not fetch breaking news categories");
+    }
+    return response.data.breakingNewss; // Corrected the return statement
+  } catch (error) {
+    console.error("Error fetching breaking news:", error); // Changed console.log to console.error for error logging
+    return []; // Return an empty array or handle the error as needed
+  }
+}
+
+
+export const deleteBreakingNews = async (id, token) => {
+  const toastId = Swal.fire({
+    title: 'Loading...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  try {
+    const response = await apiConnector("DELETE", `${DELETE_BREAKING_NEWS}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("DELETE breaking news API RESPONSE............", response);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Delete Breaking News");
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Breaking News Deleted Successfully',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+  } catch (error) {
+    console.log("DELETE breaking news API ERROR............", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message,
+    });
+  } finally {
+    Swal.close();
+  }
 };
 
 
