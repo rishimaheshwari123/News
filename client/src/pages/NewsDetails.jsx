@@ -35,6 +35,9 @@ function NewsDetails() {
     return videoId;
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
   return (
     <>
       <Navbar />

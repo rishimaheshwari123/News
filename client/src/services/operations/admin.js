@@ -449,7 +449,7 @@ export const fetchSingleCategory = async (id) => {
   let result = []
   try {
     const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`)
-    // console.log("News_CATEGORIES_API API RESPONSE............", response)
+    console.log("News_CATEGORIES_API API RESPONSE............", response)
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch  Categories")
     }
@@ -470,7 +470,7 @@ export const fetchCategory = async () => {
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch News Categories")
     }
-    console.log(response?.data)
+    // console.log(response?.data)
 
     result = response?.data
   } catch (error) {

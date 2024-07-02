@@ -49,7 +49,8 @@ const deleteCategory = async (req, res) => {
 // Get all categories with populated subCategories
 const getAllCategories = async (req, res) => {
   try {
-      const categories = await Category.find().populate("subCategories").populate("news");
+      const categories = await Category.find().populate("subCategories").populate("news").lean();;
+      const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
       
       // Function to get random elements from an array
       const getRandomElements = (arr, num) => {
@@ -58,8 +59,8 @@ const getAllCategories = async (req, res) => {
       };
 
       // Select a random subset of categories, e.g., 3 random categories
-      const randomCategories = getRandomElements(categories, 3);
-
+      const randomCategories = getRandomElements(categories2, 3);
+    
       res.json({ 
           success: true, 
           categories, 
@@ -178,10 +179,29 @@ const deleteSubCategory = async (req, res) => {
   
   // Get subcategories for a specific category
   const getSubCategoriesByCategory = async (req, res) => {
-    const categoryId = req.params.categoryId;
+    const categoryId = req.params.id;
     try {
-      const subCategories = await SubCategory.find({ category: categoryId });
-      res.json({ success: true, subCategories });
+      const subCategories = await SubCategory.findById(categoryId)
+      .populate("news")
+      .populate({
+        path: "category",
+        select: "name" // Specify the fields you want to select
+      });
+
+      const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
+
+      
+      // Function to get random elements from an array
+      const getRandomElements = (arr, num) => {
+          const shuffled = arr.sort(() => 0.5 - Math.random());
+          return shuffled.slice(0, num);
+      };
+
+      // Select a random subset of categories, e.g., 3 random categories
+      const randomCategories = getRandomElements(categories2,3);
+    
+
+      res.json({ success: true, subCategories ,randomCategories });
     } catch (error) {
       res.status(500).json({ success: false, message: error.message });
     }

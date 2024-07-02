@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { fetchSingleCategory } from "../services/operations/admin";
+import { fetchSingleSubCategory } from "../services/operations/admin";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../components/comman/Navbar";
 
-function SingleCategory() {
+function SubCategorySingle() {
   const { id } = useParams();
   const [news, setNews] = useState([]);
   const [related, setRelated] = useState([]);
@@ -13,22 +13,21 @@ function SingleCategory() {
     const fetchNews = async (id) => {
       setLoading(true);
       try {
-        const response = await fetchSingleCategory(id);
+        const response = await fetchSingleSubCategory(id);
         console.log(response);
-        setNews(response.category);
-        setRelated(response.randomCategory);
+        setNews(response.subCategories);
+        setRelated(response.randomCategories);
       } catch (error) {
         console.error("Error fetching news:", error);
       }
       setLoading(false);
     };
     fetchNews(id);
-    window.scrollTo(0, 0);
   }, [id]);
 
-
-
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <Navbar />
@@ -38,14 +37,14 @@ function SingleCategory() {
           <div className="spinner"></div>
         </div>
       ) : (
-        <div>
+        <>
           <div className=" w-screen mt-[120px] ">
             <div className=" w-[90%] mx-auto">
               {/* <img
-                src={news.image}
-                alt={news.name}
-                className="w- h- object-cover rounded-lg mb-4"
-              /> */}
+              src={news.image}
+              alt={news.name}
+              className="w- h- object-cover rounded-lg mb-4"
+            /> */}
               <h3 className="text-xl font-semibold mb-2">{news.name}</h3>
               <h4 className="text-md font-light mb-4">{news.description}</h4>
             </div>
@@ -107,10 +106,10 @@ function SingleCategory() {
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
 }
 
-export default SingleCategory;
+export default SubCategorySingle;
