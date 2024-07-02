@@ -462,7 +462,7 @@ export const fetchSingleCategory = async (id) => {
   return result
 }
 
-export const fetchCategory = async (id) => {
+export const fetchCategory = async () => {
   let result = []
   try {
     const response = await apiConnector("GET", GET_ALL_CATEGORY_API)
