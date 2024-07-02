@@ -13,7 +13,7 @@ const News = () => {
         ))}
         <div className="grid gap-3">
           {card2News.map((currElem, index) => (
-            <div className="flex gap-4" key={index}>
+            <div className="flex gap-4 " key={index}>
               <img src={currElem.img} alt="" />
               <p className=" text-wrap mt-2 w-[65%] text-sm">{currElem.desc}</p>
             </div>
@@ -22,7 +22,7 @@ const News = () => {
       </div>
       <div className="second grid gap-1">
         {cardSecondNews.map((currElem, index) => (
-          <div className="flex gap-4" key={index}>
+          <div className="flex gap-4 items-center" key={index}>
             <img src={currElem.img} alt="" />
             <p className=" text-wrap mt-2 w-[65%] text-sm">{currElem.desc}</p>
           </div>
