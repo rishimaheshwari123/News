@@ -313,6 +313,149 @@ export const activeToggle = async (data, token) => {
 
 //CateGory
 
+
+export const createCategory = async (data, token) => {
+  // console.log(data);
+  const toastId = Swal.fire({
+    title: 'Loading...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+  
+  try {
+    const response = await apiConnector("POST", ADD_NEWS_API, data, {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log("CREATE Category API RESPONSE............", response);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Add Category Details");
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Category Details Added Successfully',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+
+  } catch (error) {
+    console.log("CREATE Category API ERROR............", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message
+    });
+  } finally {
+    Swal.close(toastId);
+  }
+};
+
+export const updateCategory = async (data, token) => {
+  // console.log(data);
+  const toastId = Swal.fire({
+    title: 'Loading...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+  
+  try {
+    const response = await apiConnector("POST", UPDATE_CATEGORY_API, data, {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log("UPDATE Category API RESPONSE............", response);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Add Category  UPDATE Details");
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Category UPDATE Details Added Successfully',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+
+  } catch (error) {
+    console.log("CREATE Category API ERROR............", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message
+    });
+  } finally {
+    Swal.close(toastId);
+  }
+};
+
+export const deleteCategory = async (id, token) => {
+  const toastId = Swal.fire({
+    title: 'Loading...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  try {
+    const response = await apiConnector("DELETE", DELETE_NEWS_API, {id}, {
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log("DELETE Category API RESPONSE............", response);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Delete Category");
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Category Deleted Successfully',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+
+  } catch (error) {
+    console.log("DELETE Category API ERROR............", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message
+    });
+  } finally {
+    Swal.close(toastId);
+  }
+};
+
+
+export const fetchSingleCategory = async(id) =>{
+  let result = []
+  try {
+    const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`)
+    // console.log("News_CATEGORIES_API API RESPONSE............", response)
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch  Categories")
+    }
+
+    result = response?.data
+  } catch (error) {
+    console.log("CATEGORY_API API ERROR............", error)
+   
+  }
+  return result
+}
+
 export const fetchCategory = async() =>{
   let result = []
   try {

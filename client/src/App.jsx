@@ -18,6 +18,7 @@ import Category from "./components/Admin/pages/Category";
 import Subcategory from "./components/Admin/pages/Subcategory";
 import Livestreming from "./components/Admin/pages/Livestreming";
 import Breaking from "./components/Admin/pages/Breaking";
+import Poll from "./components/Admin/pages/Poll";
 
 const App = () => {
 
@@ -56,6 +57,7 @@ useEffect(()=>{
           <Route path="admin/addnews/:id" element={<AddNews />} />
           <Route path="admin/allnews" element={<AllNews />} />
 
+          <Route path="admin/poll" element={<Poll />} />
           <Route path="admin/breaking" element={<Breaking />} />
           <Route path="admin/category" element={<Category />} />
           {/* <Route path="admin/subcategory" element={<Subcategory />} /> */}
