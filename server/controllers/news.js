@@ -93,7 +93,7 @@ const createNews = async (req, res) => {
       { new: true }
     )
     const categoryDetails3 = await SubCategory.findByIdAndUpdate(
-      { _id: category },
+      { _id: subcategory },
       {
         $push: {
           news: newNews._id,

@@ -50,7 +50,7 @@ const Sidebar = () => {
   return (
     <div
       ref={sidebarRef}
-      className={`fixed h-screen top-0 ${isCollapsed ? "w-16" : "w-64"} bg-gray-900 transition-all duration-300`}
+      className={`fixed h-screen top-0 ${isCollapsed ? "w-16" : "w-64"} bg-gray-900 transition-all duration-300 z-50`}
     >
       <div className="flex items-center justify-between p-4">
         {/* Logo section */}

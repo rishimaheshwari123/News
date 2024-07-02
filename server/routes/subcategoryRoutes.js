@@ -5,7 +5,8 @@ const {
   
     createSubCategory,
     getAllSubCategories,
-    getSubCategoriesByCategory
+    getSubCategoriesByCategory,
+    deleteSubCategory
 } = require('../controllers/category');
 
 
@@ -14,6 +15,7 @@ const {
 
 // Subcategories routes
 router.post('/create', createSubCategory); // Create a new subcategory
+router.delete('/delete/:id', deleteSubCategory); // Create a new subcategory
 router.get('/all', getAllSubCategories); // Get all subcategories
 router.get('/:categoryId', getSubCategoriesByCategory); // Get subcategories by category ID
 

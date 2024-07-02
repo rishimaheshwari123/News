@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { FaPlusCircle } from "react-icons/fa";
-import { fetchCategory, createCategory, deleteCategory, fetchSingleCategory, updateCategory ,imageUpload} from "../../../services/operations/admin";
+import {
+  fetchCategory,
+  createCategory,
+  deleteCategory,
+  fetchSingleCategory,
+  updateCategory,
+  imageUpload,
+} from "../../../services/operations/admin";
 import Dropzone from "react-dropzone";
+import { useSelector } from "react-redux";
 
 function Category() {
   const [openCreate, setCreate] = useState(false);
   const [openEditModal, setEditModal] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [editCategory, setEditCategory] = useState({ name: "", description: "", image: "" });
-  const [newCategory, setNewCategory] = useState({ name: "", description: "", image: "" });
+  const {token  } = useSelector(state=> state.auth)
+  // const[displayCate,setCat] = useState([])
 
-
-
+  const [editCategory, setEditCategory] = useState({
+    name: "",
+    description: "",
+    image: "",
+  });
+  const [newCategory, setNewCategory] = useState({
+    name: "",
+    description: "",
+    image: "",
+  });
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,8 +45,8 @@ function Category() {
   const handleCreateCategory = async () => {
     try {
       await createCategory(newCategory);
-      setCreate(false);
-      setNewCategory({ name: "", description: "", image: "" });
+      // setCreate(false);
+      // setNewCategory({ name: "", description: "", image: "" });
       const response = await fetchCategory();
       setCategories(response?.categories);
     } catch (error) {
@@ -62,26 +78,34 @@ function Category() {
 
   const uploadImage = async (acceptedFiles) => {
     const response = await imageUpload(acceptedFiles);
-    console.log(response);
+    // console.log(response[0].url);
 
-   if(openEditModal){
-    setEditCategory(prevState => ({
-      ...prevState,
-      image: response?.url || ""  // Ensure response?.url is defined, otherwise set to an empty string or handle appropriately
-    }));
-   }else{
-    setNewCategory(prevState => ({
-      ...prevState,
-      image: response?.url || ""  // Ensure response?.url is defined, otherwise set to an empty string or handle appropriately
-    }));
+    if (openEditModal) {
+      setEditCategory((prevState) => ({
+        ...prevState,
+        image: response[0]?.url || "", // Ensure response?.url is defined, otherwise set to an empty string or handle appropriately
+      }));
+    } else {
+      setNewCategory((prevState) => ({
+        ...prevState,
+        image: response[0]?.url || "", // Ensure response?.url is defined, otherwise set to an empty string or handle appropriately
+      }));
 
-    console.log(newCategory.image)
-   }
-
-
+      console.log(response[0]?.url);
+    }
   };
 
-
+  const handleDelete = async (categoryId) => {
+    try {
+        await deleteCategory(categoryId, token);
+        setCategories(prevCategories =>
+            prevCategories.filter(category => category._id !== categoryId)
+        );
+    } catch (error) {
+        console.error('Failed to delete category:', error);
+        // Optionally handle error display to the user
+    }
+};
 
   return (
     <div className="w-11/12 mx-auto p-4">
@@ -105,62 +129,59 @@ function Category() {
             type="text"
             placeholder="Name"
             value={newCategory.name}
-            onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
+            onChange={(e) =>
+              setNewCategory({ ...newCategory, name: e.target.value })
+            }
             className="w-full mb-2 p-2 border rounded focus:outline-none"
           />
           <input
             type="text"
             placeholder="Description"
             value={newCategory.description}
-            onChange={(e) => setNewCategory({ ...newCategory, description: e.target.value })}
+            onChange={(e) =>
+              setNewCategory({ ...newCategory, description: e.target.value })
+            }
             className="w-full mb-2 p-2 border rounded focus:outline-none"
           />
-       
 
+          <div>
+            {/* Image Upload */}
+            <div className="space-y-2">
+              <label className="block font-medium text-gray-700">
+                Upload Images
+              </label>
+              <div className="bg-white border-2 border-blue-600 p-4">
+                <Dropzone
+                  onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <section className="text-center">
+                      <div {...getRootProps()} className="cursor-pointer">
+                        <input {...getInputProps()} />
+                        <p>
+                          Drag 'n' drop some files here, or click to select
+                          files
+                        </p>
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              </div>
 
-
-
-<div>
-    {/* Image Upload */}
-    <div className="space-y-2">
-          <label className="block font-medium text-gray-700">
-            Upload Images
-          </label>
-          <div className="bg-white border-2 border-blue-600 p-4">
-            <Dropzone onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}>
-              {({ getRootProps, getInputProps }) => (
-                <section className="text-center">
-                  <div {...getRootProps()} className="cursor-pointer">
-                    <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
-                  </div>
-                </section>
-              )}
-            </Dropzone>
+              {/* Display Uploaded Images */}
+              <div className="flex gap-4 mt-4">
+                <div className="relative">
+                  {newCategory.image !== "" && (
+                    <img
+                      src={newCategory.image}
+                      alt=""
+                      className="w-40 h-40 object-cover rounded-lg shadow-md"
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-
-          {/* Display Uploaded Images */}
-          <div className="flex gap-4 mt-4">
-  <div className="relative">
-    {newCategory.image !== "" && (
-      <img
-        src={newCategory.image}
-        alt=""
-        className="w-40 h-40 object-cover rounded-lg shadow-md"
-      />
-    )}
-  </div>
-</div>
-
-        </div>
-</div>
-
-
-
-
-
 
           <button
             onClick={handleCreateCategory}
@@ -187,7 +208,11 @@ function Category() {
                 <td className="py-4 px-6">{category.name}</td>
                 <td className="py-4 px-6">{category.description}</td>
                 <td className="py-4 px-6">
-                  <img src={category.image} alt={category.name} className="w-16 h-16 object-cover rounded-lg" />
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="w-16 h-16 object-cover rounded-lg"
+                  />
                 </td>
                 <td className="py-4 px-6 text-center">
                   <button
@@ -197,7 +222,7 @@ function Category() {
                     Edit
                   </button>
                   <button
-                    onClick={() => deleteCategory(category._id)}
+                    onClick={()=>handleDelete(category._id)}
                     className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2"
                   >
                     Delete
@@ -217,23 +242,71 @@ function Category() {
               type="text"
               placeholder="Name"
               value={editCategory?.name}
-              onChange={(e) => setEditCategory({ ...editCategory, name: e.target.value })}
+              onChange={(e) =>
+                setEditCategory({ ...editCategory, name: e.target.value })
+              }
               className="w-full mb-2 p-2 border rounded focus:outline-none"
             />
             <input
               type="text"
               placeholder="Description"
               value={editCategory?.description}
-              onChange={(e) => setEditCategory({ ...editCategory, description: e.target.value })}
+              onChange={(e) =>
+                setEditCategory({
+                  ...editCategory,
+                  description: e.target.value,
+                })
+              }
               className="w-full mb-2 p-2 border rounded focus:outline-none"
             />
-            <input
-              type="text"
-              placeholder="Image URL"
-              value={editCategory?.image}
-              onChange={(e) => setEditCategory({ ...editCategory, image: e.target.value })}
-              className="w-full mb-2 p-2 border rounded focus:outline-none"
-            />
+         
+
+
+
+
+         <div>
+            {/* Image Upload */}
+            <div className="space-y-2">
+              <label className="block font-medium text-gray-700">
+                Upload Images
+              </label>
+              <div className="bg-white border-2 border-blue-600 p-4">
+                <Dropzone
+                  onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <section className="text-center">
+                      <div {...getRootProps()} className="cursor-pointer">
+                        <input {...getInputProps()} />
+                        <p>
+                          Drag 'n' drop some files here, or click to select
+                          files
+                        </p>
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              </div>
+
+              {/* Display Uploaded Images */}
+              <div className="flex gap-4 mt-4">
+                <div className="relative">
+                  {editCategory.image !== "" && (
+                    <img
+                      src={editCategory.image}
+                      alt=""
+                      className="w-40 h-40 object-cover rounded-lg shadow-md"
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
             <div className="flex justify-end">
               <button
                 onClick={() => handleUpdateCategory(editCategory?._id)}

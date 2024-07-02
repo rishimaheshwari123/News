@@ -29,6 +29,7 @@ export const adminEndpoints = {
 
   // CateGOry
   ADD_CATEGORY_API : BASE_URL + "/category/create",
+  DELETE_CATEGORY_API : BASE_URL + "/category/delete",
   UPDATE_CATEGORY_API : BASE_URL + "/category/update",
   GET_ALL_CATEGORY_API : BASE_URL + "/category/all",
   DETAILS_CATEGORY_API : BASE_URL + "/category",
@@ -39,6 +40,8 @@ export const adminEndpoints = {
 
   // suBCateGOry
   ADD_SUBCATEGORY_API : BASE_URL + "/subcategory/create",
+  DELETE_SUBCATEGORY_API : BASE_URL + "/subcategory/delete",
+  UPDATE_SUBCATEGORY_API : BASE_URL + "/subcategory/update",
   GET_ALL_SUBCATEGORY_API : BASE_URL + "/subcategory/all",
   DETAILS_SUBCATEGORY_API : BASE_URL + "/subcategory",
 

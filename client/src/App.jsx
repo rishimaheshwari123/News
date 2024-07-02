@@ -58,7 +58,7 @@ const App = () => {
           <Route path="admin/poll" element={<Poll />} />
           <Route path="admin/breaking" element={<Breaking />} />
           <Route path="admin/category" element={<Category />} />
-          {/* <Route path="admin/subcategory" element={<Subcategory />} /> */}
+          <Route path="admin/subcategory" element={<Subcategory />} />
           <Route path="admin/livestriming" element={<Livestreming />} />
         </Route>
         <Route path="*" element={<Error />} />

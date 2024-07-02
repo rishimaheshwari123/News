@@ -4,6 +4,7 @@ const SubCategory = require("../models/subCategory");
 
 // Create a new category
 const createCategory = async (req, res) => {
+  console.log(req)
     const { name, description, image } = req.body;
     try {
         const newCategory = new Category({
@@ -24,6 +25,26 @@ const createCategory = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+
+const deleteCategory = async (req, res) => {
+  console.log(req)
+  const { id } = req.params;
+  try {
+      const deletedCategory = await Category.findByIdAndDelete(id);
+      if (!deletedCategory) {
+          return res.status(404).json({ success: false, message: "Category not found" });
+      }
+      res.status(200).json({
+          success: true,
+          message: "Category deleted successfully",
+          category: deletedCategory,
+      });
+  } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 // Get all categories with populated subCategories
 const getAllCategories = async (req, res) => {
@@ -51,21 +72,39 @@ const getAllCategories = async (req, res) => {
 
 // Get a single category by ID with populated subCategories
 const getCategoryById = async (req, res) => {
-    const categoryId = req.params.id;
-    try {
-        const category = await Category.findById(categoryId).populate(
-            "subCategories"
-        );
-        if (!category) {
-            return res
-                .status(404)
-                .json({ success: false, message: "Category not found" });
-        }
-        res.json({ success: true, category });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+  const categoryId = req.params.id;
+  
+  try {
+    // Fetch the requested category with populated subCategories
+    const category = await Category.findById(categoryId)
+      .populate("subCategories")
+      .populate("news"); // Assuming 'news' is another related field
+
+    if (!category) {
+      return res.status(404).json({ success: false, message: "Category not found" });
     }
+    
+    // Fetch multiple random categories
+    const categories = await Category.find({ _id: { $ne: categoryId } })
+      .limit(5) // Adjust the limit as per your requirement
+      .populate("subCategories").populate("news")
+      .lean(); // Use lean() for better performance if you don't need to modify the documents
+
+    // Prepare the response object
+    const response = {
+      success: true,
+      category,
+      randomCategory: categories
+    };
+
+    // Send the response
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
+
 
 
 const toggleActive = async (req, res) => {
@@ -90,9 +129,10 @@ const toggleActive = async (req, res) => {
 
 // Create a new subcategory
 const createSubCategory = async (req, res) => {
-    const { name, description, category } = req.body;
+  // console.log(req)
+    const { name, description, category,image } = req.body;
     try {
-      const newSubCategory = new SubCategory({ name, description, category });
+      const newSubCategory = new SubCategory({ name, description, category,image });
       await newSubCategory.save();
   
       // Add subcategory reference to the corresponding category
@@ -104,10 +144,32 @@ const createSubCategory = async (req, res) => {
     }
   };
   
+
+  
+const deleteSubCategory = async (req, res) => {
+  console.log(req)
+  const { id } = req.params;
+  try {
+      const deletedCategory = await SubCategory.findByIdAndDelete(id);
+      if (!deletedCategory) {
+          return res.status(404).json({ success: false, message: "Category not found" });
+      }
+      res.status(200).json({
+          success: true,
+          message: "Category deleted successfully",
+          category: deletedCategory,
+      });
+  } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+  }
+};
   // Get all subcategories
   const getAllSubCategories = async (req, res) => {
     try {
-      const subCategories = await SubCategory.find();
+      const subCategories = await SubCategory.find().populate('category');
+
+      // console.log(subCategories);
+
       res.json({ success: true, subCategories });
     } catch (error) {
       res.status(500).json({ success: false, message: error.message });
@@ -133,8 +195,11 @@ module.exports = {
     getAllCategories,
     getCategoryById,
     toggleActive,
+    deleteCategory,
+
 
     createSubCategory,
   getAllSubCategories,
   getSubCategoriesByCategory,
+  deleteSubCategory
 };

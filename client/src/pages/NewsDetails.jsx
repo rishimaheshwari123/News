@@ -110,7 +110,7 @@ function NewsDetails() {
           <div className=" bg-blue-500 p-2 text-white ">
             <h3>Realated News</h3>
           </div>
-          <div className="flex gap-3 grid-cols-1 max-h-[40px] mt-8 p-2">
+          <div className="flex gap-3 grid-cols-1 max-h-[40px] mt-8 p-2 flex-col">
             {realted?.map((currElem, index) => (
               <Link to={`/newsdetails/${currElem._id}`} key={currElem._id}>
                 <div className="flex gap-3">

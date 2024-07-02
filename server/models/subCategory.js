@@ -16,6 +16,10 @@ const subCategorySchema = new Schema({
     ref: 'Category',
     required: true,
   },
+  image: {
+    type: String, // Assuming image URL for simplicity
+    required: true,
+  },
   news: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
