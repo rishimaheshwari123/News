@@ -1,7 +1,7 @@
 import { setUser, setToken } from "../../redux/authSlice"
 import { saveNews } from "../../redux/newsSlice"
 import { apiConnector } from "../apiConnector"
-import { endpoints , adminEndpoints} from "../apis"
+import { endpoints, adminEndpoints } from "../apis"
 import Swal from "sweetalert2"
 
 
@@ -86,24 +86,24 @@ export async function login(email, password, navigate, dispatch) {
 
 export const getAllNews = () => async (dispatch) => {
   ;
- try {
-   const response = await apiConnector("GET", GET_ALL_NEWS_API);
-  
-   if (!response?.data?.success) {
-     throw new Error("Could Not Fetch News");
-   }
+  try {
+    const response = await apiConnector("GET", GET_ALL_NEWS_API);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch News");
+    }
 
 
-   const result = response?.data?.news;
-   dispatch(saveNews(result)); // Dispatching action to save products
+    const result = response?.data?.news;
+    dispatch(saveNews(result)); // Dispatching action to save products
     ;
-   return result;
- } catch (error) {
-   console.log("GET_ALL_NEWS_API API ERROR:", error);
- 
+    return result;
+  } catch (error) {
+    console.log("GET_ALL_NEWS_API API ERROR:", error);
+
     ;
-   return [];
- }
+    return [];
+  }
 };
 
 
@@ -120,7 +120,7 @@ export const createNews = async (data, token) => {
       Swal.showLoading();
     }
   });
-  
+
   try {
     const response = await apiConnector("POST", ADD_NEWS_API, data, {
       "Content-Type": "multipart/form-data",
@@ -208,7 +208,7 @@ export const deleteNews = async (id, token) => {
   });
 
   try {
-    const response = await apiConnector("DELETE", DELETE_NEWS_API, {id}, {
+    const response = await apiConnector("DELETE", DELETE_NEWS_API, { id }, {
       Authorization: `Bearer ${token}`,
     });
 
@@ -240,27 +240,27 @@ export const deleteNews = async (id, token) => {
 
 export const getSingleNews = async (newsId) => {
 
- try {
-  
-   const response = await apiConnector("GET", `${DETAILS_NEWS_API}/${newsId}`);
-  
+  try {
+
+    const response = await apiConnector("GET", `${DETAILS_NEWS_API}/${newsId}`);
 
 
-   if (!response?.data?.success) {
-     throw new Error("Could Not Fetch News");
-   }
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch News");
+    }
 
 
-   const result = response?.data?.news;
- 
-  
-   return result;
- } catch (error) {
-   console.log("GET_ALL_NEWS_API API ERROR:", error);
- 
-    
-   return [];
- }
+    const result = response?.data?.news;
+
+
+    return result;
+  } catch (error) {
+    console.log("GET_ALL_NEWS_API API ERROR:", error);
+
+
+    return [];
+  }
 };
 
 
@@ -273,7 +273,7 @@ export const activeToggle = async (data, token) => {
       Swal.showLoading();
     }
   });
-  
+
   try {
     const response = await apiConnector("PUT", STATUS_NEWS_API, data, {
       "Content-Type": "multipart/form-data",
@@ -328,7 +328,7 @@ export const createCategory = async (data, token) => {
       Swal.showLoading();
     }
   });
-  
+
   try {
     const response = await apiConnector("POST", ADD_CATEGORY_API, data, {
       "Content-Type": "multipart/form-data",
@@ -370,7 +370,7 @@ export const updateCategory = async (data, token) => {
       Swal.showLoading();
     }
   });
-  
+
   try {
     const response = await apiConnector("POST", UPDATE_CATEGORY_API, data, {
       "Content-Type": "multipart/form-data",
@@ -404,7 +404,7 @@ export const updateCategory = async (data, token) => {
 };
 
 export const deleteCategory = async (id, token) => {
-  
+
   const toastId = Swal.fire({
     title: 'Loading...',
     allowOutsideClick: false,
@@ -445,7 +445,7 @@ export const deleteCategory = async (id, token) => {
 };
 
 
-export const fetchSingleCategory = async(id) =>{
+export const fetchSingleCategory = async (id) => {
   let result = []
   try {
     const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`)
@@ -457,15 +457,15 @@ export const fetchSingleCategory = async(id) =>{
     result = response?.data
   } catch (error) {
     console.log("CATEGORY_API API ERROR............", error)
-   
+
   }
   return result
 }
 
-export const fetchCategory = async(id) =>{
-  let result = null
+export const fetchCategory = async (id) => {
+  let result = []
   try {
-    const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`)
+    const response = await apiConnector("GET", GET_ALL_CATEGORY_API)
     // console.log("News_CATEGORIES_API API RESPONSE............", response)
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch News Categories")
@@ -475,7 +475,7 @@ export const fetchCategory = async(id) =>{
     result = response?.data
   } catch (error) {
     console.log("News_CATEGORY_API API ERROR............", error)
-   
+
   }
   return result
 }
@@ -626,20 +626,20 @@ export const fetchSingleSubCategory = async (id) => {
 
 
 
-export const fetchSubCategory = async() =>{
+export const fetchSubCategory = async () => {
   let result = []
   try {
     const response = await apiConnector("GET", GET_ALL_SUBCATEGORY_API)
     // console.log("News_SUB CATEGORIES_API API RESPONSE............", response)
-   
+
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch News Categories")
     }
-   
+
     result = response?.data?.subCategories
   } catch (error) {
     // console.log("News_CATEGORY_API API ERROR............", error)
-    
+
   }
   return result
 }
