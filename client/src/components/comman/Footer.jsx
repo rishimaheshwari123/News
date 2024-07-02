@@ -3,8 +3,9 @@
 import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const Footer = () => {
+  const { token } = useSelector((state) => state.auth);
   return (
     <footer className="bg-gray-800 text-white py-8">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -64,6 +65,16 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
+            <br />
+            {token ? (
+              <Link to="/admin/dashboard" className="text-xl">
+                Admin Login
+              </Link>
+            ) : (
+              <Link to="/login" className="text-xl">
+                Admin Login
+              </Link>
+            )}
           </div>
         </div>
         <hr className="mt-12" />
