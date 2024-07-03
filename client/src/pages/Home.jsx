@@ -11,8 +11,7 @@ const Home = () => {
       <Navbar />
       <div className="mt-24">
         <BreakingNews />
-        <News />
-        <News />
+        <br />
         <News />
         <Reels />
       </div>

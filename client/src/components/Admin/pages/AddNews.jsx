@@ -6,7 +6,7 @@ import {
   imageUpload,
   fetchSubCategory,
   createNews,
-  getSingleNews
+  getSingleNews,
 } from "../../../services/operations/admin";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -14,18 +14,15 @@ import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-
 function AddNews() {
-  //States
-  const[product ,setProduct] = useState("")
+  // States
+  const [product, setProduct] = useState("");
   const [categories, setCategories] = useState([]);
-
   const [subCategories, setSubCategories] = useState([]);
   const [images, setImages] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
   const { token } = useSelector((state) => state.auth);
-  const{id} = useParams()
-
+  const { id } = useParams();
 
   // Network Call
   // Category Fetch
@@ -35,46 +32,40 @@ function AddNews() {
         const response = await fetchCategory();
         setCategories(response?.categories);
       } catch (error) {
-        // console.error("Error fetching categories:", error);
+        console.error("Error fetching categories:", error);
       }
     };
 
     const fetchSubCategoryMain = async () => {
       try {
         const response = await fetchSubCategory();
-
         setSubCategories(response);
       } catch (error) {
-        //   console.error("Error fetching categories:", error);
+        console.error("Error fetching subcategories:", error);
       }
     };
-
 
     const fetchNews = async (id) => {
       try {
         const response = await getSingleNews(id);
-        console.log(response.title)
-        setProduct(response)
-        setImages(response?.images)
-        setEditorHtml(response?.description)
-        // setSubCategories(response);
+        setProduct(response);
+        setImages(response?.images);
+        setEditorHtml(response?.description);
       } catch (error) {
-        //   console.error("Error fetching categories:", error);
+        console.error("Error fetching news:", error);
       }
     };
 
-    if(id){
-      fetchNews(id)
+    if (id) {
+      fetchNews(id);
     }
     fetchSubCategoryMain();
     fetchCategoryMain();
-  }, []);
+  }, [id]);
 
   // Functions
   const uploadImage = async (acceptedFiles) => {
     const response = await imageUpload(acceptedFiles);
-    console.log(response);
-
     const uploadedImages = response?.map((image) => ({
       public_id: image.asset_id, // Assuming asset_id contains the public_id
       url: image.url, // Assuming url contains the image URL
@@ -83,12 +74,9 @@ function AddNews() {
   };
 
   const removeImage = (publicId) => {
-    // Filter out the image with the specified publicId
     const updatedImages = images.filter(
       (image) => image.public_id !== publicId
     );
-
-    // Update the state with the new array of images
     setImages(updatedImages);
   };
 
@@ -96,33 +84,30 @@ function AddNews() {
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
     subtitle: Yup.string().required("Sub Title is required"),
-    location: Yup.string().required("location is required"),
-    language: Yup.string().required("language is required"),
+    location: Yup.string().required("Location is required"),
+    language: Yup.string().required("Language is required"),
     category: Yup.string().required("Category is required"),
-    subcategory: Yup.string().required("subcategory is required"),
+    subcategory: Yup.string().required("Subcategory is required"),
+    type: Yup.string().required("Type is required"),
   });
 
   // Formik Form Initial Values
   const initialValues = {
     title: product?.title || "",
-    subtitle: "",
-    description: "",
-    location: "",
-    category: "",
-    subcategory: "",
-    expire: "",
-    images: [],
-    youtubeurl: "",
+    subtitle: product?.subtitle || "",
+    description: product?.description || "",
+    location: product?.location || "",
+    category: product?.category || "",
+    subcategory: product?.subcategory || "",
+    expire: product?.expire || "",
+    images: product?.images || [],
+    youtubeurl: product?.youtubeurl || "",
+    type: product?.type || "",
   };
 
   // Formik Form Submission
   const onSubmit = async (values) => {
-    console.log(values);
-    console.log(editorHtml);
-
     const formData = new FormData();
-    console.log(images);
-    // Append other form fields
     formData.append("title", values.title);
     formData.append("description", editorHtml);
     formData.append("subtitle", values.subtitle);
@@ -133,6 +118,7 @@ function AddNews() {
     formData.append("expire", values.expire);
     formData.append("youtubeurl", values.youtubeurl);
     formData.append("images", JSON.stringify(images));
+    formData.append("type", values.type);
 
     await createNews(formData, token);
   };
@@ -147,13 +133,13 @@ function AddNews() {
     setEditorHtml(html);
   };
 
-  
-
   return (
     <div className="max-w-3xl mx-auto p-4">
-      <h3 className="text-xl font-bold mb-4">{id ? "Edit News": "Add News"}</h3>
+      <h3 className="text-xl font-bold mb-4">
+        {id ? "Edit News" : "Add News"}
+      </h3>
 
-      <form onSubmit={formik.handleSubmit} initialValues={initialValues} className="space-y-4" int>
+      <form onSubmit={formik.handleSubmit} className="space-y-4">
         {/* Line 1 */}
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
@@ -230,13 +216,14 @@ function AddNews() {
           </div>
         </div>
 
+        {/* Line 3 */}
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label
               htmlFor="language"
               className="block font-medium text-gray-700"
             >
-              Langauge
+              Language
             </label>
             <select
               id="language"
@@ -246,14 +233,33 @@ function AddNews() {
               value={formik.values.language}
               className="form-input"
             >
-              <option value="Hindi" defaultValue="Hindi">
-                Hindi
-              </option>
-
+              <option value="">Select Language</option>
+              <option value="Hindi">Hindi</option>
               <option value="English">English</option>
             </select>
             {formik.touched.language && formik.errors.language && (
               <div className="text-red-500">{formik.errors.language}</div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="type" className="block font-medium text-gray-700">
+              Type
+            </label>
+            <select
+              id="type"
+              name="type"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.type}
+              className="form-input"
+            >
+              <option value="">Select Type</option>
+              <option value="all">All</option>
+              <option value="top-news">Top News</option>
+            </select>
+            {formik.touched.type && formik.errors.type && (
+              <div className="text-red-500">{formik.errors.type}</div>
             )}
           </div>
 
@@ -439,9 +445,7 @@ function AddNews() {
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
           >
-           {
-            id ? "Update" : " Submit"
-           }
+            {id ? "Update" : " Submit"}
           </button>
         </div>
       </form>

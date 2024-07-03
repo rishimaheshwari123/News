@@ -1,52 +1,114 @@
-import React from "react";
-import { card1News, card2News, cardSecondNews } from "../../../data/data";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { cardSecondNews } from "../../../data/data";
+import { Link } from "react-router-dom";
 
 const News = () => {
+  const { allNews } = useSelector((state) => state.news);
+
+  useEffect(() => {
+    console.log(allNews);
+  }, [allNews]);
+
   return (
-    <div className="main max-w-7xl mx-auto grid lg:grid-cols-3 gap-5 mt-10 px-5">
-      <div className="first">
-        {card1News.map((currElem, index) => (
-          <div key={index}>
-            <img src={currElem.img} alt="" />
-            <p className="text-xl text-wrap mt-2">{currElem.desc}</p>
-          </div>
-        ))}
-        <div className="grid gap-3">
-          {card2News.map((currElem, index) => (
-            <div className="flex gap-4 " key={index}>
+    <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6">
+      <div className="first col-span-1 md:col-span-1 mt-3">
+        <div className="second grid gap-1">
+          {cardSecondNews.map((currElem, index) => (
+            <div className="flex gap-4 items-center" key={index}>
               <img src={currElem.img} alt="" />
               <p className=" text-wrap mt-2 w-[65%] text-sm">{currElem.desc}</p>
             </div>
           ))}
         </div>
       </div>
-      <div className="second grid gap-1">
-        {cardSecondNews.map((currElem, index) => (
-          <div className="flex gap-4 items-center" key={index}>
-            <img src={currElem.img} alt="" />
-            <p className=" text-wrap mt-2 w-[65%] text-sm">{currElem.desc}</p>
-          </div>
-        ))}
+
+      {/* Second Section */}
+      <div className="second col-span-1 md:col-span-2">
+        <p className="text-3xl font-bold text-center mt-3">TOP NEWS</p>
+        <br />
+        {allNews.map((currEle, index) => {
+          if (currEle?.type === "top-news") {
+            return (
+              <Link
+                to={`/newsdetails/${currEle._id}`}
+                key={index}
+                className="bg-white rounded-lg overflow-hidden shadow-md mb-4"
+              >
+                <img
+                  src={currEle.images[0]?.url}
+                  alt=""
+                  className="w-full object-cover"
+                />
+                <div className="p-4">
+                  <p className="text-xl font-bold text-gray-800 mb-2">
+                    {currEle.title}
+                  </p>
+                  <p className="text-gray-600">{currEle.subtitle}</p>
+                </div>
+              </Link>
+            );
+          }
+          return null;
+        })}
+
+        <p className="text-3xl font-bold text-center mt-3">ALL NEWS</p>
+        <br />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {allNews.map((currEle, index) => {
+            if (currEle?.type === "all") {
+              return (
+                <Link
+                  to={`/newsdetails/${currEle._id}`}
+                  key={index}
+                  className="bg-white rounded-lg shadow-md p-4 mb-4"
+                >
+                  <img
+                    src={currEle.images[0]?.url}
+                    alt=""
+                    className="w-full object-cover"
+                  />
+                  <p className="text-sm font-bold text-gray-800 mb-2">
+                    {currEle.title}
+                  </p>
+                  <p className="text-gray-600 tex-sm">{currEle.subtitle}</p>
+                </Link>
+              );
+            }
+            return null;
+          })}
+        </div>
       </div>
-      <div className="third grid gap-1">
+
+      {/* Third Section */}
+      <div className="third col-span-1 md:col-span-1">
         <iframe
-          className="lg:w-[418px] lg:h-[230px] w-[350px]"
-          src="https://www.youtube.com/embed/t_nA5Ox6Q7s?si=QE04FG8w2lZ2F4K6"
+          className="mt-3 h-[315px] w-full"
+          src="https://www.youtube.com/embed/9C5Df-6Pi00?si=qieq04s5ZED1gq8b"
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
         ></iframe>
-        <br />
+
         <iframe
-          className="lg:w-[418px] lg:h-[500px] w-[350px] h-[500px] "
-          src="https://www.youtube.com/embed/0Fv_8s2rqCU?si=lUZ_0Xid60VdmoXY"
+          className="mt-3 h-[550px] w-full"
+          src="https://www.youtube.com/embed/8JShxwJcWng?si=8mTPqNv8c-2M44NL"
           title="YouTube video player"
-          frameBorder="0"
+          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+        <iframe
+          className="mt-3 h-[315px] w-full"
+          src="https://www.youtube.com/embed/GzCLtdhF_nc?si=e3tvC2_SUCWrByHq"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
         ></iframe>
       </div>
     </div>
