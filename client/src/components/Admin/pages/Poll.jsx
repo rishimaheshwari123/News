@@ -28,7 +28,7 @@ const PollForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/poll/create",
+        `${process.env.REACT_APP_BASE_URL}/poll/create`,
         {
           question,
           options,
@@ -55,7 +55,7 @@ const PollForm = () => {
     const fetchPolls = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/v1/poll/get"
+          `${process.env.REACT_APP_BASE_URL}/poll/get`
         );
         setPolls(response.data);
       } catch (error) {
@@ -69,7 +69,7 @@ const PollForm = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/api/v1/poll/delete/${id}`
+        `${process.env.REACT_APP_BASE_URL}/poll/delete/${id}`
       );
       if (response?.data?.success) {
         setPolls(polls.filter((poll) => poll._id !== id));

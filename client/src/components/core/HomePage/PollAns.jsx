@@ -10,7 +10,7 @@ const PollList = () => {
     const fetchPolls = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/v1/poll/get"
+          `${process.env.REACT_APP_BASE_URL}/poll/get`
         );
         setPolls(response.data);
       } catch (error) {
@@ -24,7 +24,7 @@ const PollList = () => {
   const handleVote = async (pollId, optionId) => {
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/v1/poll/vote/${pollId}`,
+        `${process.env.REACT_APP_BASE_URL}/poll/get/poll/vote/${pollId}`,
         {
           optionId,
         }

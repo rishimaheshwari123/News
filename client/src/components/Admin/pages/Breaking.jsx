@@ -57,7 +57,7 @@ function Breaking() {
   const handleActive = async (id, currentActiveStatus) => {
     try {
       const res = await axios.put(
-        `http://localhost:8080/api/v1/breakingNews/update/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/breakingNews/update/${id}`,
         { active: !currentActiveStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
