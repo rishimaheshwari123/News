@@ -48,6 +48,7 @@ app.use("/api/v1/category", categoryRoutes)
 app.use("/api/v1/subcategory", subcategoryRoutes)
 app.use("/api/v1/image", imageRoute);
 app.use("/api/v1/breakingNews", require("./routes/breakingNewsRoute"));
+app.use("/api/v1/poll", require("./routes/pollRoute"));
 
 
 // default route 

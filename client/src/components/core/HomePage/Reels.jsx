@@ -11,7 +11,7 @@ const Reels = () => {
 
   const opts = {
     height: "400",
-    width: "250",
+    width: "300",
     playerVars: {
       autoplay: 0,
     },
@@ -22,7 +22,7 @@ const Reels = () => {
       <p className="text-center text-3xl font-bold my-10">
         See Our Letest Reels
       </p>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="max-w-7xl mx-auto grid justify-center items-center gap-y-4 md:grid-cols-2 lg:grid-cols-4">
         {videoIds.map((video) => (
           <YouTube key={video.id} videoId={video.name} opts={opts} />
         ))}
