@@ -24,7 +24,7 @@ const PollList = () => {
   const handleVote = async (pollId, optionId) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/poll/get/poll/vote/${pollId}`,
+        `${process.env.REACT_APP_BASE_URL}/poll/vote/${pollId}`,
         {
           optionId,
         }
