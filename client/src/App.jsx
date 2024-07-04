@@ -28,6 +28,7 @@ import MobileMenu from "./components/home/MobileMenu";
 //
 import SideNavbar from "./components/comman/Navbar/SideNavbar";
 import { saveCategory } from "./redux/newsSlice";
+import Cube from "./components/comman/Cube";
 
 const App = () => {
   const {isMenuOpen} = useSelector(state=>state.news)
@@ -97,6 +98,9 @@ const App = () => {
         <MobileMenu />
       </div>
 
+      <div className="fixed bottom-40 z-40 right-5">
+        <Cube />
+      </div>
 
 
 {

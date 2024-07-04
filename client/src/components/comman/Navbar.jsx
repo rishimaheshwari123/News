@@ -23,6 +23,7 @@ import logo from "../../assest/logo.jpg";
 import { fetchCategory } from "../../services/operations/admin";
 import { handleIsMenuOpen } from "../../redux/newsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import RealTimeClockAndCube from "./Navbar/RealTime";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -69,7 +70,7 @@ const Navbar = () => {
 
   return (
     <nav className=" text-white text-xl  fixed w-screen h-[50px] top-0 z-50 ">
-      <div className=" -h-[50px] bg-[#FF671F]  pt-1 min-w-[100vw]">
+      <div className=" -h-[50px] bg-[#f26434]  pt-1 min-w-[100vw]">
         <div className="flex justify-end items-center w-11/12 mx-auto gap-2 flex-wrap ">
           <div className="flex space-x-1 text-white text-[20px]">
             <a
@@ -149,7 +150,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className=" bg-blue-900 ">
+      <div className=" bg-[#2454a6] ">
         <div className=" mx-auto flex justify-between w-11/12  items-center relative min-h-[50px]">
           <div className="text-2xl font-bold flex  items-center gap-5">
             <div>
@@ -259,8 +260,8 @@ const Navbar = () => {
             </li>
           </ul>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to="https://www.facebook.com">
+          <div className=" flex items-center space-x-4">
+            {/* <Link to="https://www.facebook.com">
               <FaFacebook
                 size={24}
                 className="text-white hover:text-gray-300"
@@ -274,7 +275,9 @@ const Navbar = () => {
             </Link>
             <Link to="https://www.youtube.com">
               <FaYoutube size={24} className="text-white hover:text-gray-300" />
-            </Link>
+            </Link> */}
+
+            <RealTimeClockAndCube />
           </div>
         </div>
 

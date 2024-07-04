@@ -67,12 +67,15 @@ export default function Categorycard({ category }) {
           <div>
             <div>
               {latestNews.slice(2).map((news) => (
-                <div key={news._id} className="mb-4 flex gap-2">
+                <Link
+                to={`/newsdetails/${latestNews[1]?._id}`}
+                
+                 key={news._id} className="mb-4 flex gap-2">
                   <img src={news?.images[0]?.url} alt="" className="h-[60px]" />
                   <p className="font-semibold text-[12px]">
                     {truncateText(news?.title, 20)}
                   </p>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
