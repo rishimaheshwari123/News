@@ -22,12 +22,13 @@ const validateRequiredFields = (req) => {
     category,
     subcategory,
     expire,
+    type,
     description,
     language,
     images,
   } = req.body;
 
-  if (!title || !subtitle ||!language|| !location || !category || !subcategory  || !description || !images) {
+  if (!type || !title || !subtitle || !language || !location || !category || !subcategory || !description || !images) {
     return false;
   }
   return true;
@@ -47,6 +48,7 @@ const createNews = async (req, res) => {
     category,
     subcategory,
     expire,
+    type,
     description,
     images,
     youtubeurl
@@ -75,6 +77,7 @@ const createNews = async (req, res) => {
       category,
       subcategory,
       language,
+      type,
       expire: new Date(expire), // Convert expire to Date format
       description,
       images: imagesArray, // Assign parsed images array
@@ -123,6 +126,7 @@ const updateNewsById = async (req, res) => {
     category,
     subcategory,
     expire,
+    type,
     description,
     images,
     youtubeurl
@@ -152,6 +156,7 @@ const updateNewsById = async (req, res) => {
       subcategory,
       expire: new Date(expire), // Convert expire to Date format
       description,
+      type,
       images: imagesArray, // Assign parsed images array
       youtubeurl: youtubeurl || null, // Set youtubeurl to null if not provided
     };
@@ -171,78 +176,78 @@ const updateNewsById = async (req, res) => {
 
 
 const getAllNews = async (req, res) => {
-    try {
-      const news = await News.find()
-        .populate('category', 'name') // Populate category with categoryName field
-        .populate('subcategory', 'name') // Populate subcategory with subcategoryName field
-        .exec();
-  
-      res.json({ success: true, news });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+  try {
+    const news = await News.find()
+      .populate('category', 'name') // Populate category with categoryName field
+      .populate('subcategory', 'name') // Populate subcategory with subcategoryName field
+      .exec();
+
+    res.json({ success: true, news });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Function to delete a news article by ID
+const deleteNewsById = async (req, res) => {
+  const newsId = req.body.id;
+
+  try {
+    const deletedNews = await News.findByIdAndDelete(newsId);
+
+    if (!deletedNews) {
+      return res.status(404).json({ success: false, message: 'News article not found' });
     }
-  };
-  
-  // Function to delete a news article by ID
-  const deleteNewsById = async (req, res) => {
-    const newsId = req.body.id;
 
-    try {
-      const deletedNews = await News.findByIdAndDelete(newsId);
-  
-      if (!deletedNews) {
-        return res.status(404).json({ success: false, message: 'News article not found' });
-      }
-  
-      res.json({ success: true, message: 'News article deleted successfully' });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+    res.json({ success: true, message: 'News article deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getNewsById = async (req, res) => {
+  const newsId = req.params.newsId;
+
+
+
+  try {
+    const news = await News.findById(newsId)
+      .populate({
+        path: 'subcategory',
+        populate: { path: 'news' } // Populate subcategory and include all news
+      })
+      .populate({
+        path: 'category',
+        populate: { path: 'news' } // Populate subcategories and include all news
+
+      })
+      .exec();
+
+    if (!news) {
+      return res.status(404).json({ success: false, message: 'News article not found' });
     }
-  };
 
-  const getNewsById = async (req, res) => {
-    const newsId = req.params.newsId;
-
-  
-
-    try {
-      const news = await News.findById(newsId)
-        .populate({
-          path: 'subcategory',
-          populate: { path: 'news' } // Populate subcategory and include all news
-        })
-        .populate({
-          path: 'category',
-          populate: { path: 'news' } // Populate subcategories and include all news
-        
-        })
-        .exec();
-  
-      if (!news) {
-        return res.status(404).json({ success: false, message: 'News article not found' });
-      }
-  
-      res.json({ success: true, news });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  };
+    res.json({ success: true, news });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 const toggleActive = async (req, res) => {
-    const {newsId ,activeStatus} = req.body;
-  
-  
-    try {
-      const news = await News.findByIdAndUpdate(newsId, { active: activeStatus }, { new: true });
-      if (!news) {
-        return res.status(404).json({ success: false, message: 'news not found' });
-      }
-      res.json({ success: true, message: 'news activated successfully', news });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+  const { newsId, activeStatus } = req.body;
+
+
+  try {
+    const news = await News.findByIdAndUpdate(newsId, { active: activeStatus }, { new: true });
+    if (!news) {
+      return res.status(404).json({ success: false, message: 'news not found' });
     }
-  };
-  
+    res.json({ success: true, message: 'news activated successfully', news });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 module.exports = {
   createNews,

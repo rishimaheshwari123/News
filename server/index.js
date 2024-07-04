@@ -26,7 +26,7 @@ connectDB();
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
 }))
 
@@ -48,6 +48,7 @@ app.use("/api/v1/category", categoryRoutes)
 app.use("/api/v1/subcategory", subcategoryRoutes)
 app.use("/api/v1/image", imageRoute);
 app.use("/api/v1/breakingNews", require("./routes/breakingNewsRoute"));
+app.use("/api/v1/poll", require("./routes/pollRoute"));
 
 
 // default route 

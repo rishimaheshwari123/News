@@ -47,15 +47,19 @@ const newsSchema = new Schema({
     type: String,
     // required: true,
   },
-  publish:{
-    type:Date,
-    default:Date.now()
+  publish: {
+    type: Date,
+    default: Date.now()
   }
-,
+  ,
   active: {
     type: Boolean,
     default: true, // Default active state
   },
+  type: {
+    type: String,
+    required: true
+  }
 });
 
 const News = mongoose.model('News', newsSchema);

@@ -7,7 +7,15 @@ import { MdLogout } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUser } from "../../../redux/authSlice";
-import { FcBullish, FcPlus, FcGallery, FcPieChart, FcNews, FcViewDetails, FcTreeStructure, FcVideoCall } from "react-icons/fc";
+import {
+  FcBullish,
+  FcPlus,
+  FcPieChart,
+  FcNews,
+  FcTreeStructure,
+  FcVideoCall,
+  FcAdvertising,
+} from "react-icons/fc";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(
@@ -50,11 +58,17 @@ const Sidebar = () => {
   return (
     <div
       ref={sidebarRef}
-      className={`fixed h-screen top-0 ${isCollapsed ? "w-16" : "w-64"} bg-gray-900 transition-all duration-300 z-50`}
+      className={`fixed h-screen top-0 ${
+        isCollapsed ? "w-16" : "w-64"
+      } bg-gray-900 transition-all duration-300 z-50`}
     >
       <div className="flex items-center justify-between p-4">
         {/* Logo section */}
-        <div className={`${isCollapsed ? "hidden" : "block"} text-white font-bold text-xl`}>
+        <div
+          className={`${
+            isCollapsed ? "hidden" : "block"
+          } text-white font-bold text-xl`}
+        >
           <img
             src={""}
             alt=""
@@ -71,15 +85,24 @@ const Sidebar = () => {
       </div>
 
       {/* Navigation links */}
-      <ul className="text-white list-none flex flex-col gap-2 p-4 mb-14 max-h-[70vh] overflow-y-scroll sidebar " >
+      <ul className="text-white list-none flex flex-col gap-2 p-4 mb-14 max-h-[70vh] overflow-y-scroll sidebar ">
         {[
           { to: "/", icon: <FaHome />, label: "Back To Home" },
           { to: "/admin/dashboard", icon: <FcBullish />, label: "Dashboard" },
           { to: "/admin/addnews", icon: <FcPlus />, label: "Add News" },
           { to: "/admin/allnews", icon: <FcPieChart />, label: "All News" },
           { to: "/admin/breaking", icon: <FcNews />, label: "Breaking News" },
-          { to: "/admin/category", icon: <FcTreeStructure />, label: "Category" },
-          { to: "/admin/livestriming", icon: <FcVideoCall />, label: "Live Streaming" }
+          {
+            to: "/admin/category",
+            icon: <FcTreeStructure />,
+            label: "Category",
+          },
+          { to: "/admin/poll", icon: <FcAdvertising />, label: "Create Poll" },
+          {
+            to: "/admin/livestriming",
+            icon: <FcVideoCall />,
+            label: "Live Streaming",
+          },
         ].map((item) => (
           <NavLink
             key={item.to}
@@ -91,7 +114,9 @@ const Sidebar = () => {
             }
           >
             <div className="text-2xl">{item.icon}</div>
-            <span className={`ml-4 text-xl ${isCollapsed ? "hidden" : "block"}`}>
+            <span
+              className={`ml-4 text-xl ${isCollapsed ? "hidden" : "block"}`}
+            >
               {item.label}
             </span>
           </NavLink>
@@ -102,7 +127,9 @@ const Sidebar = () => {
       <div className="absolute bottom-2 left-2 right-2 overflow-hidden mt-10">
         <div
           className={`flex items-center justify-center w-full ${
-            isCollapsed ? "w-11 h-11 rounded-full bg-slate-400" : "bg-slate-400 py-2 px-4 rounded-lg"
+            isCollapsed
+              ? "w-11 h-11 rounded-full bg-slate-400"
+              : "bg-slate-400 py-2 px-4 rounded-lg"
           }`}
         >
           <div
@@ -122,7 +149,9 @@ const Sidebar = () => {
         <button
           onClick={handleLogout}
           className={`bg-red-600 text-white text-xl flex items-center justify-center mt-2 ${
-            isCollapsed ? "w-12 h-12 rounded-full" : "py-2 px-4 w-full rounded-lg"
+            isCollapsed
+              ? "w-12 h-12 rounded-full"
+              : "py-2 px-4 w-full rounded-lg"
           }`}
         >
           {isCollapsed ? (
