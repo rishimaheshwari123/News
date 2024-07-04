@@ -9,28 +9,31 @@ function Category() {
         console.log(category)
     },[])
   return (
-    <div>
+  <div className=' lg:w-11/12 mx-auto'>
+
+<div className='main grid grid-cols-1 md:grid-cols-3   max-w-[1500px] mx-auto px-5 lg:pl-6'>
     {/* cards */}
-        <div>
+        <div className='col-span-1 md:col-span-2  '>
         {
-            category && 
-            category?.map((cate)=>{
-                if(cate?.active){
-                    <div key={cate?._id}>
+       
+            category?.map((cate)=>(
+             
+                    <div key={cate?._id} className=' '>
                     <Categorycard category={cate} />
                 </div>
-                }
-            })
+            
+            ))
         }
 
         </div>
 
 
-        <div>
+        <div className='col-span-1 md:col-span-1 '>
 
         </div>
 
     </div>
+  </div>
   )
 }
 

@@ -23,7 +23,7 @@ const newsSlice = createSlice({
       localStorage.setItem("allNews", JSON.stringify(state.allNews));
     },
     saveCategory:(state, action) => {
-      console.log(action.payload)
+    
       state.category = action.payload;
       localStorage.setItem("category", JSON.stringify(state.category));
     },
