@@ -9,6 +9,13 @@ const News = () => {
     console.log(allNews);
   }, [allNews]);
 
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return text;
+  };
   return (
     <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6">
       <div className="first col-span-1 md:col-span-1 mt-3">
@@ -81,9 +88,9 @@ const News = () => {
                     alt=""
                     className="w-full object-cover"
                   />
-                  <p className="text-sm font-bold text-gray-800 mb-2">
-                    {currEle.title}
-                  </p>
+                 <p className="text-sm font-bold text-gray-800 mb-2">
+  {truncateText(currEle.title, 20)}
+</p>
                   {/* <p className="text-gray-600 tex-sm">{currEle.subtitle}</p> */}
                 </Link>
               );

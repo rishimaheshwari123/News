@@ -5,6 +5,8 @@ import News from "../components/core/HomePage/News";
 import Footer from "../components/comman/Footer";
 import Reels from "../components/core/HomePage/Reels";
 import PollAns from "../components/core/HomePage/PollAns";
+import Category from "../components/core/HomePage/Category";
+
 
 const Home = () => {
   return (
@@ -14,6 +16,8 @@ const Home = () => {
         <BreakingNews />
         <br />
         <News />
+        <br />
+        <Category />
         <Reels />
         <PollAns />
       </div>
