@@ -8,7 +8,7 @@ import PrivateRoute from "./components/Admin/auth/PrivateRoute";
 import DashBoard from "./components/Admin/pages/Dashboard";
 import AddNews from "./components/Admin/pages/AddNews";
 import OpenRoute from "./components/Admin/auth/OpenRoute";
-import { getAllNews } from "./services/operations/admin";
+import { fetchCategory, getAllNews } from "./services/operations/admin";
 import { useDispatch, useSelector } from "react-redux";
 import AllNews from "./components/Admin/pages/AllNews";
 import NewsDetails from "./pages/NewsDetails";
@@ -24,9 +24,31 @@ import SubCategorySingle from "./pages/SubCategorySingle";
 import Live from "./pages/Live";
 import MobileMenu from "./components/home/MobileMenu";
 
+
+//
+import SideNavbar from "./components/comman/Navbar/SideNavbar";
+import { saveCategory } from "./redux/newsSlice";
+
 const App = () => {
+  const {isMenuOpen} = useSelector(state=>state.news)
   const dispatch = useDispatch();
   useEffect(() => {
+
+
+    //Categoyr
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await fetchCategory();
+        dispatch(saveCategory(categoriesData?.categories || []))
+    
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+
+
     dispatch(getAllNews());
   }, []);
 
@@ -75,6 +97,11 @@ const App = () => {
         <MobileMenu />
       </div>
 
+
+
+{
+  isMenuOpen && <SideNavbar></SideNavbar>
+}
       <ScrollToTop />
     </div>
   );
