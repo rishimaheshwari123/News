@@ -5,25 +5,25 @@ const SubCategory = require("../models/subCategory");
 // Create a new category
 const createCategory = async (req, res) => {
   console.log(req)
-    const { name, description, image } = req.body;
-    try {
-        const newCategory = new Category({
-            name,
-            description,
-            image,
-            subCategories: [],
-        });
-        await newCategory.save();
-        res
-            .status(201)
-            .json({
-                success: true,
-                message: "Category created successfully",
-                category: newCategory,
-            });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
+  const { name, description } = req.body;
+  try {
+    const newCategory = new Category({
+      name,
+      description,
+      // image,
+      subCategories: [],
+    });
+    await newCategory.save();
+    res
+      .status(201)
+      .json({
+        success: true,
+        message: "Category created successfully",
+        category: newCategory,
+      });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 
@@ -31,17 +31,17 @@ const deleteCategory = async (req, res) => {
   console.log(req)
   const { id } = req.params;
   try {
-      const deletedCategory = await Category.findByIdAndDelete(id);
-      if (!deletedCategory) {
-          return res.status(404).json({ success: false, message: "Category not found" });
-      }
-      res.status(200).json({
-          success: true,
-          message: "Category deleted successfully",
-          category: deletedCategory,
-      });
+    const deletedCategory = await Category.findByIdAndDelete(id);
+    if (!deletedCategory) {
+      return res.status(404).json({ success: false, message: "Category not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Category deleted successfully",
+      category: deletedCategory,
+    });
   } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -49,32 +49,32 @@ const deleteCategory = async (req, res) => {
 // Get all categories with populated subCategories
 const getAllCategories = async (req, res) => {
   try {
-      const categories = await Category.find().populate("subCategories").populate("news").lean();;
-      const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
-      
-      // Function to get random elements from an array
-      const getRandomElements = (arr, num) => {
-          const shuffled = arr.sort(() => 0.5 - Math.random());
-          return shuffled.slice(0, num);
-      };
+    const categories = await Category.find().populate("subCategories").populate("news").lean();;
+    const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
 
-      // Select a random subset of categories, e.g., 3 random categories
-      const randomCategories = getRandomElements(categories2, 3);
-    
-      res.json({ 
-          success: true, 
-          categories, 
-          randomCategories 
-      });
+    // Function to get random elements from an array
+    const getRandomElements = (arr, num) => {
+      const shuffled = arr.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, num);
+    };
+
+    // Select a random subset of categories, e.g., 3 random categories
+    const randomCategories = getRandomElements(categories2, 3);
+
+    res.json({
+      success: true,
+      categories,
+      randomCategories
+    });
   } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 // Get a single category by ID with populated subCategories
 const getCategoryById = async (req, res) => {
   const categoryId = req.params.id;
-  
+
   try {
     // Fetch the requested category with populated subCategories
     const category = await Category.findById(categoryId)
@@ -84,7 +84,7 @@ const getCategoryById = async (req, res) => {
     if (!category) {
       return res.status(404).json({ success: false, message: "Category not found" });
     }
-    
+
     // Fetch multiple random categories
     const categories = await Category.find({ _id: { $ne: categoryId } })
       .limit(5) // Adjust the limit as per your requirement
@@ -109,7 +109,7 @@ const getCategoryById = async (req, res) => {
 
 
 const toggleActive = async (req, res) => {
-  const {categoryId ,activeStatus} = req.body;
+  const { categoryId, activeStatus } = req.body;
 
 
   try {
@@ -131,94 +131,94 @@ const toggleActive = async (req, res) => {
 // Create a new subcategory
 const createSubCategory = async (req, res) => {
   // console.log(req)
-    const { name, description, category,image } = req.body;
-    try {
-      const newSubCategory = new SubCategory({ name, description, category,image });
-      await newSubCategory.save();
-  
-      // Add subcategory reference to the corresponding category
-      await Category.findByIdAndUpdate(category, { $push: { subCategories: newSubCategory._id } });
-  
-      res.status(201).json({ success: true, message: 'SubCategory created successfully', subCategory: newSubCategory });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  };
-  
+  const { name, description, category } = req.body;
+  try {
+    const newSubCategory = new SubCategory({ name, description, category });
+    await newSubCategory.save();
 
-  
+    // Add subcategory reference to the corresponding category
+    await Category.findByIdAndUpdate(category, { $push: { subCategories: newSubCategory._id } });
+
+    res.status(201).json({ success: true, message: 'SubCategory created successfully', subCategory: newSubCategory });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
 const deleteSubCategory = async (req, res) => {
   console.log(req)
   const { id } = req.params;
   try {
-      const deletedCategory = await SubCategory.findByIdAndDelete(id);
-      if (!deletedCategory) {
-          return res.status(404).json({ success: false, message: "Category not found" });
-      }
-      res.status(200).json({
-          success: true,
-          message: "Category deleted successfully",
-          category: deletedCategory,
-      });
+    const deletedCategory = await SubCategory.findByIdAndDelete(id);
+    if (!deletedCategory) {
+      return res.status(404).json({ success: false, message: "Category not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Category deleted successfully",
+      category: deletedCategory,
+    });
   } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
-  // Get all subcategories
-  const getAllSubCategories = async (req, res) => {
-    try {
-      const subCategories = await SubCategory.find().populate('category');
+// Get all subcategories
+const getAllSubCategories = async (req, res) => {
+  try {
+    const subCategories = await SubCategory.find().populate('category');
 
-      // console.log(subCategories);
+    // console.log(subCategories);
 
-      res.json({ success: true, subCategories });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  };
-  
-  // Get subcategories for a specific category
-  const getSubCategoriesByCategory = async (req, res) => {
-    const categoryId = req.params.id;
-    try {
-      const subCategories = await SubCategory.findById(categoryId)
+    res.json({ success: true, subCategories });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Get subcategories for a specific category
+const getSubCategoriesByCategory = async (req, res) => {
+  const categoryId = req.params.id;
+  try {
+    const subCategories = await SubCategory.findById(categoryId)
       .populate("news")
       .populate({
         path: "category",
         select: "name" // Specify the fields you want to select
       });
 
-      const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
+    const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
 
-      
-      // Function to get random elements from an array
-      const getRandomElements = (arr, num) => {
-          const shuffled = arr.sort(() => 0.5 - Math.random());
-          return shuffled.slice(0, num);
-      };
 
-      // Select a random subset of categories, e.g., 3 random categories
-      const randomCategories = getRandomElements(categories2,3);
-    
+    // Function to get random elements from an array
+    const getRandomElements = (arr, num) => {
+      const shuffled = arr.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, num);
+    };
 
-      res.json({ success: true, subCategories ,randomCategories });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  };
+    // Select a random subset of categories, e.g., 3 random categories
+    const randomCategories = getRandomElements(categories2, 3);
+
+
+    res.json({ success: true, subCategories, randomCategories });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 
 
 
 module.exports = {
-    createCategory,
-    getAllCategories,
-    getCategoryById,
-    toggleActive,
-    deleteCategory,
+  createCategory,
+  getAllCategories,
+  getCategoryById,
+  toggleActive,
+  deleteCategory,
 
 
-    createSubCategory,
+  createSubCategory,
   getAllSubCategories,
   getSubCategoriesByCategory,
   deleteSubCategory

@@ -97,6 +97,11 @@ const Sidebar = () => {
             icon: <FcTreeStructure />,
             label: "Category",
           },
+          {
+            to: "/admin/subcategory",
+            icon: <FcTreeStructure />,
+            label: "Sub-Category",
+          },
           { to: "/admin/poll", icon: <FcAdvertising />, label: "Create Poll" },
           {
             to: "/admin/livestriming",

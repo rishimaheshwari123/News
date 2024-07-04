@@ -23,9 +23,23 @@ function AddNews() {
   const [editorHtml, setEditorHtml] = useState("");
   const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
+  const maxWords = 3000; // Maximum allowed words
+
+  const handleChange = (html) => {
+    // Count words
+    const text = html.replace(/<[^>]*>?/gm, ""); // Strip HTML tags
+    const wordCount = text.split(/\s+/).length;
+
+    // Check if word count exceeds limit
+    if (wordCount <= maxWords) {
+      setEditorHtml(html);
+    } else {
+      // Display message or handle exceeding word limit
+      alert(`You cannot exceed ${maxWords} words.`);
+    }
+  };
 
   // Network Call
-  // Category Fetch
   useEffect(() => {
     const fetchCategoryMain = async () => {
       try {
@@ -67,8 +81,8 @@ function AddNews() {
   const uploadImage = async (acceptedFiles) => {
     const response = await imageUpload(acceptedFiles);
     const uploadedImages = response?.map((image) => ({
-      public_id: image.asset_id, // Assuming asset_id contains the public_id
-      url: image.url, // Assuming url contains the image URL
+      public_id: image.asset_id,
+      url: image.url,
     }));
     setImages((prevImages) => [...prevImages, ...uploadedImages]);
   };
@@ -106,7 +120,7 @@ function AddNews() {
   };
 
   // Formik Form Submission
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, { resetForm }) => {
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("description", editorHtml);
@@ -121,17 +135,26 @@ function AddNews() {
     formData.append("type", values.type);
 
     await createNews(formData, token);
+
+    resetForm();
+    setEditorHtml(""); // Clear the ReactQuill editor
+    setImages([]); // Clear uploaded images
   };
 
+  // Formik Hook
   const formik = useFormik({
     initialValues,
     onSubmit,
     validationSchema,
   });
 
-  const handleChange = (html) => {
-    setEditorHtml(html);
-  };
+  // Update subcategories based on selected category
+  useEffect(() => {
+    const filteredCategory = categories.find(
+      (cat) => cat._id === formik.values.category
+    );
+    setSubCategories(filteredCategory?.subCategories || []);
+  }, [formik.values.category, categories]);
 
   return (
     <div className="max-w-3xl mx-auto p-4">
@@ -140,7 +163,8 @@ function AddNews() {
       </h3>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
-        {/* Line 1 */}
+        {/* Form fields */}
+        {/* Title and Subtitle */}
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label htmlFor="title" className="block font-medium text-gray-700">
@@ -150,7 +174,7 @@ function AddNews() {
               id="title"
               name="title"
               type="text"
-              placeholder="Enter Your Product Name"
+              placeholder="Enter Title"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.title}
@@ -172,7 +196,7 @@ function AddNews() {
               id="subtitle"
               name="subtitle"
               type="text"
-              placeholder="Enter Your Product Name"
+              placeholder="Enter Subtitle"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.subtitle}
@@ -184,39 +208,37 @@ function AddNews() {
           </div>
         </div>
 
-        {/* Line 2 */}
-        <div className="grid lg:grid-cols-1 grid-cols-1 ">
-          <div className="space-y-2">
-            <label
-              htmlFor="description"
-              className="block font-medium text-gray-700"
-            >
-              Description
-            </label>
-            <ReactQuill
-              theme="snow"
-              value={editorHtml}
-              onChange={handleChange}
-              modules={{
-                toolbar: [
-                  [{ header: "1" }, { header: "2" }, { font: [] }],
-                  [{ size: [] }],
-                  ["bold", "italic", "underline", "strike", "blockquote"],
-                  [
-                    { list: "ordered" },
-                    { list: "bullet" },
-                    { indent: "-1" },
-                    { indent: "+1" },
-                  ],
-                  ["clean"],
+        {/* Description */}
+        <div className="space-y-2">
+          <label
+            htmlFor="description"
+            className="block font-medium text-gray-700"
+          >
+            Description
+          </label>
+          <ReactQuill
+            theme="snow"
+            value={editorHtml}
+            onChange={handleChange}
+            modules={{
+              toolbar: [
+                [{ header: "1" }, { header: "2" }, { font: [] }],
+                [{ size: ["small", false, "large", "huge"] }],
+                ["bold", "italic", "underline", "strike", "blockquote"],
+                [
+                  { list: "ordered" },
+                  { list: "bullet" },
+                  { indent: "-1" },
+                  { indent: "+1" },
                 ],
-              }}
-              className="quill-editor"
-            />
-          </div>
+                ["clean"],
+              ],
+            }}
+            className="quill-editor"
+          />
         </div>
 
-        {/* Line 3 */}
+        {/* Language, Type, Category, Subcategory */}
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label
@@ -257,6 +279,7 @@ function AddNews() {
               <option value="">Select Type</option>
               <option value="all">All</option>
               <option value="top-news">Top News</option>
+              <option value="recent-news">Recent News</option>
             </select>
             {formik.touched.type && formik.errors.type && (
               <div className="text-red-500">{formik.errors.type}</div>
@@ -278,7 +301,7 @@ function AddNews() {
               value={formik.values.category}
               className="form-input"
             >
-              <option value="">Select a category</option>
+              <option value="">Select Category</option>
               {categories?.map((category) => (
                 <option key={category._id} value={category._id}>
                   {category.name}
@@ -289,10 +312,7 @@ function AddNews() {
               <div className="text-red-500">{formik.errors.category}</div>
             )}
           </div>
-        </div>
 
-        {/* Line 3 */}
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label
               htmlFor="subcategory"
@@ -308,7 +328,7 @@ function AddNews() {
               value={formik.values.subcategory}
               className="form-input"
             >
-              <option value="">Select a subcategory</option>
+              <option value="">Select Sub Category</option>
               {subCategories?.map((subcategory) => (
                 <option key={subcategory._id} value={subcategory._id}>
                   {subcategory.name}
@@ -319,7 +339,10 @@ function AddNews() {
               <div className="text-red-500">{formik.errors.subcategory}</div>
             )}
           </div>
+        </div>
 
+        {/* Location and Expire Date */}
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label
               htmlFor="location"
@@ -331,7 +354,7 @@ function AddNews() {
               id="location"
               name="location"
               type="text"
-              placeholder="Enter Your Product Name"
+              placeholder="Enter Location"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.location}
@@ -341,13 +364,10 @@ function AddNews() {
               <div className="text-red-500">{formik.errors.location}</div>
             )}
           </div>
-        </div>
 
-        {/* Line 4 */}
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label htmlFor="expire" className="block font-medium text-gray-700">
-              Expire News (Optional)
+              Expire
             </label>
             <input
               id="expire"
@@ -362,90 +382,79 @@ function AddNews() {
               <div className="text-red-500">{formik.errors.expire}</div>
             )}
           </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="youtubeurl"
-              className="block font-medium text-gray-700"
-            >
-              YouTube Url (Optional)
-            </label>
-            <input
-              id="youtubeurl"
-              name="youtubeurl"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.youtubeurl}
-              className="form-input"
-            />
-            {formik.touched.youtubeurl && formik.errors.youtubeurl && (
-              <div className="text-red-500">{formik.errors.youtubeurl}</div>
-            )}
-          </div>
         </div>
 
-        {/* Image Upload */}
+        {/* YouTube URL */}
         <div className="space-y-2">
-          <label className="block font-medium text-gray-700">
-            Upload Images
+          <label
+            htmlFor="youtubeurl"
+            className="block font-medium text-gray-700"
+          >
+            YouTube URL
           </label>
-          <div className="bg-white border-2 border-blue-600 p-4">
-            <Dropzone onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}>
-              {({ getRootProps, getInputProps }) => (
-                <section className="text-center">
-                  <div {...getRootProps()} className="cursor-pointer">
-                    <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
-                  </div>
-                </section>
-              )}
-            </Dropzone>
-          </div>
+          <input
+            id="youtubeurl"
+            name="youtubeurl"
+            type="text"
+            placeholder="Enter YouTube URL"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.youtubeurl}
+            className="form-input"
+          />
+          {formik.touched.youtubeurl && formik.errors.youtubeurl && (
+            <div className="text-red-500">{formik.errors.youtubeurl}</div>
+          )}
+        </div>
 
-          {/* Display Uploaded Images */}
-          <div className="flex gap-4 mt-4">
-            {images?.map((image, index) => (
-              <div key={index} className="relative">
-                <button
-                  type="button"
-                  onClick={() => removeImage(image.public_id)}
-                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full shadow-md focus:outline-none"
+        {/* Upload Image */}
+        <div className="space-y-2">
+          <label htmlFor="images" className="block font-medium text-gray-700">
+            Upload Image
+          </label>
+          <Dropzone onDrop={uploadImage}>
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <div
+                  {...getRootProps()}
+                  className="border-2 border-dashed p-4 text-center cursor-pointer"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-                <img
-                  src={image.url}
-                  alt=""
-                  className="w-40 h-40 object-cover rounded-lg shadow-md"
-                />
-              </div>
-            ))}
-          </div>
+                  <input {...getInputProps()} />
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                </div>
+                <aside className="mt-4">
+                  <h4>Uploaded Images</h4>
+                  <div className="grid grid-cols-4 gap-2">
+                    {images?.map((image) => (
+                      <div key={image.public_id} className="relative">
+                        <img
+                          src={image.url}
+                          alt="Uploaded"
+                          className="h-24 w-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(image.public_id)}
+                          className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full"
+                        >
+                          X
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </aside>
+              </section>
+            )}
+          </Dropzone>
         </div>
 
         {/* Submit Button */}
-        <div className="text-center">
+        <div className="pt-4">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded"
           >
-            {id ? "Update" : " Submit"}
+            {id ? "Update News" : "Add News"}
           </button>
         </div>
       </form>

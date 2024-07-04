@@ -18,14 +18,14 @@ const subCategorySchema = new Schema({
   },
   image: {
     type: String, // Assuming image URL for simplicity
-    required: true,
+    // required: true,
   },
   news: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "News",
-		},
-	],
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "News",
+    },
+  ],
 
   active: {
     type: Boolean,

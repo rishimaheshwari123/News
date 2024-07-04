@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { cardSecondNews } from "../../../data/data";
 import { Link } from "react-router-dom";
 
 const News = () => {
@@ -14,12 +13,26 @@ const News = () => {
     <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6">
       <div className="first col-span-1 md:col-span-1 mt-3">
         <div className="second grid gap-1">
-          {cardSecondNews.map((currElem, index) => (
-            <div className="flex gap-4 items-center" key={index}>
-              <img src={currElem.img} alt="" />
-              <p className=" text-wrap mt-2 w-[65%] text-sm">{currElem.desc}</p>
-            </div>
-          ))}
+          {allNews.map((currElem, index) => {
+            if (currElem?.type == "recent-news") {
+              return (
+                <Link
+                  className="flex gap-4 items-center p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+                  key={index}
+                  to={`/newsdetails/${currElem._id}`}
+                >
+                  <img
+                    src={currElem?.images[0]?.url}
+                    alt=""
+                    className="w-30 h-20 object-cover rounded-md"
+                  />
+                  <p className="text-wrap mt-2 w-[80%] text-sm text-gray-700 font-medium">
+                    {currElem.title}
+                  </p>
+                </Link>
+              );
+            }
+          })}
         </div>
       </div>
 
@@ -71,7 +84,7 @@ const News = () => {
                   <p className="text-sm font-bold text-gray-800 mb-2">
                     {currEle.title}
                   </p>
-                  <p className="text-gray-600 tex-sm">{currEle.subtitle}</p>
+                  {/* <p className="text-gray-600 tex-sm">{currEle.subtitle}</p> */}
                 </Link>
               );
             }
