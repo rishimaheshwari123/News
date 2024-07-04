@@ -11,7 +11,7 @@ export const MobileLinks = [
         id: 2,
         title: "Reels",
         icon: <IoFilmOutline className="text-lg" />,
-        path: "/reels"
+        path: "/reel"
     },
     {   
         id: 3,

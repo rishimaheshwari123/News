@@ -29,6 +29,7 @@ import MobileMenu from "./components/home/MobileMenu";
 import SideNavbar from "./components/comman/Navbar/SideNavbar";
 import { saveCategory } from "./redux/newsSlice";
 import Cube from "./components/comman/Cube";
+import ReelSection from "./test/Reel";
 
 const App = () => {
   const {isMenuOpen} = useSelector(state=>state.news)
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/newsdetails/:id" element={<NewsDetails />} />
         <Route path="/category/:id" element={<SingleCategory />} />
         <Route path="/subcategory/:id" element={<SubCategorySingle />} />
+        <Route path="/reel" element={<ReelSection />} />
 
         <Route path="/live" element={<Live />} />
 
