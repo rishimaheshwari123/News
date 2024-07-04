@@ -27,9 +27,6 @@ function SingleCategory() {
     window.scrollTo(0, 0);
   }, [id]);
 
-
-
-
   return (
     <div>
       <Navbar />
@@ -40,7 +37,7 @@ function SingleCategory() {
         </div>
       ) : (
         <div>
-          <div className=" w-screen mt-[120px] ">
+          <div className=" w- mt-[120px] ">
             <div className=" w-[90%] mx-auto">
               {/* <img
                 src={news.image}
@@ -55,46 +52,44 @@ function SingleCategory() {
           <div className="flex flex-col lg:flex-row p-4 gap-4 ">
             {/* Main News Card */}
 
-            {
-              !news?.news?.length ? (
-                <div className="w-full lg:w-7/12  p-4 ">
-No News Are Found In This Category 
+            {!news?.news?.length ? (
+              <div className="w-full lg:w-[70%]  p-4 ">
+                No News Are Found In This Category
               </div>
-              
-              
-              ):(<>
-
-                <div className="w-full lg:w-7/12">
-              {news && (
-                <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-                  {news?.news?.map((newsItem) => (
-                    <div key={newsItem._id} className="mt-4">
-                      <Link
-                        to={`/newsdetails/${newsItem._id}`}
-                        className="text-lg font-semibold mb-2 text-blue-600 underline"
-                      >
-                        {newsItem.title}rr
-                      </Link>
-                      <img
-                        src={newsItem?.images[0]?.url}
-                        alt=""
-                        className="w-[60%]"
-                      />
-                      <h4 className="text-md font-light mb-4">
-                        {newsItem.subtitle}
-                      </h4>
-                      <p className="text-gray-700 mb-4">{newsItem.location}</p>
+            ) : (
+              <>
+                <div className="w-full lg:w-[70%]">
+                  {news && (
+                    <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+                      {news?.news?.map((newsItem) => (
+                        <div key={newsItem._id} className="mt-4">
+                          <Link
+                            to={`/newsdetails/${newsItem._id}`}
+                            className="text-lg font-semibold mb-2 text-blue-600 underline"
+                          >
+                            {newsItem.title}rr
+                          </Link>
+                          <img
+                            src={newsItem?.images[0]?.url}
+                            alt=""
+                            className="w-[60%]"
+                          />
+                          <h4 className="text-md font-light mb-4">
+                            {newsItem.subtitle}
+                          </h4>
+                          <p className="text-gray-700 mb-4">
+                            {newsItem.location}
+                          </p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
-              )}
-            </div>
-              </>)
-            }
-        
+              </>
+            )}
 
             {/* Related News */}
-            <div className="w-full lg:w-5/12  top-10 min-h-[80vh] ">
+            <div className="w-full lg:w-[28%]  top-10 min-h-[80vh] ">
               <div className="bg-blue-500 p-2 text-white">
                 <h3>Related News</h3>
               </div>
@@ -125,7 +120,6 @@ No News Are Found In This Category
       )}
 
       <Footer />
-
     </div>
   );
 }

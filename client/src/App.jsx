@@ -22,6 +22,7 @@ import ScrollToTop from "./components/comman/ScrollToTop";
 import Poll from "./components/Admin/pages/Poll";
 import SubCategorySingle from "./pages/SubCategorySingle";
 import Live from "./pages/Live";
+import MobileMenu from "./components/home/MobileMenu";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -69,6 +70,11 @@ const App = () => {
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
+
+   <div className="fixed bottom-0 z-40">
+        <MobileMenu />
+      </div>
+
       <ScrollToTop />
     </div>
   );

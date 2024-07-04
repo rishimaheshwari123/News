@@ -6,6 +6,12 @@ import {
   FaInstagram,
   FaYoutube,
 } from "react-icons/fa";
+import { FaFacebookF, FaTwitter,FaWhatsapp,  FaPinterest,  FaLinkedin, FaTelegram, } from 'react-icons/fa';
+import { TbBrandThreads } from 'react-icons/tb';
+import { IoMenu } from "react-icons/io5";
+import { MdOutlineMenuOpen } from "react-icons/md";
+
+
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
 import logo from "../../assest/logo.jpg";
@@ -36,11 +42,36 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-900 text-white text-xl lg:px-16 fixed w-screen h-[90px] top-0 z-50 ">
-      <div className="container mx-auto px-4 py-3 flex justify-between lg:justify-evenly items-center relative">
-        <div className="text-2xl font-bold">
+    <nav className=" text-white text-xl  fixed w-screen h-[50px] top-0 z-50 ">
+
+
+     <div className=" -h-[50px] bg-[#FF671F] pt-6 lg:pt-1 min-w-[100vw]">
+     <div className="flex justify-end items-center w-11/12 mx-auto gap-2 flex-wrap ">
+        <div className="flex space-x-1 text-white text-[20px]">
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer"><FaPinterest /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer"><FaYoutube /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://telegram.org" target="_blank" rel="noopener noreferrer"><FaTelegram /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://www.whatsapp.com" target="_blank" rel="noopener noreferrer"><FaWhatsapp /></a>
+          <a className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110" href="https://www.threads.net" target="_blank" rel="noopener noreferrer"><TbBrandThreads /></a>
+        </div>
+        <p className="text-white text-[13px]">विज्ञापन के लिए संपर्क करें</p>
+
+      </div>
+     </div>
+
+
+     <div className=" bg-blue-900 ">
+
+    
+     <div className=" mx-auto flex justify-between w-11/12  items-center relative min-h-[50px]">
+        <div className="text-2xl font-bold flex  items-center gap-5">
+        <div><IoMenu /></div>
           <Link to="/">
-            <img src={logo} className="w-16 rounded-md" alt="Logo" />
+            <img src={logo} className="w-16 rounded-md absolute -top-1" alt="Logo" />
           </Link>
         </div>
 
@@ -48,7 +79,7 @@ const Navbar = () => {
           {nav ? <FaTimes size={24} /> : <FaBars size={24} />}
         </div>
 
-        <ul className="hidden md:flex space-x-6 items-center">
+        <ul className="hidden md:flex space-x-6 items-center text-lg">
           <li>
             <Link to="/" className="flex items-center space-x-1 text-white">
               <span>होम</span>
@@ -212,6 +243,7 @@ const Navbar = () => {
           </Link>
         </div>
       </ul>
+     </div>
     </nav>
   );
 };

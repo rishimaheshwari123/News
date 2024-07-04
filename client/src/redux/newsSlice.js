@@ -4,6 +4,7 @@ const initialState = {
   allNews: localStorage.getItem("allNews")
     ? JSON.parse(localStorage.getItem("allNews"))
     : [],
+    
  
 };
 

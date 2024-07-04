@@ -1,6 +1,6 @@
 
-// const BASE_URL = process.env.REACT_APP_BASE_URL;
-const BASE_URL = "https://news-uab9.onrender.com/api/v1";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = "https://news-uab9.onrender.com/api/v1";
 
 
 export const endpoints = {
