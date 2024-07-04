@@ -1,31 +1,33 @@
-import { IoHomeOutline } from "react-icons/io5";
-import { IoShirt } from "react-icons/io5";
-import { FaRegHeart,FaUser  } from "react-icons/fa";
-
+import { IoHomeOutline, IoFilmOutline, IoVideocamOutline, IoMenuOutline } from "react-icons/io5";
 
 export const MobileLinks = [
     {   
-        id :1,
-        title : "Home",
-        icon : <IoHomeOutline  className=" text-lg" />,
-        path : "/"
+        id: 1,
+        title: "Home",
+        icon: <IoHomeOutline className="text-lg" />,
+        path: "/"
     },
     {   
-        id :2,
-        title : "Shop",
-        icon : <IoShirt className=" text-lg"  />,
-        path : "/allProduct"
+        id: 2,
+        title: "Reels",
+        icon: <IoFilmOutline className="text-lg" />,
+        path: "/reels"
     },
     {   
-        id :3,
-        title : "Whislist",
-        icon : <FaRegHeart className=" text-lg"  />,
-        path : "/wishlist"
-    },    {   
-        id :4,
-        title : "Profile",
-        icon : <FaUser  className=" text-lg"  />,
-        path : "/profile"
+        id: 3,
+        title: "Live",
+        icon: <IoVideocamOutline className="text-lg" />,
+        path: "/live"
     },
- 
+    {   
+        id: 4,
+        title: "Menu",
+        icon: <IoMenuOutline className="text-lg" />,
+        onClick: () => handleMenuClick() // Add this line
+    },
 ];
+
+const handleMenuClick = () => {
+    console.log("Menu clicked!");
+    // Your custom logic here
+};

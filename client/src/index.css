@@ -144,7 +144,7 @@ body {
 }
 .scroll-to-top-button {
   position: fixed;
-  bottom: 20px;
+  bottom: 80px;
   right: 20px;
   background-color: black;
   color: white;

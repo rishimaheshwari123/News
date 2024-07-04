@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchBreakingNews } from "../../../services/operations/admin";
+import { IoCloseCircle } from "react-icons/io5";
 
 const BreakingNews = () => {
   const [visible, setVisible] = useState(true);
@@ -21,23 +22,28 @@ const BreakingNews = () => {
   return (
     <>
       {visible && (
-        <div className="max-w-7xl mx-auto">
+        <div className="w-11/12 mx-auto mt-[130px] lg:mt-[100px]  relative rounded-3xl">
           {breakingNews.map(
             (currElem, index) =>
               currElem.active === true && (
                 <div
                   key={index}
-                  className="grid gap-3 lg:flex mt-5 items-center text-white bg-red-600 px-5 py-4 md:rounded-lg"
+                  className="grid gap-3 lg:flex mt-5 items-center text-white bg-red-600 px-5 lg:py-4 py-1 rounded-lg"
                 >
-                  <p className="text-2xl lg:text-3xl font-bold">
-                    BREAKING NEWS
+                 
+              <div className=" flex gap-3 text-center">
+              <p className="text-2xl lg:text-3xl font-bold italic">
+                    BREAKING NEWS ||
                   </p>
-                  <p className="text-xl lg:ml-4 md:ml-8">{currElem.name}</p>
+                  <p className="lg:text-xl text-lg lg:ml-4 md:ml-8">{currElem.name}</p>
+                 
+              </div>
                   <p
-                    className="hidden sm:block lg:ml-auto text-white font-bold text-xl cursor-pointer"
+                    className="  text-white font-bold text-xl cursor-pointer absolute -top-4 -right-1 bg-black p-1 rounded-full"
                     onClick={() => setVisible(false)}
                   >
-                    X
+                <IoCloseCircle />
+
                   </p>
                 </div>
               )
