@@ -2,7 +2,7 @@
 const News = require('../models/newsModel')
 const Category = require('../models/category');
 const SubCategory = require('../models/subCategory');
-
+const Notification = require("../models/notification")
 // Function to validate category ID
 const validateCategory = async (categoryId) => {
   return await Category.exists({ _id: categoryId });
@@ -26,6 +26,7 @@ const validateRequiredFields = (req) => {
     description,
     language,
     images,
+   
   } = req.body;
 
   if (!type || !title || !subtitle || !language || !location || !category || !subcategory || !description || !images) {
@@ -51,7 +52,8 @@ const createNews = async (req, res) => {
     type,
     description,
     images,
-    youtubeurl
+    youtubeurl,
+    notificationSend
   } = req.body;
 
   // Parse images array from JSON string to JavaScript object
@@ -104,6 +106,13 @@ const createNews = async (req, res) => {
       },
       { new: true }
     )
+
+
+    if (notificationSend) {
+      const notification = new Notification({ news: newNews._id });
+      await notification.save();
+    }
+
 
     res.status(201).json({ success: true, message: 'News article created successfully', news: newNews });
   } catch (error) {
@@ -249,11 +258,21 @@ const toggleActive = async (req, res) => {
 };
 
 
+const getAllNotifications = async (req, res) => {
+  try {
+    const notifications = await Notification.find().populate('news');
+    res.json(notifications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createNews,
   updateNewsById,
   toggleActive,
   getAllNews,
   deleteNewsById,
-  getNewsById
+  getNewsById,
+  getAllNotifications
 };

@@ -23,6 +23,15 @@ function NewsDetails() {
     fetchNews(id);
   }, [id]);
 
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
+  };
+
   const getYoutubeEmbedUrl = (url) => {
     if (!url) return "";
     let videoId = "";
@@ -122,7 +131,7 @@ function NewsDetails() {
                     alt=""
                     className=" w-[100px]"
                   />
-                  <p className=" text-wrap mt-2  text-sm">{currElem.title}</p>
+                  <p className=" text-wrap mt-2  text-sm">{truncateText(currElem.title,20)}</p>
                 </div>
               </Link>
             ))}
