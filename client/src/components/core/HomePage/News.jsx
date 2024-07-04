@@ -10,9 +10,9 @@ const News = () => {
   }, [allNews]);
 
   const truncateText = (text, wordLimit) => {
-    const words = text.split(' ');
+    const words = text.split(" ");
     if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
+      return words.slice(0, wordLimit).join(" ") + "...";
     }
     return text;
   };
@@ -40,6 +40,26 @@ const News = () => {
               );
             }
           })}
+          <p className="text-3xl font-bold text-center my-5">Big NEWS</p>
+          <br />
+          <div className="grid  gap-4">
+            {allNews.map((currEle, index) => {
+              if (currEle?.type === "big-news") {
+                return (
+                  <Link
+                    to={`/newsdetails/${currEle._id}`}
+                    key={index}
+                    className="bg-white rounded-lg shadow-md p-4 mb-4"
+                  >
+                    <p className="text-sm font-bold text-gray-800 mb-2">
+                      {truncateText(currEle.title, 20)}
+                    </p>
+                  </Link>
+                );
+              }
+              return null;
+            })}
+          </div>
         </div>
       </div>
 
@@ -88,9 +108,9 @@ const News = () => {
                     alt=""
                     className="w-full object-cover"
                   />
-                 <p className="text-sm font-bold text-gray-800 mb-2">
-  {truncateText(currEle.title, 20)}
-</p>
+                  <p className="text-sm font-bold text-gray-800 mb-2">
+                    {truncateText(currEle.title, 20)}
+                  </p>
                   {/* <p className="text-gray-600 tex-sm">{currEle.subtitle}</p> */}
                 </Link>
               );
