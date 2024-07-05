@@ -18,9 +18,9 @@ const Home = () => {
       <div className="mt-24">
 
 
-        <AddSlideBar />
-        <LiveSection />
+        {/* <AddSlideBar /> */}
         <BreakingNews />
+        <LiveSection />
         <br />
         <News />
         <br />
