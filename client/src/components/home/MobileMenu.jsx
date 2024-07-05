@@ -12,7 +12,7 @@ function MobileMenu() {
   };
 
   return (
-    <div style={{ zIndex: 100 }} className="bg-[#2454a6] w-full bg-opacity-90">
+    <div style={{ zIndex: 100 }} className="bg-[#003c5b] w-full bg-opacity-90">
       {/*  */}
       <div className="w-[100vw] border-2 p-2 z-50 lg:hidden sm:hidden md:hidden">
       <ul className="w-11/12 mx-auto flex justify-between z-50">

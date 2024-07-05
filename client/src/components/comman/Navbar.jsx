@@ -13,9 +13,12 @@ import {
   FaPinterest,
   FaLinkedin,
   FaTelegram,
+  FaSearch,
+  FaBell
 } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
 import { IoMenu } from "react-icons/io5";
+import Notification from "./Navbar/Notification";
 
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -24,6 +27,7 @@ import { fetchCategory } from "../../services/operations/admin";
 import { handleIsMenuOpen } from "../../redux/newsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RealTimeClockAndCube from "./Navbar/RealTime";
+import SearchBox from "./Navbar/Search";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -33,6 +37,20 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const { category } = useSelector((state) => state.news);
+
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNotifcationOpen, setNotification] = useState(false);
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+  const togglenoti = () => {
+    setNotification(!isNotifcationOpen);
+  };
+
+
+
 
   const dispatch = useDispatch();
 
@@ -156,7 +174,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className=" bg-[#2454a6] ">
+      <div className=" bg-[#003c5b] ">
         <div className=" mx-auto flex justify-between w-11/12  items-center relative min-h-[50px]">
           <div className="text-2xl font-bold flex  items-center gap-5">
             <div>
@@ -214,12 +232,12 @@ const Navbar = () => {
 
                 {/* &&                category?.subCategories?.length !== 0  */}
                 {dropdownIndex === index && click && (
-                  <div className="absolute top-12 left-0 bg-blue-900 text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
+                  <div className="absolute top-8 left-0 bg-[#003c5b] text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
                     <ul className=" text-[13px]">
                       {category.subCategories &&
                         category?.subCategories?.length !== 0 &&
                         category.subCategories.map((subCategory) => (
-                          <li key={subCategory._id} className="py-1">
+                          <li key={subCategory._id} className="">
                             <Link
                               to={`/subcategory/${subCategory._id}`}
                               className=" hover:text-[#f26434]"
@@ -296,6 +314,16 @@ const Navbar = () => {
             <Link to="https://www.youtube.com">
               <FaYoutube size={24} className="text-white hover:text-gray-300" />
             </Link> */}
+
+
+
+            <FaSearch className="cursor-pointer" onClick={toggleSearch} />
+            <SearchBox isOpen={isSearchOpen} toggleSearch={toggleSearch} />
+
+
+<FaBell className=" cursor-pointer" onClick={()=>setNotification(!isNotifcationOpen)} />
+<Notification isOpen={isNotifcationOpen} toggleNoti={togglenoti} />
+
 
             <RealTimeClockAndCube />
           </div>

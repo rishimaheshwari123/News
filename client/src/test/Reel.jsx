@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const App = () => {
@@ -8,64 +8,48 @@ const App = () => {
     {
       id: 1,
       reelInfo: {
-        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-        type: 'video/mp4',
+        url: 'https://www.youtube.com/embed/w032LPqtCA4', // YouTube Shorts embed URL
         description: 'A funny bunny video',
         postedBy: {
           avatar: 'avatar1.jpg',
           name: 'User1',
         },
-        likes: 0,
       },
     },
     {
       id: 2,
       reelInfo: {
-        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-        type: 'video/mp4',
+        url: 'https://www.youtube.com/embed/tgbNymZ7vqY', // Example YouTube video URL
         description: 'An animated short film',
         postedBy: {
           avatar: 'avatar2.jpg',
           name: 'User2',
         },
-        likes: 15,
-        dislikes: 1,
-        comments: 7,
-        shares: 4,
       },
     },
     {
       id: 3,
       reelInfo: {
-        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-        type: 'video/mp4',
+        url: 'https://www.youtube.com/embed/lTTajzrSkCw', // Example YouTube video URL
         description: 'A spectacular fire show',
         postedBy: {
           avatar: 'avatar3.jpg',
           name: 'User3',
         },
-        likes: 20,
-        dislikes: 3,
-        comments: 9,
-        shares: 5,
       },
     },
   ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentReelIndex(prevIndex => (prevIndex + 1) % reels.length);
+    }, 5000); // Change reel every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [reels.length]);
+
   const handleBack = () => {
     window.history.back(); // Go back in history
-  };
-
-  const handleNextReel = () => {
-    if (currentReelIndex < reels.length - 1) {
-      setCurrentReelIndex(currentReelIndex + 1);
-    }
-  };
-
-  const handlePreviousReel = () => {
-    if (currentReelIndex > 0) {
-      setCurrentReelIndex(currentReelIndex - 1);
-    }
   };
 
   const currentReel = reels[currentReelIndex];
@@ -81,12 +65,14 @@ const App = () => {
           borderRadius: 10,
         }}
       >
-        <video
+        <iframe
           src={currentReel.reelInfo.url}
-          type={currentReel.reelInfo.type}
-          controls
+          title={currentReel.reelInfo.description}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
           className="w-full h-full rounded-xl"
-        />
+        ></iframe>
         <div className="mt-2">
           <p>{currentReel.reelInfo.description}</p>
           <div className="flex items-center mt-1">
@@ -107,7 +93,7 @@ const App = () => {
       {currentReelIndex > 0 && (
         <button
           className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2 bg-gray-600 text-white rounded-full"
-          onClick={handlePreviousReel}
+          onClick={() => setCurrentReelIndex(currentReelIndex - 1)}
         >
           Previous
         </button>
@@ -115,7 +101,7 @@ const App = () => {
       {currentReelIndex < reels.length - 1 && (
         <button
           className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 bg-gray-600 text-white rounded-full"
-          onClick={handleNextReel}
+          onClick={() => setCurrentReelIndex(currentReelIndex + 1)}
         >
           Next
         </button>

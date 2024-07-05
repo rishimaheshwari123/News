@@ -36,7 +36,10 @@ const {
   CREATE_BREAKING_NEWS,
   GET_ALL_BREAKING_NEWS,
   DELETE_BREAKING_NEWS,
-  ACTIVE_BREAKING_NEWS
+  ACTIVE_BREAKING_NEWS,
+  //nOTIFICATION
+  ALL_NOTIFICATIONS_API
+
 } = adminEndpoints;
 
 
@@ -809,3 +812,28 @@ export const imageUpload = async (data, token) => {
 
   return result;
 };
+
+
+
+
+
+
+
+
+
+
+//nOTIFICATIONS
+
+
+export const fetchNotification = async () => {
+  try {
+    const response = await apiConnector("POST", ALL_NOTIFICATIONS_API);
+    if (!response?.data?.success) {
+      throw new Error("Could not fetch notifications");
+    }
+    return response?.data?.notifications; // Corrected the return statement
+  } catch (error) {
+    console.error("Error fetching notification news:", error); // Changed console.log to console.error for error logging
+    return []; // Return an empty array or handle the error as needed
+  }
+}

@@ -14,6 +14,11 @@ export const adminEndpoints = {
   GET_ALL_NEWS_API: BASE_URL + "/news/all",
   DELETE_NEWS_API: BASE_URL + "/news/delete",
   DETAILS_NEWS_API: BASE_URL + "/news",
+  
+  
+  
+  
+  ALL_NOTIFICATIONS_API: BASE_URL + "/news/notifications",
 
   // ACTIVE STATUS
   STATUS_NEWS_API: BASE_URL + "/news/toggleActive",

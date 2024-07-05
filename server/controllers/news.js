@@ -260,10 +260,20 @@ const toggleActive = async (req, res) => {
 
 const getAllNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find().populate('news');
-    res.json(notifications);
+    const notifications = await Notification.find()
+      .populate('news') // Ensure 'news' is correctly referenced and populated
+      .exec();
+
+    res.json({
+      success: true,
+      notifications
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Error fetching notifications:', err);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch notifications'
+    });
   }
 };
 
