@@ -14,7 +14,7 @@ function SubCategorySingle() {
       setLoading(true);
       try {
         const response = await fetchSingleSubCategory(id);
-        console.log(response);
+        // console.log(response);
         setNews(response.subCategories);
         setRelated(response.randomCategories);
       } catch (error) {

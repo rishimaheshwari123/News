@@ -61,7 +61,7 @@ const App = () => {
         throw new Error(toast.error(response.data.message));
       }
       dispatch(setAds(response?.data?.ads));
-      console.log(response?.data?.ads);
+      // console.log(response?.data?.ads);
     } catch (error) {
       console.log(error);
     }

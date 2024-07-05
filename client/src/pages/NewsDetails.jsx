@@ -23,7 +23,6 @@ function NewsDetails() {
     fetchNews(id);
   }, [id]);
 
-
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
     if (words.length > wordLimit) {
@@ -131,7 +130,9 @@ function NewsDetails() {
                     alt=""
                     className=" w-[100px]"
                   />
-                  <p className=" text-wrap mt-2  text-sm">{truncateText(currElem.title,20)}</p>
+                  <p className=" text-wrap mt-2  text-sm">
+                    {truncateText(currElem.title, 20)}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -139,7 +140,6 @@ function NewsDetails() {
         </div>
       </div>
       <Footer />
-
     </>
   );
 }

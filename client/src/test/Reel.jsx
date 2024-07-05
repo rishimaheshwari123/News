@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const App = () => {
@@ -8,33 +8,33 @@ const App = () => {
     {
       id: 1,
       reelInfo: {
-        url: 'https://www.youtube.com/embed/w032LPqtCA4', // YouTube Shorts embed URL
-        description: 'A funny bunny video',
+        url: "https://www.youtube.com/embed/w032LPqtCA4", // YouTube Shorts embed URL
+        description: "A funny bunny video",
         postedBy: {
-          avatar: 'avatar1.jpg',
-          name: 'User1',
+          avatar: "avatar1.jpg",
+          name: "User1",
         },
       },
     },
     {
       id: 2,
       reelInfo: {
-        url: 'https://www.youtube.com/embed/tgbNymZ7vqY', // Example YouTube video URL
-        description: 'An animated short film',
+        url: "https://www.youtube.com/embed/tgbNymZ7vqY", // Example YouTube video URL
+        description: "An animated short film",
         postedBy: {
-          avatar: 'avatar2.jpg',
-          name: 'User2',
+          avatar: "avatar2.jpg",
+          name: "User2",
         },
       },
     },
     {
       id: 3,
       reelInfo: {
-        url: 'https://www.youtube.com/embed/lTTajzrSkCw', // Example YouTube video URL
-        description: 'A spectacular fire show',
+        url: "https://www.youtube.com/embed/lTTajzrSkCw", // Example YouTube video URL
+        description: "A spectacular fire show",
         postedBy: {
-          avatar: 'avatar3.jpg',
-          name: 'User3',
+          avatar: "avatar3.jpg",
+          name: "User3",
         },
       },
     },
@@ -42,7 +42,7 @@ const App = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentReelIndex(prevIndex => (prevIndex + 1) % reels.length);
+      setCurrentReelIndex((prevIndex) => (prevIndex + 1) % reels.length);
     }, 5000); // Change reel every 5 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
@@ -61,7 +61,7 @@ const App = () => {
         style={{
           width: 400,
           height: 300,
-          backgroundColor: '#f0f0f0',
+          backgroundColor: "#f0f0f0",
           borderRadius: 10,
         }}
       >

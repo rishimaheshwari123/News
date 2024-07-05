@@ -9,7 +9,7 @@ const AllNews = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(allNews);
+    // console.log(allNews);
   }, [allNews]);
 
   const handleToggleActive = async (newsId, currentStatus) => {

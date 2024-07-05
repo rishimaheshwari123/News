@@ -25,8 +25,7 @@ const AddSlideBar = () => {
         slidesPerView={1}
         pagination={{ clickable: true }}
         autoplay={{ delay: 2000 }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
         className="max-w-7xl mx-auto"
       >
         {Array.isArray(ads) &&

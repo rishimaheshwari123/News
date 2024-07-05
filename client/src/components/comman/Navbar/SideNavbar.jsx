@@ -37,7 +37,7 @@ function SideNavbar() {
   const [dropdownIndex, setDropdownIndex] = useState(null);
   const [categories, setCategories] = useState([]);
   const [click, setClick] = useState(false);
-  const {category} = useSelector(state=> state.news)
+  const { category } = useSelector((state) => state.news);
 
   const dispatch = useDispatch();
   const ref = useRef(null);
@@ -46,7 +46,7 @@ function SideNavbar() {
   const { greeting, icon } = getGreeting();
 
   const handleClose = () => {
-    console.log("Backdrop clicked, closing navbar");
+    // console.log("Backdrop clicked, closing navbar");
     dispatch(handleIsMenuOpen());
   };
 
@@ -69,7 +69,6 @@ function SideNavbar() {
     };
   }, [isMenuOpen]);
 
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -80,10 +79,9 @@ function SideNavbar() {
       }
     };
 
-    if(category.length !==0){
-      setCategories(category)
-    
-  } else  fetchCategories();
+    if (category.length !== 0) {
+      setCategories(category);
+    } else fetchCategories();
   }, []);
 
   const handleDropdownClick = (index) => {

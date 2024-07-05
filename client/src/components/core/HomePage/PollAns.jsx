@@ -29,7 +29,7 @@ const PollList = () => {
           optionId,
         }
       );
-      console.log("Vote successful:", response.data);
+      // console.log("Vote successful:", response.data);
       const updatedPolls = polls.map((poll) => {
         if (poll._id === pollId) {
           const totalVotes = poll.options.reduce(

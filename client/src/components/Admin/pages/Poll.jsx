@@ -35,7 +35,7 @@ const PollForm = () => {
         }
       );
 
-      console.log("Poll created:", response.data);
+      // console.log("Poll created:", response.data);
 
       // Update polls state with the newly created poll
       setPolls([...polls, response.data]);
