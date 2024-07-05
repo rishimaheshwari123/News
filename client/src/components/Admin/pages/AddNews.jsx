@@ -138,9 +138,9 @@ function AddNews() {
 
     await createNews(formData, token);
 
-    // resetForm();
-    // setEditorHtml(""); // Clear the ReactQuill editor
-    // setImages([]); // Clear uploaded images
+    resetForm();
+    setEditorHtml(""); // Clear the ReactQuill editor
+    setImages([]); // Clear uploaded images
   };
 
   // Formik Hook

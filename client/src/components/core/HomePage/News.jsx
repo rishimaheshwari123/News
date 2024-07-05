@@ -34,7 +34,7 @@ const News = () => {
                     className="w-30 h-20 object-cover rounded-md"
                   />
                   <p className="text-wrap mt-2 w-[80%] text-sm text-gray-700 font-medium">
-                    {currElem.title}
+                    {truncateText(currElem.title, 15)}
                   </p>
                 </Link>
               );
