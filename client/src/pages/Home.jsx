@@ -6,7 +6,7 @@ import Footer from "../components/comman/Footer";
 import Reels from "../components/core/HomePage/Reels";
 import PollAns from "../components/core/HomePage/PollAns";
 import Category from "../components/core/HomePage/Category";
-
+import Tab from "../components/core/HomePage/Tab";
 
 const Home = () => {
   return (
@@ -20,6 +20,7 @@ const Home = () => {
         <Category />
         <Reels />
         <PollAns />
+        <Tab />
       </div>
       <br />
       <br />

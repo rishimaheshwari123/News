@@ -31,10 +31,17 @@ const Navbar = () => {
   const [click, setClick] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  const {category} = useSelector(state=> state.news)
+  const { category } = useSelector((state) => state.news);
 
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -46,10 +53,9 @@ const Navbar = () => {
       }
     };
 
-    if(category.length !==0){
-      setCategories(category)
-    
-  } else  fetchCategories();
+    if (category.length !== 0) {
+      setCategories(category);
+    } else fetchCategories();
   }, []);
 
   const toggleVisibility = () => {
@@ -153,8 +159,10 @@ const Navbar = () => {
         <div className=" mx-auto flex justify-between w-11/12  items-center relative min-h-[50px]">
           <div className="text-2xl font-bold flex  items-center gap-5">
             <div>
-
-              <IoMenu onClick={()=> dispatch(handleIsMenuOpen())}  className=" text-3xl cursor-pointer"/>
+              <IoMenu
+                onClick={() => dispatch(handleIsMenuOpen())}
+                className=" text-3xl cursor-pointer"
+              />
             </div>
             <Link to="/">
               <img
@@ -205,7 +213,7 @@ const Navbar = () => {
 
                 {/* &&                category?.subCategories?.length !== 0  */}
                 {dropdownIndex === index && click && (
-                  <div className="absolute top-12 left-0 bg-blue-900 text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
+                  <div className="absolute top-10 left-0 bg-blue-900 text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
                     <ul className=" text-[13px]">
                       {category.subCategories &&
                         category?.subCategories?.length !== 0 &&
@@ -237,7 +245,7 @@ const Navbar = () => {
                                 />
                                 <div className="p-2">
                                   <h3 className="text-sm font-medium">
-                                    {newsItem.title}
+                                    {truncateText(newsItem.title, 20)}
                                   </h3>
                                 </div>
                               </Link>
