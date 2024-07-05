@@ -1,7 +1,7 @@
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const BASE_URL = "https://news-uab9.onrender.com/api/v1";
-const BASE_URL = "http://localhost:8080/api/v1"
+const BASE_URL = "https://news-uab9.onrender.com/api/v1";
+// const BASE_URL = "http://localhost:8080/api/v1"
 
 
 export const endpoints = {
@@ -14,10 +14,10 @@ export const adminEndpoints = {
   GET_ALL_NEWS_API: BASE_URL + "/news/all",
   DELETE_NEWS_API: BASE_URL + "/news/delete",
   DETAILS_NEWS_API: BASE_URL + "/news",
-  
-  
-  
-  
+
+
+
+
   ALL_NOTIFICATIONS_API: BASE_URL + "/news/notifications",
 
   // ACTIVE STATUS
