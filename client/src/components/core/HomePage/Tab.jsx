@@ -9,7 +9,7 @@ const CategoryTabs = () => {
 
   // Set initial active tab to the first subcategory
   const [activeTab, setActiveTab] = useState(
-    rajyaCategory.subCategories[0]._id
+    rajyaCategory?.subCategories[0]?._id
   );
 
   useEffect(() => {
@@ -28,33 +28,33 @@ const CategoryTabs = () => {
     <div className="w-11/12 mx-auto  ">
       {/* Tabs */}
       <div className="tabs flex  space-x-4 mb-4 overflow-x-auto bg-blue-900 justify-between ">
-        {rajyaCategory.subCategories.map((subCategory) => (
+        {rajyaCategory?.subCategories?.map((subCategory) => (
           <button
-            key={subCategory._id}
+            key={subCategory?._id}
             className={`tab p-2 rounded-lg transition-colors duration-300 text-[12px] lg:text-xl ${
-              activeTab === subCategory._id
+              activeTab === subCategory?._id
                 ? "bg-red-700 text-white shadow-lg font-semibold"
                 : " text-white hover:bg-red-600"
             }`}
-            onClick={() => setActiveTab(subCategory._id)}
+            onClick={() => setActiveTab(subCategory?._id)}
           >
-            {subCategory.name}
+            {subCategory?.name}
           </button>
         ))}
       </div>
 
       {/* News Articles */}
       <div className="news-articles">
-        {rajyaCategory.subCategories.map((subCategory) => (
+        {rajyaCategory?.subCategories?.map((subCategory) => (
           <div
-            key={subCategory._id}
+            key={subCategory?._id}
             className={`news-list ${
-              activeTab === subCategory._id ? "block" : "hidden"
+              activeTab === subCategory?._id ? "block" : "hidden"
             } transition-opacity duration-300 grid grid-cols-1 md:grid-cols-3 gap-4`}
           >
             {subCategory.news.map((newsItem, index) => (
               <Link
-                to={`/newsdetails/${newsItem._id}`}
+                to={`/category/${newsItem?._id}`}
                 key={index}
                 className="news-item p-4 border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
@@ -70,7 +70,7 @@ const CategoryTabs = () => {
                   />
                   <div>
                     <h3 className="font-bold lg:text-lg  mb-2">
-                      {truncateText(newsItem.title, 20)}
+                      {truncateText(newsItem?.title, 20)}
                     </h3>
                   </div>
                 </div>
