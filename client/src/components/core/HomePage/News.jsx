@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const News = () => {
-  const { allNews } = useSelector((state) => state.news);
+  const { allNews, ads } = useSelector((state) => state.news);
 
   useEffect(() => {
     console.log(allNews);
@@ -150,6 +150,28 @@ const News = () => {
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
         ></iframe>
+
+        <br />
+        <br />
+        <br />
+        {Array.isArray(ads) &&
+          ads.map(
+            (currElem, index) =>
+              currElem?.type === "right-add" && (
+                <Link
+                  to={currElem?.url}
+                  key={index}
+                  className="block mb-4"
+                  target="_blank"
+                >
+                  <img
+                    src={currElem?.image}
+                    alt="Ad Image"
+                    className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                  />
+                </Link>
+              )
+          )}
       </div>
     </div>
   );

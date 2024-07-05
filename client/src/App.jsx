@@ -24,25 +24,26 @@ import SubCategorySingle from "./pages/SubCategorySingle";
 import Live from "./pages/Live";
 import MobileMenu from "./components/home/MobileMenu";
 
-
 //
 import SideNavbar from "./components/comman/Navbar/SideNavbar";
-import { saveCategory } from "./redux/newsSlice";
+import { saveCategory, setAds } from "./redux/newsSlice";
 import Cube from "./components/comman/Cube";
 import ReelSection from "./test/Reel";
+import CreateAdd from "./components/Admin/pages/CreateAdd";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const App = () => {
-  const {isMenuOpen} = useSelector(state=>state.news)
+  const { isMenuOpen } = useSelector((state) => state.news);
   const dispatch = useDispatch();
   useEffect(() => {
-
-
     //Categoyr
     const fetchCategories = async () => {
       try {
         const categoriesData = await fetchCategory();
-        dispatch(saveCategory(categoriesData?.categories || []))
-    
+        dispatch(saveCategory(categoriesData?.categories || []));
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -50,8 +51,24 @@ const App = () => {
 
     fetchCategories();
 
-
     dispatch(getAllNews());
+  }, []);
+
+  const getAllAds = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/ads/getAll`);
+      if (!response?.data?.success) {
+        throw new Error(toast.error(response.data.message));
+      }
+      dispatch(setAds(response?.data?.ads));
+      console.log(response?.data?.ads);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllAds();
   }, []);
 
   return (
@@ -64,7 +81,6 @@ const App = () => {
         <Route path="/reel" element={<ReelSection />} />
 
         <Route path="/live" element={<Live />} />
-
 
         <Route
           path="/login"
@@ -92,11 +108,12 @@ const App = () => {
           <Route path="admin/category" element={<Category />} />
           <Route path="admin/subcategory" element={<Subcategory />} />
           <Route path="admin/livestriming" element={<Livestreming />} />
+          <Route path="admin/ads" element={<CreateAdd />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
 
-   <div className="fixed bottom-0 z-40">
+      <div className="fixed bottom-0 z-40">
         <MobileMenu />
       </div>
 
@@ -104,10 +121,7 @@ const App = () => {
         <Cube />
       </div>
 
-
-{
-  isMenuOpen && <SideNavbar></SideNavbar>
-}
+      {isMenuOpen && <SideNavbar></SideNavbar>}
       <ScrollToTop />
     </div>
   );

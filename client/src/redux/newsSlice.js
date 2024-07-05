@@ -4,13 +4,13 @@ const initialState = {
   allNews: localStorage.getItem("allNews")
     ? JSON.parse(localStorage.getItem("allNews"))
     : [],
-    
-    category:localStorage.getItem("category")
+  category: localStorage.getItem("category")
     ? JSON.parse(localStorage.getItem("category"))
     : [],
-    isMenuOpen:false,
-
- 
+  isMenuOpen: false,
+  ads: localStorage.getItem("ads")
+    ? JSON.parse(localStorage.getItem("ads"))
+    : []
 };
 
 const newsSlice = createSlice({
@@ -18,26 +18,31 @@ const newsSlice = createSlice({
   initialState,
   reducers: {
     saveNews: (state, action) => {
-      
       state.allNews = action.payload;
       localStorage.setItem("allNews", JSON.stringify(state.allNews));
     },
-    saveCategory:(state, action) => {
-    
+    saveCategory: (state, action) => {
       state.category = action.payload;
       localStorage.setItem("category", JSON.stringify(state.category));
     },
-
-    handleIsMenuOpen: (state, action) => {
-      return {
-        ...state,
-        isMenuOpen: action.payload !== undefined ? action.payload : !state.isMenuOpen
-      };
+    setAds: (state, action) => {
+      state.ads = action.payload;
+      localStorage.setItem('ads', JSON.stringify(state.ads));
     },
-
+    createAds: (state, action) => {
+      state.ads.push(action.payload);
+      localStorage.setItem('ads', JSON.stringify(state.ads));
+    },
+    removeAd: (state, action) => {
+      state.ads = state.ads.filter(ad => ad._id !== action.payload);
+      localStorage.setItem("ads", JSON.stringify(state.ads));
+    },
+    handleIsMenuOpen: (state, action) => {
+      state.isMenuOpen = action.payload !== undefined ? action.payload : !state.isMenuOpen;
+    },
   },
 });
 
-export const { saveNews,saveCategory,handleIsMenuOpen} = newsSlice.actions;
+export const { saveNews, saveCategory, handleIsMenuOpen, setAds, createAds, removeAd } = newsSlice.actions;
 
 export default newsSlice.reducer;
