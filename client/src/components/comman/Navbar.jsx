@@ -249,7 +249,8 @@ const Navbar = () => {
                                 />
                                 <div className="p-2">
                                   <h3 className="text-sm font-medium">
-                                    {newsItem.title}
+                                    {truncateText(newsItem.title, 15)}
+                                    {/* {newsItem.title} */}
                                   </h3>
                                 </div>
                               </Link>
