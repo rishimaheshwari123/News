@@ -13,9 +13,12 @@ import {
   FaPinterest,
   FaLinkedin,
   FaTelegram,
+  FaSearch,
+  FaBell
 } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
 import { IoMenu } from "react-icons/io5";
+import Notification from "./Navbar/Notification";
 
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -24,6 +27,7 @@ import { fetchCategory } from "../../services/operations/admin";
 import { handleIsMenuOpen } from "../../redux/newsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RealTimeClockAndCube from "./Navbar/RealTime";
+import SearchBox from "./Navbar/Search";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -33,6 +37,20 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const { category } = useSelector((state) => state.news);
+
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNotifcationOpen, setNotification] = useState(false);
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+  const togglenoti = () => {
+    setNotification(!isNotifcationOpen);
+  };
+
+
+
 
   const dispatch = useDispatch();
 
@@ -296,6 +314,16 @@ const Navbar = () => {
             <Link to="https://www.youtube.com">
               <FaYoutube size={24} className="text-white hover:text-gray-300" />
             </Link> */}
+
+
+
+            <FaSearch className="cursor-pointer" onClick={toggleSearch} />
+            <SearchBox isOpen={isSearchOpen} toggleSearch={toggleSearch} />
+
+
+<FaBell className=" cursor-pointer" onClick={()=>setNotification(!isNotifcationOpen)} />
+<Notification isOpen={isNotifcationOpen} toggleNoti={togglenoti} />
+
 
             <RealTimeClockAndCube />
           </div>

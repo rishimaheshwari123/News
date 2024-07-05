@@ -1,102 +1,69 @@
-import React, { useEffect, useState } from "react";
-import { fetchCategory } from "../../../services/operations/admin";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const Tab = () => {
-  const [categories, setCategories] = useState([]);
-  const stateCategoryName = "राज्य"; // Replace with your specific category name
-  const [tabActive, setTabActive] = useState();
-  const [activeNews, setActiveNews] = useState([]);
+const CategoryTabs = () => {
+  // Extract the "राज्य" category data
+  const { category } = useSelector((state) => state.news);
 
-  const handleTabChange = (tabId, news) => {
-    setTabActive(tabId);
-    setActiveNews(news || []);
-  };
+  const rajyaCategory = category.find(cat => cat.name === 'राज्य');
+
+  // Set initial active tab to the first subcategory
+  const [activeTab, setActiveTab] = useState(rajyaCategory.subCategories[0]._id);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const categoriesData = await fetchCategory();
-        setCategories(categoriesData?.categories || []);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+    console.log(rajyaCategory);
+  }, [activeTab]);
 
-    fetchCategories();
-  }, []);
-
-  const truncateText = (text, maxLength) => {
-    if (!text) return ""; // Return an empty string if text is undefined
-    if (text.length > maxLength) {
-      return text.substring(0, maxLength) + "...";
+  const truncateText = (text, wordLimit = 10) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
     }
     return text;
   };
 
   return (
-    <div className="">
-      <div className="bg-gray-500 m-auto py-1 lg:flex lg:justify-center rounded-md text-sm px-3 overflow-x-scroll md:overflow-x-hidden">
-        <div className="flex gap-2 pl-2">
-          {categories.map((category) => (
-            <div key={category._id}>
-              {category.name === stateCategoryName && (
-                <div>
-                  <ul className="flex gap-5 pl-2">
-                    {category.subCategories.map((subCategory) => (
-                      <li
-                        key={subCategory._id}
-                        onClick={() =>
-                          handleTabChange(subCategory._id, subCategory.news)
-                        }
-                        className={`font-bold text-xl cursor-pointer ${
-                          tabActive === subCategory._id
-                            ? "bg-pink-600 rounded-md px-4 py-2 text-white transition ease-in duration-500"
-                            : "bg-gray-500 text-black px-4 py-2 rounded-md transition ease-in duration-500"
-                        }`}
-                      >
-                        {subCategory.name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+    <div className='w-11/12 mx-auto  '>
+      {/* Tabs */}
+      <div className="tabs flex  space-x-4 mb-4 overflow-x-auto bg-blue-900 justify-between ">
+        {rajyaCategory.subCategories.map((subCategory) => (
+          <button
+            key={subCategory._id}
+            className={`tab p-2 rounded-lg transition-colors duration-300 text-[12px] lg:text-xl ${
+              activeTab === subCategory._id
+                ? 'bg-red-700 text-white shadow-lg font-semibold'
+                : ' text-white hover:bg-red-600'
+            }`}
+            onClick={() => setActiveTab(subCategory._id)}
+          >
+            {subCategory.name}
+          </button>
+        ))}
       </div>
 
-      {tabActive && (
-        <div className="grid grid-cols-4 gap-4 mt-2">
-          {categories.length > 0 ? (
-            categories?.subCategories.slice(0, 4).map((newsItem) => (
-              <div
-                key={newsItem._id}
-                className="border rounded-md overflow-hidden hover:shadow-lg"
-              >
-                <Link to={`/newsdetails/${newsItem._id}`}>
-                  {newsItem?.images?.[0]?.url && (
-                    <img
-                      src={newsItem.images[0].url}
-                      alt={newsItem.title}
-                      className="w-full h-32 object-cover"
-                    />
-                  )}
-                  <div className="p-2">
-                    <h3 className="text-sm font-medium">
-                      {truncateText(newsItem.title, 15)}
-                    </h3>
+      {/* News Articles */}
+      <div className="news-articles">
+        {rajyaCategory.subCategories.map((subCategory) => (
+          <div
+            key={subCategory._id}
+            className={`news-list ${activeTab === subCategory._id ? 'block' : 'hidden'} transition-opacity duration-300 grid grid-cols-1 md:grid-cols-3 gap-4`}
+          >
+            {subCategory.news.map((newsItem, index) => (
+              <div key={index} className="news-item p-4 border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div className={`flex gap-3 lg:text-[15px] ${index === 0 ? 'col-span-3 md:col-span-1' : ''}`}>
+                  <img src={newsItem?.images[0]?.url} alt="" className='h-[100px] w-[100px] object-cover rounded' />
+                  <div>
+                    <h3 className="font-bold lg:text-lg  mb-2">{truncateText(newsItem.title, 20)}</h3>
                   </div>
-                </Link>
+                </div>
+                {/* Add more details as needed */}
               </div>
-            ))
-          ) : (
-            <div className="col-span-4 text-center">No news available</div>
-          )}
-        </div>
-      )}
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default Tab;
+export default CategoryTabs;

@@ -25,7 +25,7 @@ router.get('/:newsId', getNewsById);
 
 
 
-router.get('/notifications', getAllNotifications);
+router.post('/notifications', getAllNotifications);
 
 
 module.exports = router;

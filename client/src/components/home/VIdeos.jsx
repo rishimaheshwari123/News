@@ -8,9 +8,7 @@ const VideoLayout = () => {
     <div className="container mx-auto p-4 bg-[#003c5b] min-w-screen w-[100vw] mt-[100px]">
       {/* Desktop Layout */}
 
-<h4 className=" text-white font-semibold text-2xl mb-[50px]">
-वीडियो
-</h4>
+      <h4 className=" text-white font-semibold text-2xl mb-[50px]">वीडियो</h4>
       <div className=" grid lg:grid-cols-5 gap-6 mobile  ">
         <div className=" ">
           <iframe
@@ -67,11 +65,9 @@ const VideoLayout = () => {
         </div>
       </div>
 
-      <div className=" lg:hidden md:hidden" >
-
-
-<div >
-<iframe
+      <div className=" lg:hidden md:hidden">
+        <div>
+          <iframe
             className="  w-full h-[300px]"
             src={videoSrc}
             title="YouTube video player"
@@ -80,73 +76,60 @@ const VideoLayout = () => {
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
-</div>
+        </div>
 
+        <div>
+          <div className=" flex gap-3 p-4">
+            <div>
+              <iframe
+                className=" w-[160px]  h-[100px]"
+                src={videoSrc}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <div>
+              <iframe
+                className="w-[170px]  h-[100px]"
+                src={videoSrc}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
 
-
-<div>
-
-<div className=" flex gap-3 p-4">
-<div>
-<iframe
-            className=" w-[160px]  h-[100px]"
-            src={videoSrc}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-</div>
-<div>
-<iframe
-            className="w-[170px]  h-[100px]"
-            src={videoSrc}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-</div>
-</div>
-
-
-
-<div className=" flex gap-3 p-4">
-<div>
-<iframe
-            className=" w-[160px]  h-[100px]"
-            src={videoSrc}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-</div>
-<div>
-<iframe
-            className="w-[170px]  h-[100px]"
-            src={videoSrc}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-</div>
-</div>
-
-</div>
-
-
-
-
+          <div className=" flex gap-3 p-4">
+            <div>
+              <iframe
+                className=" w-[160px]  h-[100px]"
+                src={videoSrc}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <div>
+              <iframe
+                className="w-[170px]  h-[100px]"
+                src={videoSrc}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
       </div>
-
-
-
     </div>
   );
 };
