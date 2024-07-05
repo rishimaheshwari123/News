@@ -17,7 +17,13 @@ const News = () => {
     return text;
   };
   return (
-    <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6">
+
+    <>
+   
+
+
+
+    <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6 ">
       <div className="first col-span-1 md:col-span-1 mt-3">
         <div className="second grid gap-1">
           {allNews.map((currElem, index) => {
@@ -122,15 +128,26 @@ const News = () => {
 
       {/* Third Section */}
       <div className="third col-span-1 md:col-span-1">
-        <iframe
-          className="mt-3 h-[315px] w-full"
-          src="https://www.youtube.com/embed/9C5Df-6Pi00?si=qieq04s5ZED1gq8b"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
+     <iframe
+      className="mt-3 h-[315px] w-full"
+      src="https://www.youtube.com/embed/9C5Df-6Pi00?autoplay=1000&si=qieq04s5ZED1gq8b"
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerPolicy="strict-origin-when-cross-origin"
+      allowFullScreen
+    ></iframe>
+
+
+<iframe
+      className="mt-3 h-[315px] w-full"
+      src="https://www.youtube.com/embed/9C5Df-6Pi00?autoplay=5&si=qieq04s5ZED1gq8b"
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerPolicy="strict-origin-when-cross-origin"
+      allowFullScreen
+    ></iframe>
 
         <iframe
           className="mt-3 h-[550px] w-full"
@@ -152,6 +169,8 @@ const News = () => {
         ></iframe>
       </div>
     </div>
+
+    </>
   );
 };
 

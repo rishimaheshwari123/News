@@ -7,7 +7,7 @@ import Reels from "../components/core/HomePage/Reels";
 import PollAns from "../components/core/HomePage/PollAns";
 import Category from "../components/core/HomePage/Category";
 import Tab from "../components/core/HomePage/Tab";
-
+import VIdeos from "../components/home/VIdeos";
 const Home = () => {
   return (
     <div>
@@ -17,6 +17,7 @@ const Home = () => {
         <br />
         <News />
         <br />
+        <VIdeos />
         <Category />
         <Reels />
         <PollAns />

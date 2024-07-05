@@ -156,7 +156,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className=" bg-[#2454a6] ">
+      <div className=" bg-[#003c5b] ">
         <div className=" mx-auto flex justify-between w-11/12  items-center relative min-h-[50px]">
           <div className="text-2xl font-bold flex  items-center gap-5">
             <div>
@@ -214,12 +214,12 @@ const Navbar = () => {
 
                 {/* &&                category?.subCategories?.length !== 0  */}
                 {dropdownIndex === index && click && (
-                  <div className="absolute top-12 left-0 bg-blue-900 text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
+                  <div className="absolute top-8 left-0 bg-[#003c5b] text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
                     <ul className=" text-[13px]">
                       {category.subCategories &&
                         category?.subCategories?.length !== 0 &&
                         category.subCategories.map((subCategory) => (
-                          <li key={subCategory._id} className="py-1">
+                          <li key={subCategory._id} className="">
                             <Link
                               to={`/subcategory/${subCategory._id}`}
                               className=" hover:text-[#f26434]"
