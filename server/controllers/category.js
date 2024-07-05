@@ -49,7 +49,7 @@ const deleteCategory = async (req, res) => {
 // Get all categories with populated subCategories
 const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find().populate("subCategories").populate("news").lean();;
+    const categories = await Category.find().populate("subCategories").populate("news").lean();
     const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
 
     // Function to get random elements from an array

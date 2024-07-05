@@ -117,6 +117,7 @@ function AddNews() {
     images: product?.images || [],
     youtubeurl: product?.youtubeurl || "",
     type: product?.type || "",
+    notificationSend: false,
   };
 
   // Formik Form Submission
@@ -133,12 +134,13 @@ function AddNews() {
     formData.append("youtubeurl", values.youtubeurl);
     formData.append("images", JSON.stringify(images));
     formData.append("type", values.type);
+    formData.append("notificationSend", values.notificationSend); // Add notificationSend
 
     await createNews(formData, token);
 
-    resetForm();
-    setEditorHtml(""); // Clear the ReactQuill editor
-    setImages([]); // Clear uploaded images
+    // resetForm();
+    // setEditorHtml(""); // Clear the ReactQuill editor
+    // setImages([]); // Clear uploaded images
   };
 
   // Formik Hook
@@ -386,26 +388,49 @@ function AddNews() {
         </div>
 
         {/* YouTube URL */}
-        <div className="space-y-2">
-          <label
-            htmlFor="youtubeurl"
-            className="block font-medium text-gray-700"
-          >
-            YouTube URL
-          </label>
-          <input
-            id="youtubeurl"
-            name="youtubeurl"
-            type="text"
-            placeholder="Enter YouTube URL"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.youtubeurl}
-            className="form-input"
-          />
-          {formik.touched.youtubeurl && formik.errors.youtubeurl && (
-            <div className="text-red-500">{formik.errors.youtubeurl}</div>
-          )}
+        <div className=" grid lg:grid-cols-2 grid-cols-1 gap-x-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="youtubeurl"
+              className="block font-medium text-gray-700"
+            >
+              YouTube URL
+            </label>
+            <input
+              id="youtubeurl"
+              name="youtubeurl"
+              type="text"
+              placeholder="Enter YouTube URL"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.youtubeurl}
+              className="form-input"
+            />
+            {formik.touched.youtubeurl && formik.errors.youtubeurl && (
+              <div className="text-red-500">{formik.errors.youtubeurl}</div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <label className="block font-medium text-gray-700">
+              Send Notification
+            </label>
+            <input
+              id="notificationSend"
+              name="notificationSend"
+              type="checkbox"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              checked={formik.values.notificationSend}
+              className="form-checkbox h-5 w-5 text-blue-500"
+            />
+            {formik.touched.notificationSend &&
+              formik.errors.notificationSend && (
+                <div className="text-red-500">
+                  {formik.errors.notificationSend}
+                </div>
+              )}
+          </div>
         </div>
 
         {/* Upload Image */}
