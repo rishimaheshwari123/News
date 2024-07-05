@@ -15,7 +15,7 @@ const AllNews = () => {
   const handleToggleActive = async (newsId, currentStatus) => {
     const newStatus = !currentStatus;
     const updatedNews = allNews.map((news) =>
-      news._id === newsId ? { ...news, active: newStatus } : news
+      news?._id === newsId ? { ...news, active: newStatus } : news
     );
 
     dispatch(saveNews(updatedNews)); // Update the Redux store with the new active status

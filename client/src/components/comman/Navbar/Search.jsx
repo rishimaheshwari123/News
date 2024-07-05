@@ -20,6 +20,15 @@ const SearchBox = ({ isOpen, toggleSearch }) => {
       news.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+
+  const truncateText = (text, wordLimit=18) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
+  };
+
   return (
     <CSSTransition
       in={isOpen}
@@ -27,7 +36,7 @@ const SearchBox = ({ isOpen, toggleSearch }) => {
       classNames="search-box"
       unmountOnExit
     >
-      <div className="absolute right-0 top-10 mt-2 w-[90%] h-[80vh] bg-gray-400 text-black rounded-lg shadow-lg p-4 overflow-y-auto">
+      <div className="absolute right-0 top-10 mt-2 lg:w-[90%] w-full h-[80vh] bg-gray-400 text-black rounded-lg shadow-lg p-4 overflow-y-auto">
         <input
           type="text"
           value={searchQuery}
@@ -41,11 +50,11 @@ const SearchBox = ({ isOpen, toggleSearch }) => {
            <Link
                   to={`/newsdetails/${news._id}`}
            
-            className=' flex gap-4 '>
-          <img src={news?.images[0]?.url} alt="" className=' h-[100px]' />  
+            className=' flex gap-4  flex-col lg:flex-row '>
+          <img src={news?.images[0]?.url} alt="" className=' h-[130px] lg:h-[100px]' />  
     <div>
-    <h3 className="font-bold">{news.title}</h3>
-    <p className=' text-[13px]'>{news.subtitle}</p>
+    <h3 className="font-bold text-[14px] lg:text-xl">{truncateText(news.title)}</h3>
+    {/* <p className=' text-[13px]'>{news.subtitle}</p> */}
     </div>
            
            </Link>

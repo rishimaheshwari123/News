@@ -82,7 +82,7 @@ const VideoLayout = () => {
           <div className=" flex gap-3 p-4">
             <div>
               <iframe
-                className=" w-[160px]  h-[100px]"
+                className=" w-[140px]  h-[100px]"
                 src={videoSrc}
                 title="YouTube video player"
                 frameBorder="0"
@@ -93,7 +93,7 @@ const VideoLayout = () => {
             </div>
             <div>
               <iframe
-                className="w-[170px]  h-[100px]"
+                className="w-[140px]  h-[100px]"
                 src={videoSrc}
                 title="YouTube video player"
                 frameBorder="0"
@@ -107,7 +107,7 @@ const VideoLayout = () => {
           <div className=" flex gap-3 p-4">
             <div>
               <iframe
-                className=" w-[160px]  h-[100px]"
+                className=" w-[140px]  h-[100px]"
                 src={videoSrc}
                 title="YouTube video player"
                 frameBorder="0"
@@ -118,7 +118,7 @@ const VideoLayout = () => {
             </div>
             <div>
               <iframe
-                className="w-[170px]  h-[100px]"
+                className="w-[140px]  h-[100px]"
                 src={videoSrc}
                 title="YouTube video player"
                 frameBorder="0"

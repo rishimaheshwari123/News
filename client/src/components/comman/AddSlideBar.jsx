@@ -18,7 +18,7 @@ const AddSlideBar = () => {
   const { ads } = useSelector((state) => state.news);
 
   return (
-    <div className="flex justify-center -mb-20">
+    <div className="flex justify-center -mb-20 lg:mt-0 mt-[100px]">
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
         spaceBetween={50}

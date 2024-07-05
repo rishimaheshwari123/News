@@ -204,9 +204,33 @@ const deleteNewsById = async (req, res) => {
   try {
     const deletedNews = await News.findByIdAndDelete(newsId);
 
+    
     if (!deletedNews) {
       return res.status(404).json({ success: false, message: 'News article not found' });
     }
+
+
+      // Remove news article ID from Category
+      await Category.findByIdAndUpdate(
+        { _id: newsToDelete.category },
+        {
+          $pull: {
+            news: newsToDelete._id,
+          },
+        }
+      );
+
+      // Remove news article ID from SubCategory
+      await SubCategory.findByIdAndUpdate(
+        { _id: newsToDelete.subcategory },
+        {
+          $pull: {
+            news: newsToDelete._id,
+          },
+        }
+      );
+
+
 
     res.json({ success: true, message: 'News article deleted successfully' });
   } catch (error) {

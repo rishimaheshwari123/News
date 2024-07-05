@@ -10,12 +10,16 @@ import Tab from "../components/core/HomePage/Tab";
 import AddSlideBar from "../components/comman/AddSlideBar";
 
 import VIdeos from "../components/home/VIdeos";
+import LiveSection from "../components/home/LiveSection";
 const Home = () => {
   return (
     <div>
       <Navbar />
       <div className="mt-24">
+
+
         <AddSlideBar />
+        <LiveSection />
         <BreakingNews />
         <br />
         <News />

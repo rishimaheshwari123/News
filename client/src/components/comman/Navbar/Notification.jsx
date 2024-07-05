@@ -22,6 +22,18 @@ function Notification({ isOpen, toggleNoti }) {
         fetchNotificationsList();
     }, []);
 
+
+    const truncateText = (text, wordLimit=18) => {
+        if(!text){
+            return ""
+        }
+        const words = text.split(" ");
+        if (words.length > wordLimit) {
+          return words.slice(0, wordLimit).join(" ") + "...";
+        }
+        return text;
+      };
+
     return (
         <CSSTransition
             in={isOpen}
@@ -30,18 +42,18 @@ function Notification({ isOpen, toggleNoti }) {
 
             unmountOnExit
         >
-                 <div className="absolute right-0 top-10 mt-2 w-[40%] h-[40vh] bg-gray-400 text-black rounded-lg shadow-lg p-4 overflow-y-auto">
+                 <div className="absolute right-0 top-10 mt-2 lg:w-[40%] w-[60%] h-[40vh] bg-gray-400 text-black rounded-lg shadow-lg p-4 overflow-y-auto">
 
                 <h2>Notifications</h2>
                 <ul className=' flex flex-col gap-4'>
                     {notifications?.map((notification) => (
                         <Link
-                  to={`/newsdetails/${notification?.news._id}`}
+                  to={`/newsdetails/${notification?.news?._id}`}
                         
-                        key={notification._id}>
-                          <div className=' flex gap-3'>
-                          <img src={notification?.news?.images[0]?.url} alt="Notification Image" className=' h-[80px]' />
-                          <h3 className=' text-[13px]'>{notification?.news?.title}</h3>
+                        key={notification?._id}>
+                          <div className=' flex gap-3 lg:flex-row flex-col'>
+                          <img src={notification?.news?.images[0]?.url} alt="Notification Image" className=' h-[50px] w-[100px]' />
+                          <h3 className=' text-[10px] leading-tight'>{truncateText(notification?.news?.title)}</h3>
                           
                           </div>
                         </Link>

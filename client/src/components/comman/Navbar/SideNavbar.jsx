@@ -6,7 +6,7 @@ import { FaSun, FaCloudSun, FaMoon } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { MdOutlineMenuOpen } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
-
+import logo from "../../../assest/logo.jpg"
 import { Link, useNavigate } from "react-router-dom";
 
 import Backdrop from "./Backdrop";
@@ -96,31 +96,41 @@ function SideNavbar() {
           <motion.div
             id="navbar"
             ref={ref}
-            className="fixed top-0 left-0 bottom-0 lg:w-[350px] w-[320px] bg-[#f26434] p-4 z-40 border-r-2 shadow-2xl text-lg overflow-y-auto scrollable-div text-white"
+            className="fixed top-0 left-0 bottom-0 lg:w-[350px] w-[320px] bg-[#003c5b] p-4 z-40 border-r-2 shadow-2xl text-lg overflow-y-auto scrollable-div text-white"
             initial={{ x: "-100%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100%", opacity: 0 }}
             transition={{ type: "tween", duration: 0.3 }}
           >
-            <div className="w-11/12 mx-auto mt-6 uppercase " key="navbar">
+            <div className=" mt-6 uppercase " key="navbar">
               <div className=" absolute top-2 right-2">
                 <MdOutlineMenuOpen
                   className=" cursor-pointer text-3xl"
                   onClick={() => dispatch(handleIsMenuOpen())}
                 />
               </div>
-              <div className="flex flex-col  text-lg gap-1 items-center">
-                <div>
-                  <div className="flex items-center">
-                    <div className="mr-2">{icon}</div>
+              <div className="flex flex-col  text-lg gap-1 items-center justify-end w-full">
+               
+                {/* <div className=" ">
+                  <div className="flex items-center justify-end w-full">
+                    <div className="">{icon}</div>
                     <div className="flex flex-col gap-3 ">{greeting}</div>
                   </div>
-                </div>
+                </div> */}
+
+<div className="absolute top-3 left-5 w-[200px] justify-center">
+  <img src={logo} className=" h-[50px]  " alt="" />
+  <p className=" text-[10px]">बढ़ते भारत की आवाज
+</p>
+</div>
+
               </div>
-              <div className="flex  w-full mt-5 flex-col">
+
+
+              <div className="flex  w-full mt-[70px] flex-col">
                 <ul
                   className={`
-           bg-blue-900 px-4 py-6 space-y-4`}
+            space-y-4`}
                 >
                   <li>
                     <Link
@@ -129,12 +139,14 @@ function SideNavbar() {
                     >
                       <span>होम</span>
                     </Link>
+                    <div className=" min-w-full min-h-[1px] my-3 bg-black"></div>
+
                   </li>
                   {categories.map((category, index) => (
                     <li key={category._id} className="hover:text-gray-300">
                       <div
                         to={category.href || "#"}
-                        className="flex items-center gap-4"
+                        className="flex items-center gap-4 justify-between"
                       >
                         <Link
                           to={`/category/${category._id}`}
@@ -157,6 +169,7 @@ function SideNavbar() {
                           </span>
                         )}
                       </div>
+                      <div className=" min-w-full min-h-[1px] my-3 bg-black"></div>
                       {dropdownIndex === index && category.subCategories && (
                         <ul className="pl-6 ">
                           {category.subCategories.map((subCategory) => (
@@ -175,6 +188,14 @@ function SideNavbar() {
                   ))}
                 </ul>
               </div>
+
+
+
+
+
+
+
+              
             </div>
           </motion.div>
         </div>
