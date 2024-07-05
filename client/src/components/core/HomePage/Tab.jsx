@@ -54,7 +54,7 @@ const CategoryTabs = () => {
           >
             {subCategory.news.map((newsItem, index) => (
               <Link
-                to={`/category/${newsItem?._id}`}
+                to={`/newsdetails/${newsItem?._id}`}
                 key={index}
                 className="news-item p-4 border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
