@@ -16,6 +16,7 @@ function Category() {
         {/* cards */}
         <div className="col-span-1 md:col-span-2  ">
           {category?.map((cate) => (
+            
             <div key={cate?._id} className=" ">
               <Categorycard category={cate} />
             </div>

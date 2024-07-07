@@ -22,7 +22,7 @@ const BreakingNews = () => {
   return (
     <>
       {visible && (
-        <div className="w-11/12 mx-auto mt-[130px] lg:mt-[100px]  relative rounded-3xl">
+        <div className="w-11/12 mx-auto    relative rounded-3xl">
           {breakingNews.map(
             (currElem, index) =>
               currElem.active === true && (

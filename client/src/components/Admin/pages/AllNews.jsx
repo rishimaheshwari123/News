@@ -37,6 +37,13 @@ const AllNews = () => {
     console.log("Edit news item with ID:", newsId);
   };
 
+  const truncateText = (text, wordLimit=10) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + "...";
+    }
+    return text;
+  };
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">All News</h1>
@@ -53,9 +60,9 @@ const AllNews = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Title
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Subtitle
-              </th>
+              </th> */}
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Category
               </th>
@@ -92,16 +99,16 @@ const AllNews = () => {
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {news.title}
+                  {truncateText(news.title)}
+                </td>
+                {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {truncateText(news.subtitle)}
+                </td> */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {truncateText(news.category.name)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {news.subtitle}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {news.category.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {news.subcategory.name}
+                  {truncateText(news.subcategory.name)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {news.language}

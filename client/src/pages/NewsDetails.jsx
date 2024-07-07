@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { FaRegEye } from "react-icons/fa";
+
 import { Link, useParams } from "react-router-dom";
 import { getSingleNews } from "../services/operations/admin";
 import Navbar from "../components/comman/Navbar";
@@ -65,6 +67,7 @@ function NewsDetails() {
             </div>
           )}
           <div className="bg-white shadow-md rounded-lg p-6">
+           <div className=" w-full flex mb-6 justify-end items-center gap-1"><FaRegEye />  50</div>
             <div className="  lg:w-[80%] mx-auto">
               <h3 className="text-3xl font-semibold mb-2 text-gray-900 text-center">
                 {product?.title}

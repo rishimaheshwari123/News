@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 const News = () => {
   const { allNews, ads } = useSelector((state) => state.news);
 
+
+  const displayNews = allNews.slice(9)
   useEffect(() => {
     // console.log(allNews);
   }, [allNews]);
@@ -96,7 +98,7 @@ const News = () => {
           <p className="text-3xl font-bold text-center mt-3">ALL NEWS</p>
           <br />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {allNews.map((currEle, index) => {
+            {displayNews?.map((currEle, index) => {
               if (currEle?.type === "all") {
                 return (
                   <Link

@@ -18,7 +18,7 @@ const Home = () => {
       <div className="mt-24">
 
 
-        {/* <AddSlideBar /> */}
+        <AddSlideBar />
         <BreakingNews />
         <LiveSection />
         <br />
