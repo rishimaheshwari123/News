@@ -26,10 +26,10 @@ const PollList = () => {
   }, []);
 
   const handleVote = async (pollId, optionId) => {
-    if (votedPolls.has(pollId)) {
-      alert("You have already voted on this poll.");
-      return;
-    }
+    // if (votedPolls.has(pollId)) {
+    //   alert("You have already voted on this poll.");
+    //   return;
+    // }
 
     try {
       const response = await axios.put(

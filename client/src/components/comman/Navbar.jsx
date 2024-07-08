@@ -174,7 +174,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className=" bg-[#4b7f99] ">
+      <div className=" bg-[#2156a4] ">
         <div className=" mx-auto flex justify-between w-11/12  items-center relative min-h-[50px]">
           <div className="text-2xl font-bold flex  items-center gap-5">
             <div>
@@ -232,7 +232,7 @@ const Navbar = () => {
 
                 {/* &&                category?.subCategories?.length !== 0  */}
                 {dropdownIndex === index && click && (
-                  <div className="absolute top-8 left-0 bg-[#1193d4] text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
+                  <div className="absolute top-8 left-0 bg-[#2156a4] text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
                     <ul className=" text-[13px]">
                       {category.subCategories &&
                         category?.subCategories?.length !== 0 &&

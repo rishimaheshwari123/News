@@ -1,13 +1,27 @@
 // src/components/Footer.js
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+
+
+
 const Footer = () => {
+  const[count, setCount] =  useState(50000);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(prevCount => prevCount + 1);
+    }, 1500);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
   const { token } = useSelector((state) => state.auth);
   return (
-    <footer className="bg-[#4b7f99] text-white py-8">
+    <footer className="bg-[#2156a4] text-white py-8">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid grid-cols-2 p-8 md:grid-cols-6 gap-8">
           <div className="w-[70%]">
@@ -224,7 +238,11 @@ const Footer = () => {
         </div>
         <hr className="mt-12" />
         <div className="mt-8 text-center text-white text-sm">
-          © {new Date().getFullYear()} Your Company. All rights reserved.
+         <div> © {new Date().getFullYear()} Your Company. All rights reserved.</div>
+
+         <div>
+          Sites Visit {count}
+         </div>
         </div>
       </div>
     </footer>
