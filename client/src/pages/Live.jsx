@@ -20,6 +20,17 @@ function Live() {
     fetchStreams();
   }, []);
 
+  const[count, setCount] =  useState(50000);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(prevCount => prevCount + 1);
+    }, 2000);
+
+  
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div>
     <Navbar />
@@ -38,13 +49,12 @@ function Live() {
               <div className=" flex justify-between"> 
               <h2 className="text-xl font-semibold">{stream.name}</h2>
 
-<p>Watching 40k+</p>
+<p>Watching {count}+</p>
               </div>
               <div className="mt-2">
                 {/* Embedded YouTube Video */}
                 <iframe
-                  width="560"
-                  height="315"
+               className=" w-[90vw] h-[80vh]"
                   src={`${stream.url}?autoplay=1`}
                   title={stream.name}
                   frameBorder="0"
