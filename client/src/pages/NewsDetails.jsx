@@ -45,6 +45,13 @@ function NewsDetails() {
   };
 
   const handleLike = async () => {
+    if (!token) {
+      Swal.fire({
+        title: "Cannot Comment Please Login",
+        text: "Login Please",
+        icon: "error",
+      });
+    }
     try {
       if (isLiked) {
         await removeLikeMain({ id: product._id }, token);
@@ -157,7 +164,8 @@ window.scrollTo(0, 0);
               <div className="flex items-center gap-2">
                 <button onClick={handleLike} className={`flex items-center gap-1 text-gray-500 ${isLiked ? 'text-red-500' : ''}`}>
                   <FaThumbsUp />
-                  <span>{product?.likes}</span>
+                  <span>{`${product?.likes + 1300}`}</span>
+
                 </button>
               </div>
             </div>

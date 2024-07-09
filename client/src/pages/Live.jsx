@@ -33,7 +33,13 @@ function Live() {
         <div className="grid gap-4">
           {liveStreams.map((stream) => (
             <div key={stream._id} className="bg-white p-4 rounded-lg shadow">
+
+       
+              <div className=" flex justify-between"> 
               <h2 className="text-xl font-semibold">{stream.name}</h2>
+
+<p>Watching 40k+</p>
+              </div>
               <div className="mt-2">
                 {/* Embedded YouTube Video */}
                 <iframe
