@@ -24,11 +24,15 @@ function NewsDetails() {
         setRelated(response?.category?.news);
         
         // Check if current user has already liked the post
-        if (response.likedBy.includes(user._id)) {
-          setIsLiked(true);
-        } else {
+
+        
+          if (response.likedBy.includes(user?._id)) {
+            setIsLiked(true);
+          } 
+        else {
           setIsLiked(false);
         }
+       
       } catch (error) {
         console.error("Error fetching news:", error);
       }
@@ -46,7 +50,7 @@ function NewsDetails() {
 
   const handleLike = async () => {
     if (!token) {
-      Swal.fire({
+    return  Swal.fire({
         title: "Cannot Comment Please Login",
         text: "Login Please",
         icon: "error",
@@ -58,14 +62,14 @@ function NewsDetails() {
         setProduct(prevProduct => ({
           ...prevProduct,
           likes: prevProduct.likes - 1,
-          likedBy: prevProduct.likedBy.filter(userId => userId !== user._id) // Remove user ID from likedBy array
+          likedBy: prevProduct.likedBy.filter(userId => userId !== user?._id) // Remove user ID from likedBy array
         }));
       } else {
         await addLikeMain({ id: product._id }, token);
         setProduct(prevProduct => ({
           ...prevProduct,
           likes: prevProduct.likes + 1,
-          likedBy: [...prevProduct.likedBy, user._id] // Add user ID to likedBy array
+          likedBy: [...prevProduct.likedBy, user?._id] // Add user ID to likedBy array
         }));
       }
       setIsLiked(!isLiked); // Toggle like state
@@ -76,7 +80,7 @@ function NewsDetails() {
 
   const handleComment = async () => {
     if (!token) {
-      Swal.fire({
+      return Swal.fire({
         title: "Cannot Comment Please Login",
         text: "Login Please",
         icon: "error",

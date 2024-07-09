@@ -187,6 +187,11 @@ const {user} = useSelector(state=>state.auth)
             </a>
           </div>
           <p className="text-white text-[13px]">विज्ञापन के लिए संपर्क करें</p>
+<div className=" flex gap-3 text-[13px] ml-5 text-blue-900 underline bg-white px-2">
+  
+<Link to="/login">Sign in?</Link>
+<Link to="/register">Sign Up?</Link>
+</div>
         </div>
       </div>
 
