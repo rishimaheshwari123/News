@@ -28,6 +28,9 @@ import { handleIsMenuOpen } from "../../redux/newsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import RealTimeClockAndCube from "./Navbar/RealTime";
 import SearchBox from "./Navbar/Search";
+import ProfileDropdown from "./Navbar/ProfileDropdown";
+import { logout } from "../../services/operations/user";
+
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -35,7 +38,7 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [click, setClick] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
+ 
 const {user} = useSelector(state=>state.auth)
 
   const { category } = useSelector((state) => state.news);
@@ -186,12 +189,19 @@ const {user} = useSelector(state=>state.auth)
               <TbBrandThreads />
             </a>
           </div>
-          <p className="text-white text-[13px]">विज्ञापन के लिए संपर्क करें</p>
-<div className=" flex gap-3 text-[13px] ml-5 text-blue-900 underline bg-white px-2">
-  
-<Link to="/login">Sign in?</Link>
-<Link to="/register">Sign Up?</Link>
-</div>
+          {user ? (
+        <button
+          onClick={()=> dispatch(logout())}
+          className="text-white text-sm ml-5 underline hover:text-gray-300 focus:outline-none"
+        >
+          Logout
+        </button>
+      ) : (
+        <div className="flex gap-3 ml-5 text-[13px] text-blue-900 underline bg-white px-2">
+          <Link to="/login">Sign in</Link>
+          <Link to="/register">Sign Up</Link>
+        </div>
+      )}
         </div>
       </div>
 
@@ -350,6 +360,7 @@ const {user} = useSelector(state=>state.auth)
 
 
             <RealTimeClockAndCube />
+          
           </div>
         </div>
 

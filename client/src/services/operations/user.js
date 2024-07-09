@@ -1,4 +1,5 @@
 
+import { setToken, setUser } from "../../redux/authSlice";
 import { apiConnector } from "../apiConnector";
 import { endpoints} from "../apis";
 import { toast } from "react-toastify";
@@ -76,3 +77,18 @@ export const addCommentMain = async (data, token) => {
     toast.dismiss(toastId)
    return result
   }
+
+
+
+  export function logout(navigate) {
+    return (dispatch) => {
+      dispatch(setToken(null))
+      dispatch(setUser(null))
+  
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      toast.success("Logged Out")
+    
+    }
+  }
+  
