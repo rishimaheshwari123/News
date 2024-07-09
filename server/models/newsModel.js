@@ -2,6 +2,31 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
+
+const commentSchema = new mongoose.Schema(
+  {
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "auth",
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
+
+
+
+
 const newsSchema = new Schema({
   title: {
     type: String,
@@ -59,7 +84,17 @@ const newsSchema = new Schema({
   type: {
     type: String,
     required: true
-  }
+  },
+  comments: [commentSchema],
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  likedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'auth',
+  }],
+
 });
 
 const News = mongoose.model('News', newsSchema);

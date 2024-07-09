@@ -188,7 +188,8 @@ const getAllNews = async (req, res) => {
   try {
     const news = await News.find()
       .populate('category', 'name') // Populate category with categoryName field
-      .populate('subcategory', 'name') // Populate subcategory with subcategoryName field
+      .populate('subcategory', 'name')
+      .populate("comments.author") // Populate subcategory with subcategoryName field
       .exec();
 
     res.json({ success: true, news });
@@ -253,7 +254,7 @@ const getNewsById = async (req, res) => {
         path: 'category',
         populate: { path: 'news' } // Populate subcategories and include all news
 
-      })
+      }).populate("comments.author")
       .exec();
 
     if (!news) {
@@ -301,6 +302,116 @@ const getAllNotifications = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
+
+
+
+// Like a community post
+const likePost = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const userId = req.user.id; // Assuming req.user contains the authenticated user's information
+
+    // Find the post by ID
+    const post = await News.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if the user has already liked the post
+    if (post.likedBy.includes(userId)) {
+      return res.status(400).json({ message: "You have already liked this post" });
+    }
+
+    // Increment the likes and add the user to the likedBy array
+    post.likes += 1;
+    post.likedBy.push(userId);
+    await post.save();
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+// Comment on a community post
+const removelikePost = async (req, res) => {
+try {
+  const { id } = req.body;
+  const userId = req.user.id; // Assuming req.user contains the authenticated user's information
+
+  // Find the post by ID
+  const post = await News.findById(id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  // Check if the user has liked the post
+  const likeIndex = post.likedBy.indexOf(userId);
+  if (likeIndex === -1) {
+    return res.status(400).json({ message: "You have not liked this post" });
+  }
+
+  // Decrement the likes and remove the user from the likedBy array
+  post.likes -= 1;
+  post.likedBy.splice(likeIndex, 1); // Remove the user from the likedBy array
+  await post.save();
+
+  res.status(200).json(post);
+} catch (error) {
+  res.status(500).json({ message: error.message });
+}
+};
+
+const commentOnPost = async (req, res) => {
+try {
+ 
+  const { content,id } = req.body;
+  const author = req.user.id;
+  const post = await News.findById(id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+  post.comments.push({ author, content });
+  await post.save();
+
+
+  const news = await News.findById(id)
+      .populate({
+        path: 'subcategory',
+        populate: { path: 'news' } // Populate subcategory and include all news
+      })
+      .populate({
+        path: 'category',
+        populate: { path: 'news' } // Populate subcategories and include all news
+
+      }).populate("comments.author")
+      .exec();
+
+
+  res.status(201).json({
+    post,
+    news,
+    success:true
+  });
+} catch (error) {
+  res.status(500).json({ 
+    success:false
+    ,
+    message: error.message });
+}
+};
+
+
+
+
 module.exports = {
   createNews,
   updateNewsById,
@@ -308,5 +419,9 @@ module.exports = {
   getAllNews,
   deleteNewsById,
   getNewsById,
-  getAllNotifications
+  getAllNotifications,
+
+  likePost,
+  removelikePost,
+  commentOnPost
 };

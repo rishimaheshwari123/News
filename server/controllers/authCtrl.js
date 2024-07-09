@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 
 const registerCtrl = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password,location } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !location) {
       return res.status(403).send({
         success: false,
         message: "All Fields are required",
@@ -25,6 +25,7 @@ const registerCtrl = async (req, res) => {
     const user = await authModel.create({
       name,
       email,
+      location,
       password: hashedPassword,
     });
 

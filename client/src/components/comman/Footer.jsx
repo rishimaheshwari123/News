@@ -16,7 +16,7 @@ const Footer = () => {
       setCount(prevCount => prevCount + 1);
     }, 1500);
 
-    // Cleanup the interval on component unmount
+  
     return () => clearInterval(interval);
   }, []);
   const { token } = useSelector((state) => state.auth);

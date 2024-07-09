@@ -13,6 +13,11 @@ const authSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        location: {
+            type: String,
+            required: true,
+           
+        },
 
         password: {
             type: String,

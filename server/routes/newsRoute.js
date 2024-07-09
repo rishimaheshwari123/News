@@ -8,8 +8,14 @@ const {
   getAllNews,
   deleteNewsById,
   getNewsById,
-  getAllNotifications
+  getAllNotifications,
+  likePost,
+  commentOnPost,
+  removelikePost,
 } = require('../controllers/news');
+
+const { auth, isUser, isAdmin } = require("../middleware/auth");
+
 
 router.post('/create', createNews);
 
@@ -26,6 +32,14 @@ router.get('/:newsId', getNewsById);
 
 
 router.post('/notifications', getAllNotifications);
+
+
+
+router.post("/like", auth, likePost);
+router.post("/removelike", auth, removelikePost);
+
+// Comment on a community post - accessible by authenticated users
+router.post("/comment", auth, commentOnPost);
 
 
 module.exports = router;

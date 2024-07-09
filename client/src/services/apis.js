@@ -7,6 +7,12 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const endpoints = {
   LOGIN_API: BASE_URL + "/auth/login",
+  SIGNUP_API: BASE_URL + "/auth/register",
+
+
+  COMMENT_API : BASE_URL + "/news/comment",
+  LIKE_API : BASE_URL + "/news/like",
+  REMOVE_LIKE_API : BASE_URL + "/news/removelike",
 }
 
 export const adminEndpoints = {
@@ -30,6 +36,13 @@ export const adminEndpoints = {
   DELETE_BREAKING_NEWS: BASE_URL + "/breakingNews/delete",
   ACTIVE_BREAKING_NEWS: BASE_URL + "/breakingNews/update",
 
+
+
+   //LIve nEWS
+   CREATE_LIVE_NEWS: BASE_URL + "/live/create",
+   GET_ALL_LIVE_NEWS: BASE_URL + "/live/getAll",
+   DELETE_LIVE_NEWS: BASE_URL + "/live/delete",
+   ACTIVE_LIVE_NEWS: BASE_URL + "/live/update",
 
 
   // Image

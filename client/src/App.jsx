@@ -32,11 +32,13 @@ import ReelSection from "./test/Reel";
 import CreateAdd from "./components/Admin/pages/CreateAdd";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Sigup from "./pages/Sigup";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const App = () => {
   const { isMenuOpen } = useSelector((state) => state.news);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
     //Categoyr
@@ -90,6 +92,16 @@ const App = () => {
             </OpenRoute>
           }
         />
+        <Route
+          path="/register"
+          element={
+            <OpenRoute>
+              <Sigup />
+            </OpenRoute>
+          }
+        />
+
+
 
         <Route
           element={
@@ -98,6 +110,11 @@ const App = () => {
             </PrivateRoute>
           }
         >
+
+        {
+          user?.role === "Admin" && 
+          <>
+
           <Route path="/admin/dashboard" element={<DashBoard />} />
           <Route path="admin/addnews" element={<AddNews />} />
           <Route path="admin/addnews/:id" element={<AddNews />} />
@@ -109,6 +126,11 @@ const App = () => {
           <Route path="admin/subcategory" element={<Subcategory />} />
           <Route path="admin/livestriming" element={<Livestreming />} />
           <Route path="admin/ads" element={<CreateAdd />} />
+          </>
+        }
+         
+
+
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
