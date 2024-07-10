@@ -5,12 +5,14 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { signUp } from '../services/operations/admin';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', location: '' });
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,7 +21,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-     signUp(formData,navigate)
+     signUp(formData,navigate,dispatch)
     } catch (error) {
       setMessage('Error during signup');
     }

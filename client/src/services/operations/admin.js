@@ -3,8 +3,9 @@ import { saveNews } from "../../redux/newsSlice";
 import { apiConnector } from "../apiConnector";
 import { endpoints, adminEndpoints } from "../apis";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
-const { LOGIN_API, SIGNUP_API } = endpoints;
+const { LOGIN_API, SIGNUP_API ,SEND_OTP_API,VERIFY_OTP_API} = endpoints;
 
 const {
   ADD_NEWS_API,
@@ -45,7 +46,7 @@ const {
 
 } = adminEndpoints;
 
-export async function signUp(formData, navigate) {
+export async function signUp(formData, navigate,dispatch) {
 
   Swal.fire({
     title: "Loading",
@@ -66,7 +67,15 @@ export async function signUp(formData, navigate) {
       // toast.error(response.data.message)
       throw new Error(response.data.message);
     }
-    navigate("/login");
+
+    console.log(response?.data?.user)
+    dispatch(setToken(response?.data?.token))
+    dispatch(setUser(response?.data?.user))
+    localStorage.setItem("user", JSON.stringify(response.data.user))
+
+    localStorage.setItem("token", JSON.stringify(response.data.token))
+    
+    navigate("/");
 
   } catch (error) {
     console.log("SIGNUP API ERROR............", error);
@@ -123,6 +132,91 @@ export async function login(email, password, navigate, dispatch) {
     });
   }
 }
+
+export function sendOtp(email, navigate) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...")
+  
+    let result = []
+
+    try {
+      const response = await apiConnector("POST", SEND_OTP_API, {
+        email
+      })
+      // console.log("SENDOTP API RESPONSE............", response)
+
+      // console.log(response.data.success)
+      result = response.data.success
+      if (!response.data.success) {
+        throw new Error(response.data.message)
+      }
+
+      toast.success("OTP Sent Successfully")
+      // navigate("/verify-email")
+    } catch (error) {
+      console.log("SENDOTP API ERROR............", error)
+      toast.error("Could Not Send OTP")
+      return result
+    }
+  
+    toast.dismiss(toastId)
+    return result
+
+  }
+}
+
+
+
+export function compareOtp(otp, email, navigate) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...")
+    let result = true 
+    try {
+      const response = await apiConnector("POST", VERIFY_OTP_API, {
+        otp, email
+      })
+      console.log("Compare API RESPONSE............", response)
+
+
+      if (!response.data.success) {
+        throw new Error(response.data.message)
+      }
+
+      if (response.data.userFind) {
+        console.log(response.data.token)
+        dispatch(setToken(response.data.token))
+        dispatch(setUser(response.data.existingUser))
+        localStorage.setItem("user", JSON.stringify(response.data.existingUser))
+
+        localStorage.setItem("token", JSON.stringify(response.data.token))
+        navigate("/profile")
+
+
+      }
+      result = response?.data?.userFind
+
+      toast.success("Login Succesfully")
+      // navigate("/verify-email")
+    } catch (error) {
+      console.log("SENDOTP API ERROR............", error)
+      toast.error(error?.response?.data?.message)
+    }
+    toast.dismiss(toastId)
+    return result
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const getAllNews = () => async (dispatch) => {
   try {
