@@ -90,13 +90,16 @@ function Login() {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </div>
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-between">
               <button
                 className="px-6 mt-4 text-xl py-2 bg-blue-400 rounded-md"
                 type="submit"
               >
                 Login
               </button>
+              <Link to="/register" className=" text-xl mt-3 text-blue-600">
+                Not Have Account?
+              </Link>
             </div>
           </form>
         </div>

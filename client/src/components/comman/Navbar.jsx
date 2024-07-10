@@ -14,7 +14,7 @@ import {
   FaLinkedin,
   FaTelegram,
   FaSearch,
-  FaBell
+  FaBell,
 } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
 import { IoMenu } from "react-icons/io5";
@@ -30,7 +30,7 @@ import RealTimeClockAndCube from "./Navbar/RealTime";
 import SearchBox from "./Navbar/Search";
 import ProfileDropdown from "./Navbar/ProfileDropdown";
 import { logout } from "../../services/operations/user";
-
+import { IoIosLogOut } from "react-icons/io";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -38,11 +38,10 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [click, setClick] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
- 
-const {user} = useSelector(state=>state.auth)
+
+  const { user } = useSelector((state) => state.auth);
 
   const { category } = useSelector((state) => state.news);
-
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNotifcationOpen, setNotification] = useState(false);
@@ -53,9 +52,6 @@ const {user} = useSelector(state=>state.auth)
   const togglenoti = () => {
     setNotification(!isNotifcationOpen);
   };
-
-
-
 
   const dispatch = useDispatch();
 
@@ -100,20 +96,17 @@ const {user} = useSelector(state=>state.auth)
   return (
     <nav className=" text-white text-xl  fixed w-screen h-[50px] top-0 z-50 ">
       <div className=" -h-[50px] bg-[#f26434]  pt-1 min-w-[100vw]">
-
-
         <div className="flex justify-end items-center w-11/12 mx-auto gap-2 flex-wrap ">
-       { user?.role ==="Admin" &&
-              <div>
+          {user?.role === "Admin" && (
+            <div>
               <Link
                 to="/admin/dashboard"
                 className="flex items-center space-x-1 text-white text-[15px]"
               >
                 Dashboard
               </Link>
-            </div>}
-      
-
+            </div>
+          )}
 
           <div className="flex space-x-1 text-white text-[20px]">
             <a
@@ -190,18 +183,28 @@ const {user} = useSelector(state=>state.auth)
             </a>
           </div>
           {user ? (
-        <button
-          onClick={()=> dispatch(logout())}
-          className="text-white text-sm ml-5 underline hover:text-gray-300 focus:outline-none"
-        >
-          Logout
-        </button>
-      ) : (
-        <div className="flex gap-3 ml-5 text-[13px] text-blue-900 underline bg-white px-2">
-          <Link to="/login">Sign in</Link>
-          <Link to="/register">Sign Up</Link>
-        </div>
-      )}
+            <button
+              onClick={() => dispatch(logout())}
+              className="px-5 py-1 mb-1 flex items-center gap-2 bg-[#2156a4] text-white rounded-md"
+            >
+              Logout <IoIosLogOut />
+            </button>
+          ) : (
+            <div className="flex gap-3 ml-5 text-[13px] text-blue-900 px-2">
+              <Link
+                to="/login"
+                className="px-5 py-1 mb-1 bg-[#2156a4] text-white rounded-md"
+              >
+                Sign in
+              </Link>
+              <Link
+                className="px-5 py-1 mb-1 bg-[#2156a4] text-white rounded-md"
+                to="/register"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
@@ -320,8 +323,6 @@ const {user} = useSelector(state=>state.auth)
               </Link>
             </li>
 
-
-           
             <li>
               <Link
                 to="/reel"
@@ -349,18 +350,16 @@ const {user} = useSelector(state=>state.auth)
               <FaYoutube size={24} className="text-white hover:text-gray-300" />
             </Link> */}
 
-
-
             <FaSearch className="cursor-pointer" onClick={toggleSearch} />
             <SearchBox isOpen={isSearchOpen} toggleSearch={toggleSearch} />
 
-
-<FaBell className=" cursor-pointer" onClick={()=>setNotification(!isNotifcationOpen)} />
-<Notification isOpen={isNotifcationOpen} toggleNoti={togglenoti} />
-
+            <FaBell
+              className=" cursor-pointer"
+              onClick={() => setNotification(!isNotifcationOpen)}
+            />
+            <Notification isOpen={isNotifcationOpen} toggleNoti={togglenoti} />
 
             <RealTimeClockAndCube />
-          
           </div>
         </div>
 
