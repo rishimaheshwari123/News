@@ -37,6 +37,7 @@ import Sigup from "./pages/Sigup";
 import AdminLogin from "./pages/Login"; //user
 import TVChannel from "./test/Test";
 import AdminManage from "./components/Admin/pages/ManageAdmin";
+import CreateYtVideo from "./components/Admin/pages/CreateYtVideo";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -135,10 +136,11 @@ const App = () => {
               <Route path="admin/subcategory" element={<Subcategory />} />
               <Route path="admin/livestriming" element={<Livestreming />} />
               <Route path="admin/ads" element={<CreateAdd />} />
+              <Route path="admin/yt" element={<CreateYtVideo />} />
 
-              {
-                user?.role === "SuperAdmin" &&   <Route path="admin/manageadmin" element={<AdminManage />} />
-              }
+              {user?.role === "SuperAdmin" && (
+                <Route path="admin/manageadmin" element={<AdminManage />} />
+              )}
             </>
           )}
         </Route>

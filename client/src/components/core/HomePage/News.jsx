@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import TVChannel from "../../../test/Test";
 const News = () => {
-  const { allNews, ads } = useSelector((state) => state.news);
+  const { allNews, ads, yt } = useSelector((state) => state.news);
 
   const displayNews = allNews.slice(9);
   useEffect(() => {
@@ -151,20 +151,20 @@ const News = () => {
 
         {/* Third Section */}
         <div className="third col-span-1 md:col-span-1">
+          {/* <TVChannel /> */}
+          {yt.map((currElem, index) => (
+            <iframe
+              className="mt-3 h-[315px] w-full"
+              src={currElem?.url}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
+          ))}
 
-
-        <TVChannel />
-          <iframe
-            className="mt-3 h-[315px] w-full"
-            src="https://www.youtube.com/embed/9C5Df-6Pi00?autoplay=1000&si=qieq04s5ZED1gq8b"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-
-          <iframe
+          {/* <iframe
             className="mt-3 h-[315px] w-full"
             src="https://www.youtube.com/embed/9C5Df-6Pi00?autoplay=5&si=qieq04s5ZED1gq8b"
             title="YouTube video player"
@@ -191,7 +191,7 @@ const News = () => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
-          ></iframe>
+          ></iframe> */}
 
           <br />
           <br />
