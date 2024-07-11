@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 const News = () => {
   const { allNews, ads } = useSelector((state) => state.news);
 
-
-  const displayNews = allNews.slice(9)
+  const displayNews = allNews.slice(9);
   useEffect(() => {
     // console.log(allNews);
   }, [allNews]);
@@ -18,13 +17,20 @@ const News = () => {
     }
     return text;
   };
+
+  const sortedNews = [...allNews].sort(
+    (a, b) => new Date(b.publish) - new Date(a.publish)
+  );
+
   return (
     <>
       <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6 ">
         <div className="first col-span-1 md:col-span-1 mt-3">
           <div className="second grid gap-1">
-            {allNews.map((currElem, index) => {
-              if (currElem?.type == "recent-news") {
+            <p className="text-3xl font-bold text-center my-5">RECENT NEWS</p>
+
+            {sortedNews.map((currElem, index) => {
+              if (currElem?.type === "recent-news") {
                 return (
                   <Link
                     className="flex gap-4 items-center p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
@@ -36,17 +42,37 @@ const News = () => {
                       alt=""
                       className="w-30 h-20 object-cover rounded-md"
                     />
-                    <p className="text-wrap mt-2 w-[80%] text-sm text-gray-700 font-medium">
+                    <p className="mt-2 w-[80%] text-sm text-gray-700 font-medium">
                       {truncateText(currElem.title, 15)}
                     </p>
                   </Link>
                 );
               }
+              return null;
             })}
-            <p className="text-3xl font-bold text-center my-5">Big NEWS</p>
+            <br />
+            {Array.isArray(ads) &&
+              ads.map(
+                (currElem, index) =>
+                  currElem?.type === "left-add" && (
+                    <Link
+                      to={currElem?.url}
+                      key={index}
+                      className="block mb-4"
+                      target="_blank"
+                    >
+                      <img
+                        src={currElem?.image}
+                        alt="Ad Image"
+                        className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                      />
+                    </Link>
+                  )
+              )}
+            <p className="text-3xl font-bold text-center my-5">BIG NEWS</p>
             <br />
             <div className="grid  gap-4">
-              {allNews.map((currEle, index) => {
+              {sortedNews.map((currEle, index) => {
                 if (currEle?.type === "big-news") {
                   return (
                     <Link
@@ -70,7 +96,7 @@ const News = () => {
         <div className="second col-span-1 md:col-span-2">
           <p className="text-3xl font-bold text-center mt-3">TOP NEWS</p>
           <br />
-          {allNews.map((currEle, index) => {
+          {sortedNews.map((currEle, index) => {
             if (currEle?.type === "top-news") {
               return (
                 <Link
@@ -98,7 +124,7 @@ const News = () => {
           <p className="text-3xl font-bold text-center mt-3">ALL NEWS</p>
           <br />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {displayNews?.map((currEle, index) => {
+            {sortedNews?.map((currEle, index) => {
               if (currEle?.type === "all") {
                 return (
                   <Link
