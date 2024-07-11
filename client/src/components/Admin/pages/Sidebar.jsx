@@ -7,6 +7,9 @@ import { MdLogout } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../../assest/logo.jpg"
+import {logout} from "../../../services/operations/user"
+import { FcStart } from "react-icons/fc";
+
 import {
   FcBullish,
   FcPlus,
