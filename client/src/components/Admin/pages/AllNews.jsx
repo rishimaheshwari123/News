@@ -11,7 +11,8 @@ const AllNews = () => {
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // console.log(allNews);
+    console.log(allNews[0].slug);
+
   }, [allNews]);
 
   const handleToggleActive = async (newsId, currentStatus) => {
@@ -47,8 +48,10 @@ const AllNews = () => {
   };
 
   const filteredNews = allNews.filter((news) =>
-    news.title.toLowerCase().includes(searchTerm.toLowerCase())
+    news.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (news.slug && news.slug.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+  
 
   const sortedNews = [...filteredNews].sort(
     (a, b) => new Date(b.publish) - new Date(a.publish)

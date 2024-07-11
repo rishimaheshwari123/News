@@ -28,7 +28,7 @@ const addAdmin = async (req, res) => {
 const updateAdminPermissions = async (req, res) => {
   const { adminId } = req.params;
   const { permissions } = req.body;
-
+console.log(permissions)
   try {
     await User.findByIdAndUpdate(adminId, { permissions });
     res.status(200).json({ message: 'Permissions updated successfully' });

@@ -93,6 +93,8 @@ const createNews = async (req, res) => {
 
     let active = true
     if(authDetails.role === "Admin"){
+      console.log("hello"
+      )
       active = false
     }
     const newNews = new News({

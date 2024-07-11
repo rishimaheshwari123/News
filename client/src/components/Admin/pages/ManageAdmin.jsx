@@ -108,10 +108,15 @@ const AdminManage = () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    const { adminId, canAdd, canEdit, canDelete } = editData;
+
+    const permissions = {
+      canAdd: editData.canAdd,
+      canEdit: editData.canEdit,
+      canDelete: editData.canDelete,
+    };
+    
     try {
-      await axios.put(`${BASE_URL}/admin/update/${adminId}`, { canAdd, canEdit, canDelete }, {
-        headers: { Authorization: `Bearer ${token}` },
+      await axios.put(`${BASE_URL}/admin/update/${editData.adminId}`, {permissions}, {        headers: { Authorization: `Bearer ${token}` },
       });
       // Fetch updated list of admins
       const response = await axios.get(`${BASE_URL}/admin`, {
