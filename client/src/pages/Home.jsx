@@ -11,13 +11,12 @@ import AddSlideBar from "../components/comman/AddSlideBar";
 
 import VIdeos from "../components/home/VIdeos";
 import LiveSection from "../components/home/LiveSection";
+import ButtomAdd from "../components/comman/ButtomAdd";
 const Home = () => {
   return (
     <div>
       <Navbar />
       <div className="mt-24">
-
-
         <AddSlideBar />
         <BreakingNews />
         <LiveSection />
@@ -26,6 +25,8 @@ const Home = () => {
         <br />
         <VIdeos />
         <Category />
+        <ButtomAdd />
+
         <Reels />
         <PollAns />
         <Tab />

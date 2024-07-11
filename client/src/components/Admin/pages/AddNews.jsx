@@ -119,7 +119,7 @@ function AddNews() {
     location: product?.location || "",
     category: product?.category || "",
     subcategory: product?.subcategory || "",
-    expire: product?.expire || "",
+    // expire: product?.expire || "",
     images: product?.images || [],
     youtubeurl: product?.youtubeurl || "",
     type: product?.type || "",
@@ -136,7 +136,7 @@ function AddNews() {
     formData.append("language", values.language);
     formData.append("subcategory", values.subcategory);
     formData.append("location", values.location);
-    formData.append("expire", values.expire);
+    // formData.append("expire", values.expire);
     formData.append("youtubeurl", values.youtubeurl);
     formData.append("images", JSON.stringify(images));
     formData.append("type", values.type);
@@ -144,9 +144,9 @@ function AddNews() {
 
     await createNews(formData, token);
 
-    // resetForm();
-    // setEditorHtml(""); // Clear the ReactQuill editor
-    // setImages([]); // Clear uploaded images
+    resetForm();
+    setEditorHtml(""); // Clear the ReactQuill editor
+    setImages([]); // Clear uploaded images
   };
 
   // Formik Hook
@@ -379,27 +379,6 @@ function AddNews() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="expire" className="block font-medium text-gray-700">
-              Expire
-            </label>
-            <input
-              id="expire"
-              name="expire"
-              type="date"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.expire}
-              className="form-input"
-            />
-            {formik.touched.expire && formik.errors.expire && (
-              <div className="text-red-500">{formik.errors.expire}</div>
-            )}
-          </div>
-        </div>
-
-        {/* YouTube URL */}
-        <div className=" grid lg:grid-cols-2 grid-cols-1 gap-x-4">
-          <div className="space-y-2">
             <label
               htmlFor="youtubeurl"
               className="block font-medium text-gray-700"
@@ -420,7 +399,27 @@ function AddNews() {
               <div className="text-red-500">{formik.errors.youtubeurl}</div>
             )}
           </div>
+          {/* <div className="space-y-2">
+            <label htmlFor="expire" className="block font-medium text-gray-700">
+              Expire
+            </label>
+            <input
+              id="expire"
+              name="expire"
+              type="date"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.expire}
+              className="form-input"
+            />
+            {formik.touched.expire && formik.errors.expire && (
+              <div className="text-red-500">{formik.errors.expire}</div>
+            )}
+          </div> */}
+        </div>
 
+        {/* YouTube URL */}
+        <div className=" grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label className="block font-medium text-gray-700">
               Send Notification

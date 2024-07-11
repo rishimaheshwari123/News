@@ -5,7 +5,7 @@ import { endpoints, adminEndpoints } from "../apis";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-const { LOGIN_API, SIGNUP_API ,SEND_OTP_API,VERIFY_OTP_API} = endpoints;
+const { LOGIN_API, SIGNUP_API, SEND_OTP_API, VERIFY_OTP_API } = endpoints;
 
 const {
   ADD_NEWS_API,
@@ -46,7 +46,7 @@ const {
 
 } = adminEndpoints;
 
-export async function signUp(formData, navigate,dispatch) {
+export async function signUp(formData, navigate, dispatch) {
 
   Swal.fire({
     title: "Loading",
@@ -104,12 +104,12 @@ export async function login(email, password, navigate, dispatch) {
     });
     Swal.close();
     if (!response?.data?.success) {
-      await 
-      Swal.fire({
-        title: "Login Failed",
-        text: response.data.message,
-        icon: "error",
-      });
+      await
+        Swal.fire({
+          title: "Login Failed",
+          text: response.data.message,
+          icon: "error",
+        });
       throw new Error(response.data.message);
     }
 
@@ -136,7 +136,7 @@ export async function login(email, password, navigate, dispatch) {
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
-  
+
     let result = []
 
     try {
@@ -158,7 +158,7 @@ export function sendOtp(email, navigate) {
       toast.error("Could Not Send OTP")
       return result
     }
-  
+
     toast.dismiss(toastId)
     return result
 
@@ -170,7 +170,7 @@ export function sendOtp(email, navigate) {
 export function compareOtp(otp, email, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
-    let result = true 
+    let result = true
     try {
       const response = await apiConnector("POST", VERIFY_OTP_API, {
         otp, email
@@ -193,18 +193,18 @@ export function compareOtp(otp, email, navigate) {
 
 
         toast.success("Login Succesfully")
-      toast.dismiss(toastId)
+        toast.dismiss(toastId)
 
         return
       }
       result = response?.data?.userFind
-   
+
       Swal.fire({
         title: "Login Failed",
         text:
           "Your Not Admin Please Contact To SuperAdmin",
       });
-   
+
 
       // navigate("/verify-email")
     } catch (error) {
@@ -258,11 +258,14 @@ export const getAllNews = () => async (dispatch) => {
 
 export const createNews = async (data, token) => {
   console.log(data);
-  const toastId = Swal.fire({
+
+  let swalLoadingInstance;
+
+  Swal.fire({
     title: "Loading...",
     allowOutsideClick: false,
     didOpen: () => {
-      Swal.showLoading();
+      swalLoadingInstance = Swal.showLoading();
     },
   });
 
@@ -281,9 +284,6 @@ export const createNews = async (data, token) => {
     Swal.fire({
       icon: "success",
       title: "News Details Added Successfully",
-      timer: 2000,
-      timerProgressBar: true,
-      showConfirmButton: false,
     });
   } catch (error) {
     console.log("CREATE News API ERROR............", error);
@@ -293,7 +293,9 @@ export const createNews = async (data, token) => {
       text: error.message,
     });
   } finally {
-    Swal.close(toastId);
+    if (swalLoadingInstance) {
+      Swal.close();
+    }
   }
 };
 
