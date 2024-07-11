@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const AllNews = () => {
   const { allNews } = useSelector((state) => state.news);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // console.log(allNews);

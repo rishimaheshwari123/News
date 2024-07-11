@@ -11,6 +11,7 @@ import Navbar from "../components/comman/Navbar";
 import Footer from "../components/comman/Footer";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import AuthModal from "../components/core/Login/Modal";
 
 function NewsDetails() {
   const [product, setProduct] = useState({});
@@ -20,6 +21,8 @@ function NewsDetails() {
   const [isLiked, setIsLiked] = useState(false);
   const { token, user } = useSelector((state) => state.auth); // Assuming user data is stored in Redux state
   const[loading, setLoading] = useState(false);
+
+const[login,setLogin] = useState(false)
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -52,13 +55,20 @@ function NewsDetails() {
     return text;
   };
 
+
+  useEffect(()=>{
+    if(token){
+      setLogin(false)
+    }
+  },[token])
   const handleLike = async () => {
     if (!token) {
-      return Swal.fire({
-        title: "Cannot Comment Please Login",
-        text: "Login Please",
-        icon: "error",
-      });
+      return setLogin(true)
+      // return Swal.fire({
+      //   title: "Cannot Comment Please Login",
+      //   text: "Login Please",
+      //   icon: "error",
+      // });
     }
     try {
       if (isLiked) {
@@ -84,11 +94,13 @@ function NewsDetails() {
 
   const handleComment = async () => {
     if (!token) {
-      return Swal.fire({
-        title: "Cannot Comment Please Login",
-        text: "Login Please",
-        icon: "error",
-      });
+      return setLogin(true)
+
+      // return Swal.fire({
+      //   title: "Cannot Comment Please Login",
+      //   text: "Login Please",
+      //   icon: "error",
+      // });
     }
     try {
       const response = await addCommentMain(
@@ -118,12 +130,27 @@ function NewsDetails() {
     window.scrollTo(0, 0);
   }, [id]);
 
+
+  const openModal = () => {
+    setLogin(true);
+  };
+
+  const closeModal = () => {
+    setLogin(false);
+  };
+
  
 
   return (
     <>
       <Navbar />
+
+      {
+        login && <AuthModal isOpen={login} onClose={closeModal} />
+      }
    {
+
+
    
    !product || loading ?   (<div className="grid min-h-[calc(100vh-3.5rem)] place-items-center mt-[20px]">
           <div className="spinner"></div>

@@ -15,6 +15,12 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 function AddNews() {
+
+  const { user } = useSelector((state) => state.auth);
+
+
+
+
   // States
   const [product, setProduct] = useState("");
   const [categories, setCategories] = useState([]);
@@ -158,6 +164,10 @@ function AddNews() {
     setSubCategories(filteredCategory?.subCategories || []);
   }, [formik.values.category, categories]);
 
+
+  if ( !user?.permissions?.canAdd) {
+    return <div className="w-full h-full items-center justify-center">Access denied</div>;
+  }
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h3 className="text-xl font-bold mb-4">

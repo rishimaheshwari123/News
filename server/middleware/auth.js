@@ -45,11 +45,13 @@ exports.auth = async (req, res, next) => {
 		});
 	}
 };
+
+
 exports.isUser = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
 
-		if (userDetails.accountType !== "User") {
+		if (userDetails.role !== "User") {
 			return res.status(401).json({
 				success: false,
 				message: "This is a Protected Route for User",
@@ -62,11 +64,12 @@ exports.isUser = async (req, res, next) => {
 			.json({ success: false, message: `User Role Can't be Verified` });
 	}
 };
+
 exports.isAdmin = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
 
-		if (userDetails.accountType !== "Admin") {
+		if (userDetails.role !== "Admin") {
 			return res.status(401).json({
 				success: false,
 				message: "This is a Protected Route for Admin",
@@ -79,17 +82,16 @@ exports.isAdmin = async (req, res, next) => {
 			.json({ success: false, message: `User Role Can't be Verified` });
 	}
 };
-exports.isInstructor = async (req, res, next) => {
+
+
+exports.isSuperAdmin = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
-		console.log(userDetails);
 
-		console.log(userDetails.accountType);
-
-		if (userDetails.accountType !== "Instructor") {
+		if (userDetails.role !== "SuperAdmin") {
 			return res.status(401).json({
 				success: false,
-				message: "This is a Protected Route for Instructor",
+				message: "This is a Protected Route for SuperAdmin",
 			});
 		}
 		next();
@@ -99,3 +101,6 @@ exports.isInstructor = async (req, res, next) => {
 			.json({ success: false, message: `User Role Can't be Verified` });
 	}
 };
+
+
+
