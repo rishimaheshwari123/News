@@ -6,6 +6,8 @@ import { signUp } from '../services/operations/admin';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { FaArrowLeftLong } from "react-icons/fa6";
+
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",

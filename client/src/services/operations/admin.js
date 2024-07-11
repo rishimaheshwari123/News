@@ -182,7 +182,7 @@ export function compareOtp(otp, email, navigate) {
         throw new Error(response.data.message)
       }
 
-      if (response.data.userFind) {
+      if (response?.data?.userFind) {
         console.log(response.data.token)
         dispatch(setToken(response.data.token))
         dispatch(setUser(response.data.existingUser))
@@ -192,14 +192,32 @@ export function compareOtp(otp, email, navigate) {
         navigate("/profile")
 
 
+        toast.success("Login Succesfully")
+      toast.dismiss(toastId)
+
+        return
       }
       result = response?.data?.userFind
+   
+      Swal.fire({
+        title: "Login Failed",
+        text:
+          "Your Not Admin Please Contact To SuperAdmin",
+      });
+   
 
-      toast.success("Login Succesfully")
       // navigate("/verify-email")
     } catch (error) {
-      console.log("SENDOTP API ERROR............", error)
-      toast.error(error?.response?.data?.message)
+      console.log("COMPARE API ERROR............", error)
+      // toast.error(error?.response?.data?.message)
+
+      Swal.fire({
+        title: "Login Failed",
+        text:
+          error.response?.data?.message ||
+          "Something went wrong, please try again later",
+        icon: "error",
+      });
     }
     toast.dismiss(toastId)
     return result

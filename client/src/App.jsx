@@ -35,7 +35,8 @@ import { toast } from "react-toastify";
 import Sigup from "./pages/Sigup";
 
 
-import UserLogin from "./pages/Login"; //user
+import AdminLogin from "./pages/Login"; //user
+import TVChannel from "./test/Test";
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -88,8 +89,10 @@ const App = () => {
 
         <Route path="/live" element={<Live />} />
 
+        <Route path="/testt" element={<TVChannel />} />
+
         <Route
-          path="/admin/login"
+          path="/login"
           element={
             <OpenRoute>
               <Login />
@@ -97,10 +100,10 @@ const App = () => {
           }
         />
         <Route
-          path="/login"
+          path="/admin/login"
           element={
             <OpenRoute>
-              <UserLogin />
+              <AdminLogin />
             </OpenRoute>
           }
         />

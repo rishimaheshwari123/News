@@ -197,12 +197,12 @@ const Navbar = () => {
               >
                 Sign in
               </Link>
-              <Link
+              {/* <Link
                 className="px-5 py-1 mb-1 bg-[#2156a4] text-white rounded-md"
                 to="/register"
               >
                 Sign Up
-              </Link>
+              </Link> */}
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import TVChannel from "../../../test/Test";
 const News = () => {
   const { allNews, ads } = useSelector((state) => state.news);
 
@@ -125,6 +125,9 @@ const News = () => {
 
         {/* Third Section */}
         <div className="third col-span-1 md:col-span-1">
+
+
+        <TVChannel />
           <iframe
             className="mt-3 h-[315px] w-full"
             src="https://www.youtube.com/embed/9C5Df-6Pi00?autoplay=1000&si=qieq04s5ZED1gq8b"

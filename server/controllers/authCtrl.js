@@ -183,6 +183,7 @@ const compareOtp = async(req, res)=>{
        return res.status(200).json({
          success: true,
          userFind:false,
+         message:"Your Not Admin Please Contact To SuperAdmin"
        })
      }
 

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { sendOtp } from '../services/operations/admin';
 import VerifyOtp from '../components/core/Login/VerifyOtp';
 import { useLocation } from 'react-router-dom';
-
+import Navbar from '../components/comman/Navbar';
 function Login() {
   const location = useLocation();
 
@@ -22,6 +22,8 @@ function Login() {
   };
 
   return (<>
+  <Navbar/>
+
   {emailSent ? (
         <VerifyOtp sendOtp={sendOTP} email={email} />
       ) :
@@ -69,6 +71,7 @@ function Login() {
     
     )
   }
+  
   </>
   );
 }

@@ -6,7 +6,7 @@ import { compareOtp } from '../../../services/operations/admin';
 import { useState } from 'react';
 import OtpInput from 'react-otp-input';
 import { Link, useNavigate } from 'react-router-dom';
-import Signup from './Signup';
+import Signup from '../../../pages/Sigup';
 
 function VerifyOtp({ sendOtp, email }) {
   const dispatch = useDispatch();
@@ -99,7 +99,15 @@ function VerifyOtp({ sendOtp, email }) {
           )}
         </div>
       ) : (
-        <Signup email={email} />
+        <div className="flex flex-col items-center justify-center mt-[120px] py-8 bg-red-100 rounded-lg shadow-md">
+  <h1 className="text-2xl font-bold text-red-600 mb-4">
+    Access Denied
+  </h1>
+  <p className="text-lg text-gray-700">
+    You do not have admin access. Please contact the admin for assistance.
+  </p>
+</div>
+
       )}
     </div>
   );
