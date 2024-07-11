@@ -14,7 +14,7 @@ import "swiper/css/autoplay";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const AddSlideBar = () => {
+const ButtomAdd = () => {
   const { ads } = useSelector((state) => state.news);
 
   return (
@@ -26,12 +26,12 @@ const AddSlideBar = () => {
         pagination={{ clickable: true }}
         autoplay={{ delay: 2000 }}
         // onSwiper={(swiper) => console.log(swiper)}
-        className=""
+        className="max-w-7xl mx-auto"
       >
         {Array.isArray(ads) &&
           ads.map(
             (currElem, index) =>
-              currElem?.type === "top-add" && (
+              currElem?.type === "buttom-add" && (
                 <SwiperSlide key={index}>
                   <Link to={currElem?.url} target="_blank">
                     <img
@@ -48,4 +48,4 @@ const AddSlideBar = () => {
   );
 };
 
-export default AddSlideBar;
+export default ButtomAdd;

@@ -21,12 +21,11 @@ const validateRequiredFields = (req) => {
     location,
     category,
     subcategory,
-    expire,
     type,
     description,
     language,
     images,
-   
+
   } = req.body;
 
   if (!type || !title || !subtitle || !language || !location || !category || !subcategory || !description || !images) {
@@ -48,7 +47,6 @@ const createNews = async (req, res) => {
     location,
     category,
     subcategory,
-    expire,
     type,
     description,
     images,
@@ -80,7 +78,7 @@ const createNews = async (req, res) => {
       subcategory,
       language,
       type,
-      expire: new Date(expire), // Convert expire to Date format
+      // expire: new Date(expire), // Convert expire to Date format
       description,
       images: imagesArray, // Assign parsed images array
       youtubeurl: youtubeurl || null, // Set youtubeurl to null if not provided
@@ -134,7 +132,7 @@ const updateNewsById = async (req, res) => {
     location,
     category,
     subcategory,
-    expire,
+    // expire,
     type,
     description,
     images,
@@ -163,7 +161,7 @@ const updateNewsById = async (req, res) => {
       location,
       category,
       subcategory,
-      expire: new Date(expire), // Convert expire to Date format
+      // expire: new Date(expire), // Convert expire to Date format
       description,
       type,
       images: imagesArray, // Assign parsed images array
@@ -205,31 +203,31 @@ const deleteNewsById = async (req, res) => {
   try {
     const deletedNews = await News.findByIdAndDelete(newsId);
 
-    
+
     if (!deletedNews) {
       return res.status(404).json({ success: false, message: 'News article not found' });
     }
 
 
-      // Remove news article ID from Category
-      await Category.findByIdAndUpdate(
-        { _id: newsToDelete.category },
-        {
-          $pull: {
-            news: newsToDelete._id,
-          },
-        }
-      );
+    // Remove news article ID from Category
+    await Category.findByIdAndUpdate(
+      { _id: newsToDelete.category },
+      {
+        $pull: {
+          news: newsToDelete._id,
+        },
+      }
+    );
 
-      // Remove news article ID from SubCategory
-      await SubCategory.findByIdAndUpdate(
-        { _id: newsToDelete.subcategory },
-        {
-          $pull: {
-            news: newsToDelete._id,
-          },
-        }
-      );
+    // Remove news article ID from SubCategory
+    await SubCategory.findByIdAndUpdate(
+      { _id: newsToDelete.subcategory },
+      {
+        $pull: {
+          news: newsToDelete._id,
+        },
+      }
+    );
 
 
 
@@ -343,47 +341,47 @@ const likePost = async (req, res) => {
 
 // Comment on a community post
 const removelikePost = async (req, res) => {
-try {
-  const { id } = req.body;
-  const userId = req.user.id; // Assuming req.user contains the authenticated user's information
+  try {
+    const { id } = req.body;
+    const userId = req.user.id; // Assuming req.user contains the authenticated user's information
 
-  // Find the post by ID
-  const post = await News.findById(id);
-  if (!post) {
-    return res.status(404).json({ message: "Post not found" });
+    // Find the post by ID
+    const post = await News.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if the user has liked the post
+    const likeIndex = post.likedBy.indexOf(userId);
+    if (likeIndex === -1) {
+      return res.status(400).json({ message: "You have not liked this post" });
+    }
+
+    // Decrement the likes and remove the user from the likedBy array
+    post.likes -= 1;
+    post.likedBy.splice(likeIndex, 1); // Remove the user from the likedBy array
+    await post.save();
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  // Check if the user has liked the post
-  const likeIndex = post.likedBy.indexOf(userId);
-  if (likeIndex === -1) {
-    return res.status(400).json({ message: "You have not liked this post" });
-  }
-
-  // Decrement the likes and remove the user from the likedBy array
-  post.likes -= 1;
-  post.likedBy.splice(likeIndex, 1); // Remove the user from the likedBy array
-  await post.save();
-
-  res.status(200).json(post);
-} catch (error) {
-  res.status(500).json({ message: error.message });
-}
 };
 
 const commentOnPost = async (req, res) => {
-try {
- 
-  const { content,id } = req.body;
-  const author = req.user.id;
-  const post = await News.findById(id);
-  if (!post) {
-    return res.status(404).json({ message: "Post not found" });
-  }
-  post.comments.push({ author, content });
-  await post.save();
+  try {
+
+    const { content, id } = req.body;
+    const author = req.user.id;
+    const post = await News.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    post.comments.push({ author, content });
+    await post.save();
 
 
-  const news = await News.findById(id)
+    const news = await News.findById(id)
       .populate({
         path: 'subcategory',
         populate: { path: 'news' } // Populate subcategory and include all news
@@ -396,17 +394,18 @@ try {
       .exec();
 
 
-  res.status(201).json({
-    post,
-    news,
-    success:true
-  });
-} catch (error) {
-  res.status(500).json({ 
-    success:false
-    ,
-    message: error.message });
-}
+    res.status(201).json({
+      post,
+      news,
+      success: true
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false
+      ,
+      message: error.message
+    });
+  }
 };
 
 
