@@ -34,6 +34,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Sigup from "./pages/Sigup";
 
+
+import AdminLogin from "./pages/Login"; //user
+import TVChannel from "./test/Test";
+
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const App = () => {
@@ -84,11 +89,21 @@ const App = () => {
 
         <Route path="/live" element={<Live />} />
 
+        <Route path="/testt" element={<TVChannel />} />
+
         <Route
           path="/login"
           element={
             <OpenRoute>
               <Login />
+            </OpenRoute>
+          }
+        />
+        <Route
+          path="/admin/login"
+          element={
+            <OpenRoute>
+              <AdminLogin />
             </OpenRoute>
           }
         />
