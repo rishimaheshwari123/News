@@ -16,7 +16,7 @@ function CreateAdd() {
     type: "",
   });
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  const { token ,user} = useSelector((state) => state.auth);
   const ads = useSelector((state) => state.news.ads);
 
   const handleChange = (e) => {
@@ -124,12 +124,12 @@ function CreateAdd() {
       </div>
 
       <div className="flex justify-end mb-4">
-        <button
+       { user?.permissions?.canAdd &&  <button
           onClick={() => setCreate(!openCreate)}
           className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
         >
           <FaPlusCircle /> Create Ads
-        </button>
+        </button>}
       </div>
 
       {openCreate && (
@@ -241,12 +241,12 @@ function CreateAdd() {
                   </a>
                 </td>
                 <td className="py-4 px-6 text-center">
-                  <button
+                 { user?.permissions?.canDelete &&   <button
                     onClick={() => handleDelete(ad._id)}
                     className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2 transition duration-200 ease-in-out"
                   >
                     Delete
-                  </button>
+                  </button>}
                 </td>
               </tr>
             ))}

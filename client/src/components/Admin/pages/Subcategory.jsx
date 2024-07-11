@@ -17,7 +17,7 @@ function SubCategory() {
   const [openEditModal, setEditModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
-  const { token } = useSelector((state) => state.auth);
+  const { token,user } = useSelector((state) => state.auth);
 
   const [editSubCategory, setEditSubCategory] = useState({
     name: "",
@@ -123,12 +123,12 @@ function SubCategory() {
       </div>
 
       <div className="flex justify-end mb-4">
-        <button
+    { user?.permissions?.canAdd &&     <button
           onClick={() => setCreate(!openCreate)}
           className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
         >
           <FaPlusCircle /> Create SubCategory
-        </button>
+        </button>}
       </div>
 
       {openCreate && (
@@ -241,12 +241,12 @@ function SubCategory() {
                   >
                     Edit
                   </button> */}
-                  <button
+             {  user?.permissions?.canDelete &&    <button
                     onClick={() => handleDeleteSubCategory(subCategory._id)}
                     className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2"
                   >
                     Delete
-                  </button>
+                  </button>}
                 </td>
               </tr>
             ))}

@@ -15,9 +15,8 @@ function Category() {
   const [openCreate, setCreate] = useState(false);
   const [openEditModal, setEditModal] = useState(false);
   const [categories, setCategories] = useState([]);
-  const { token } = useSelector((state) => state.auth);
+  const { token,user } = useSelector((state) => state.auth);
   // const[displayCate,setCat] = useState([])
-
   const [editCategory, setEditCategory] = useState({
     name: "",
     description: "",
@@ -76,24 +75,6 @@ function Category() {
     }
   };
 
-  // const uploadImage = async (acceptedFiles) => {
-  //   const response = await imageUpload(acceptedFiles);
-  //   // console.log(response[0].url);
-
-  //   if (openEditModal) {
-  //     setEditCategory((prevState) => ({
-  //       ...prevState,
-  //       image: response[0]?.url || "", // Ensure response?.url is defined, otherwise set to an empty string or handle appropriately
-  //     }));
-  //   } else {
-  //     setNewCategory((prevState) => ({
-  //       ...prevState,
-  //       image: response[0]?.url || "", // Ensure response?.url is defined, otherwise set to an empty string or handle appropriately
-  //     }));
-
-  //     console.log(response[0]?.url);
-  //   }
-  // };
 
   const handleDelete = async (categoryId) => {
     try {
@@ -114,12 +95,12 @@ function Category() {
       </div>
 
       <div className="flex justify-end mb-4">
-        <button
+       {user?.permissions?.canAdd &&  <button
           onClick={() => setCreate(!openCreate)}
           className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
         >
           <FaPlusCircle /> Create Category
-        </button>
+        </button>}
       </div>
 
       {openCreate && (
@@ -208,18 +189,18 @@ function Category() {
                 <td className="py-4 px-6">{category.description}</td>
 
                 <td className="py-4 px-6 text-center">
-                  <button
+               { user?.permissions?.canEdit &&  <button
                     onClick={() => handleEditCategory(category._id)}
                     className="p-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 focus:outline-none"
                   >
                     Edit
-                  </button>
-                  <button
+                  </button>}
+                { user?.permissions?.canDelete &&   <button
                     onClick={() => handleDelete(category._id)}
                     className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2"
                   >
                     Delete
-                  </button>
+                  </button>}
                 </td>
               </tr>
             ))}
@@ -227,7 +208,7 @@ function Category() {
         </table>
       </div>
 
-      {openEditModal && (
+      {openEditModal  && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-4 rounded-lg">
             <h5 className="text-xl font-semibold mb-2">Edit Category</h5>

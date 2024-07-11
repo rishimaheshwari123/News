@@ -16,6 +16,12 @@ const AdminManage = () => {
     canEdit: false,
     canDelete: false,
   });
+  const [editData, setEditData] = useState({
+    adminId: null,
+    canAdd: false,
+    canEdit: false,
+    canDelete: false,
+  });
   const { user, token } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -47,15 +53,21 @@ const AdminManage = () => {
     });
   };
 
+  const handleEditChange = (e) => {
+    setEditData({
+      ...editData,
+      [e.target.name]: e.target.checked,
+    });
+  };
+
   const handleAddAdmin = async (e) => {
     e.preventDefault();
 
     const permissions = {
-        canAdd: formData.canAdd,
-        canEdit: formData.canEdit,
-        canDelete: formData.canDelete,
-      };
-
+      canAdd: formData.canAdd,
+      canEdit: formData.canEdit,
+      canDelete: formData.canDelete,
+    };
 
     try {
       await axios.post(`${BASE_URL}/admin/add`, { ...formData, permissions }, {
@@ -91,6 +103,29 @@ const AdminManage = () => {
       setAdmins(response.data);
     } catch (error) {
       console.error('Error deleting admin:', error);
+    }
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    const { adminId, canAdd, canEdit, canDelete } = editData;
+    try {
+      await axios.put(`${BASE_URL}/admin/update/${adminId}`, { canAdd, canEdit, canDelete }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Fetch updated list of admins
+      const response = await axios.get(`${BASE_URL}/admin`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAdmins(response.data);
+      setEditData({
+        adminId: null,
+        canAdd: false,
+        canEdit: false,
+        canDelete: false,
+      });
+    } catch (error) {
+      console.error('Error updating admin permissions:', error);
     }
   };
 
@@ -188,21 +223,117 @@ const AdminManage = () => {
           <AiOutlineUserAdd className="inline-block mr-2" /> Add Admin
         </button>
       </form>
-      <ul className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        {admins.map((admin) => (
-          <li key={admin._id} className="flex justify-between items-center mb-4">
-            <div>
-              <span className="font-bold">{admin.name}</span> ({admin.email})
-            </div>
-            <button
-              onClick={() => handleDeleteAdmin(admin._id)}
-              className="text-red-500 hover:text-red-700"
-            >
-              <FiTrash2 />
-            </button>
-          </li>
-        ))}
-      </ul>
+
+
+  <table className="min-w-full bg-white shadow-md rounded mb-4">
+  <thead className="bg-gray-200">
+    <tr>
+      <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">Admin Name (Email)</th>
+      <th className="px-6 py-3 border-b-2 border-gray-300 text-center text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">Actions</th>
+    </tr>
+  </thead>
+  <tbody className="bg-white">
+    {admins.map((admin) => (
+      <tr key={admin._id} className="border-b border-gray-200">
+        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+          <div className="flex items-center">
+            <span className="font-bold">{admin.name}</span> ({admin.email})
+          </div>
+        </td>
+        <td className="px-6 py-4 whitespace-no-wrap text-center text-sm leading-5 font-medium">
+          <button
+            onClick={() => setEditData({
+              adminId: admin._id,
+              canAdd: admin.permissions.canAdd,
+              canEdit: admin.permissions.canEdit,
+              canDelete: admin.permissions.canDelete,
+            })}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+          >
+            Edit Permissions
+          </button>
+          <button
+            onClick={() => handleDeleteAdmin(admin._id)}
+            className="text-red-500 hover:text-red-700"
+          >
+            <FiTrash2 />
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+
+
+
+      {editData.adminId && (
+  <>
+    <div className="fixed inset-0 bg-black opacity-50 z-10 "></div>
+    <form onSubmit={handleEditSubmit} className="fixed bg-gray-200 top-[30%] right-[40%] shadow-md rounded px-8 pt-6 pb-8 mb-4 z-20">
+      <h3 className="text-xl font-bold mb-4">Edit Permissions for {admins.find(admin => admin._id === editData.adminId)?.name}</h3>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Permissions
+        </label>
+        <div className="flex items-center">
+          <label className="block text-gray-700 text-sm font-bold mb-2 mr-4">
+            <input
+              type="checkbox"
+              name="canAdd"
+              checked={editData.canAdd}
+              onChange={handleEditChange}
+              className="mr-2 leading-tight"
+            />
+            Can Add
+          </label>
+          <label className="block text-gray-700 text-sm font-bold mb-2 mr-4">
+            <input
+              type="checkbox"
+              name="canEdit"
+              checked={editData.canEdit}
+              onChange={handleEditChange}
+              className="mr-2 leading-tight"
+            />
+            Can Edit
+          </label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            <input
+              type="checkbox"
+              name="canDelete"
+              checked={editData.canDelete}
+              onChange={handleEditChange}
+              className="mr-2 leading-tight"
+            />
+            Can Delete
+          </label>
+        </div>
+      </div>
+
+      <div className=' w-full justify-between flex'>
+      <button
+        type="submit"
+        className="  bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Update Permissions
+      </button>
+      <button
+        type="submit"
+        className="  bg-gray-500 hover:bg-blue-900 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        onCanPlay={()=>setEditData({
+          adminId: "",
+
+        })}
+      >
+        Close
+      </button>
+
+
+      </div>
+    </form>
+  </>
+)}
+
     </div>
   );
 };

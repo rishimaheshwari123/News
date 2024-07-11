@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CiMenuFries } from "react-icons/ci";
 import { RxCross1 } from "react-icons/rx";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken, setUser } from "../../../redux/authSlice";
+import logo from "../../../assest/logo.jpg"
 import {
   FcBullish,
   FcPlus,
@@ -17,6 +17,7 @@ import {
   FcAdvertising,
   FcManager,
 } from "react-icons/fc";
+import { logout } from "../../../services/operations/user";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(
@@ -25,12 +26,10 @@ const Sidebar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
-
+  const navigate = useNavigate()
   // Function to handle logout
   const handleLogout = async () => {
-    localStorage.removeItem("token");
-    dispatch(setToken(null));
-    dispatch(setUser(null));
+    dispatch(logout(navigate))
   };
 
   // Function to toggle sidebar collapse
@@ -87,7 +86,7 @@ const Sidebar = () => {
         {/* Logo section */}
         <div className={`${isCollapsed ? "hidden" : "block"} text-white font-bold text-xl`}>
           <img
-            src={""}
+            src={logo}
             alt=""
             className="w-[50px] h-[50px] lg:w-12 lg:h-12 object-cover rounded-full"
           />

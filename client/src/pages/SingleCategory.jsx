@@ -44,8 +44,8 @@ function SingleCategory() {
                 alt={news.name}
                 className="w- h- object-cover rounded-lg mb-4"
               /> */}
-              <h3 className="text-xl font-semibold mb-2">{news.name}</h3>
-              <h4 className="text-md font-light mb-4">{news.description}</h4>
+              <h3 className="text-xl font-semibold mb-2">{news?.name}</h3>
+              <h4 className="text-md font-light mb-4">{news?.description}</h4>
             </div>
           </div>
 

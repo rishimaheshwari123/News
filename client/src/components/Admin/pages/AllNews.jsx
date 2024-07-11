@@ -55,7 +55,7 @@ const AllNews = () => {
   );
 
   return (
-    <div className="p-8">
+    <div className="p-8  ">
       <h1 className="text-2xl font-bold mb-4">All News</h1>
       <input
         type="text"
@@ -64,7 +64,7 @@ const AllNews = () => {
         onChange={handleSearch}
         className="mb-4 p-2 border border-gray-300 rounded"
       />
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-h-[70vh]">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -141,12 +141,15 @@ const AllNews = () => {
                   >
                     {news.active ? "Deactivate" : "Activate"}
                   </button>
-                  <button
+               {
+
+               user?.permissions?.canDelete &&  <button
                     onClick={() => handleDelete(news._id)}
                     className="px-4 py-2 font-semibold text-sm bg-gray-500 text-white rounded-full shadow-sm"
                   >
                     Delete
                   </button>
+               }
                 </td>
               </tr>
             ))}

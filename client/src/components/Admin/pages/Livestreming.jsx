@@ -10,7 +10,7 @@ import axios from "axios";
 
 function LiveStream() {
   const [openCreate, setCreate] = useState(false);
-  const { token } = useSelector((state) => state.auth);
+  const { token,user } = useSelector((state) => state.auth);
   const [liveStreamsList, setLiveStreamsList] = useState([]);
   const [liveStream, setLiveStream] = useState({
     name: "",
@@ -80,12 +80,12 @@ function LiveStream() {
       </div>
 
       <div className="flex justify-end mb-4">
-        <button
+      { user?.permissions?.canAdd &&  <button
           onClick={() => setCreate(!openCreate)}
           className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
         >
           <FaPlusCircle /> Create Live Stream
-        </button>
+        </button>}
       </div>
 
       {openCreate && (
@@ -139,12 +139,12 @@ function LiveStream() {
                   >
                     {stream.active ? "Deactivate" : "Activate"}
                   </button>
-                  <button
+              { user?.permissions?.canDelete &&    <button
                     onClick={() => handleDelete(stream._id)}
                     className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2"
                   >
                     Delete
-                  </button>
+                  </button>}
                 </td>
               </tr>
             ))}

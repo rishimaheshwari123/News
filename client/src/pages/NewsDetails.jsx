@@ -169,7 +169,7 @@ const[login,setLogin] = useState(false)
            </h2>
            /
            <h2 className="text-sm text-gray-500">
-             {product?.subcategory.name}
+             {product?.subcategory?.name}
            </h2>
          </div>
        )}
@@ -263,7 +263,7 @@ const[login,setLogin] = useState(false)
                  .map((comment, index) => (
                    <li key={index} className="mb-2">
                      <span className="font-bold">
-                       {comment?.author.name}
+                       {comment?.author?.name}
                      </span>
                      : {comment?.content}
                    </li>
