@@ -36,6 +36,11 @@ const newsSchema = new Schema({
     type: String,
     required: true,
   },
+  slug:{
+    type:String,
+    required: true,
+    unique: true 
+  },
   location: {
     type: String,
     // required: true,
@@ -84,6 +89,15 @@ const newsSchema = new Schema({
   type: {
     type: String,
     required: true
+  },
+  tag: {
+    type: [String],
+    required: true,
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'auth',
+    required: true,
   },
 
   comments: [commentSchema],

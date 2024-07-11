@@ -48,7 +48,7 @@ const SearchBox = ({ isOpen, toggleSearch }) => {
           {filteredNews.map((news) => (
             <li key={news._id} className="mb-2">
            <Link
-                  to={`/newsdetails/${news._id}`}
+                  to={`/${news.slug}`}
            
             className=' flex gap-4  flex-col lg:flex-row '>
           <img src={news?.images[0]?.url} alt="" className=' h-[130px] lg:h-[100px]' />  

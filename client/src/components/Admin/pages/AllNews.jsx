@@ -21,7 +21,7 @@ const AllNews = () => {
     );
 
     dispatch(saveNews(updatedNews));
-    await activeToggle({ newsId, newStatus }, token);
+    await activeToggle({ newsId, activeStatus:newStatus }, token);
   };
 
   const handleDelete = async (newsId) => {

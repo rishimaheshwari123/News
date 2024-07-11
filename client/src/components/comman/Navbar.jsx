@@ -38,7 +38,7 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [click, setClick] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   const { category } = useSelector((state) => state.news);
@@ -97,7 +97,7 @@ const navigate = useNavigate()
     <nav className=" text-white text-xl  fixed w-screen h-[50px] top-0 z-50 ">
       <div className=" -h-[50px] bg-[#f26434]  pt-1 min-w-[100vw]">
         <div className="flex justify-end items-center w-11/12 mx-auto gap-2 flex-wrap ">
-          {(user?.role === "Admin" || user?.role === "SuperAdmin")   && (
+          {(user?.role === "Admin" || user?.role === "SuperAdmin") && (
             <div>
               <Link
                 to="/admin/dashboard"
@@ -285,29 +285,33 @@ const navigate = useNavigate()
                     <div>
                       <div className="grid grid-cols-4 gap-4 mt-2">
                         {category.news &&
-                          category.news.slice(0, 4).map((newsItem) => (
-                            <div
-                              key={newsItem._id}
-                              className="border rounded-md overflow-hidden hover:shadow-lg"
-                            >
-                              <Link
-                                to={`/newsdetails/${newsItem._id}`}
-                                onClick={() => setClick(false)}
+                          category.news
+                            .slice(0, 4)
+                            .filter((currElem) => currElem?.active === true)
+
+                            .map((newsItem) => (
+                              <div
+                                key={newsItem._id}
+                                className="border rounded-md overflow-hidden hover:shadow-lg"
                               >
-                                <img
-                                  src={newsItem?.images[0]?.url}
-                                  alt={newsItem.title}
-                                  className="w-full h-32 object-cover"
-                                />
-                                <div className="p-2">
-                                  <h3 className="text-sm font-medium">
-                                    {truncateText(newsItem.title, 15)}
-                                    {/* {newsItem.title} */}
-                                  </h3>
-                                </div>
-                              </Link>
-                            </div>
-                          ))}
+                                <Link
+                                  to={`/${newsItem.slug}`}
+                                  onClick={() => setClick(false)}
+                                >
+                                  <img
+                                    src={newsItem?.images[0]?.url}
+                                    alt={newsItem.title}
+                                    className="w-full h-32 object-cover"
+                                  />
+                                  <div className="p-2">
+                                    <h3 className="text-sm font-medium">
+                                      {truncateText(newsItem.title, 15)}
+                                      {/* {newsItem.title} */}
+                                    </h3>
+                                  </div>
+                                </Link>
+                              </div>
+                            ))}
                       </div>
                     </div>
                   </div>

@@ -45,6 +45,8 @@ const[login,setLogin] = useState(false)
       setLoading(false);
     };
     fetchNews();
+
+   
   }, [id]);
 
   const truncateText = (text, wordLimit) => {
@@ -139,6 +141,27 @@ const[login,setLogin] = useState(false)
     setLogin(false);
   };
 
+
+  const dateFormate = (dateString)=>{
+    const date = new Date(dateString);
+
+    // Format options
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      // second: '2-digit',
+      hour12: true,
+      // timeZoneName: 'short',
+    };
+  
+    const formattedDate = date.toLocaleString('en-US', options);
+
+    return formattedDate
+  }
  
 
   return (
@@ -201,6 +224,10 @@ const[login,setLogin] = useState(false)
              </div>
            )}
          </div>
+
+         <div>
+
+         </div>
          <div
            dangerouslySetInnerHTML={{ __html: product?.description }}
          ></div>
@@ -223,7 +250,16 @@ const[login,setLogin] = useState(false)
            <span>{product?.location}</span>
            <span>{product?.expireDate}</span>
          </div>
-         <div className="mt-6">
+         <div className="mt-6 flex justify-between">
+           <div>
+<p className=" font-semibold italic">By:-{product?.author?.name}</p>
+
+<div>
+ <p className=" font-semibold italic text-[12px]"> {dateFormate(product?.publish)}</p>
+</div>
+           </div>
+
+
            <div className="flex items-center gap-2">
              <button
                onClick={handleLike}
@@ -235,6 +271,8 @@ const[login,setLogin] = useState(false)
                <span>{`${product?.likes + 1300}`}</span>
              </button>
            </div>
+
+
          </div>
          <div className="mt-6">
            <textarea
@@ -281,7 +319,7 @@ const[login,setLogin] = useState(false)
        </div>
        <div className="flex gap-3 grid-cols-1 max-h-[40px] mt-8 p-2 flex-col">
          {realted?.map((currElem, index) => (
-           <Link to={`/newsdetails/${currElem._id}`} key={currElem._id}>
+           <Link to={`/${currElem?.slug}`} key={currElem._id}>
              <div className="flex gap-3">
                <img
                  src={currElem.images[0].url}

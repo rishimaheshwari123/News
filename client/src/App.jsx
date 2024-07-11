@@ -82,7 +82,8 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/newsdetails/:id" element={<NewsDetails />} />
+      
+        <Route path="/:id" element={<NewsDetails />} />
         <Route path="/category/:id" element={<SingleCategory />} />
         <Route path="/subcategory/:id" element={<SubCategorySingle />} />
         {/* <Route path="/reel" element={<ReelSection />} /> */}

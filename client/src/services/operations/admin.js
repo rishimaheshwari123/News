@@ -290,7 +290,8 @@ export const createNews = async (data, token) => {
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: error.message,
+      text: error?.response?.data?.message,
+
     });
   } finally {
     if (swalLoadingInstance) {
@@ -332,7 +333,7 @@ export const editNews = async (data, token) => {
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: error.message,
+      text: error?.response?.data?.message,
     });
   } finally {
     Swal.close(toastId);

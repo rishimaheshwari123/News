@@ -64,7 +64,7 @@ function SingleCategory() {
                       {news?.news?.map((newsItem) => (
                         <div key={newsItem._id} className="mt-4">
                           <Link
-                            to={`/newsdetails/${newsItem._id}`}
+                            to={`/${newsItem?.slug}`}
                             className="text-lg font-semibold mb-2 text-blue-600 underline"
                           >
                             {newsItem.title}rr
@@ -98,7 +98,7 @@ function SingleCategory() {
                   related?.map((currElem) =>
                     currElem.news.map((newsItem) => (
                       <Link
-                        to={`/newsdetails/${newsItem._id}`}
+                        to={`/${newsItem?.slug}`}
                         key={newsItem._id}
                         className="flex gap-3 items-center bg-white shadow-md p-2 rounded-lg"
                       >

@@ -29,27 +29,32 @@ const News = () => {
           <div className="second grid gap-1">
             <p className="text-3xl font-bold text-center my-5">RECENT NEWS</p>
 
-            {sortedNews.map((currElem, index) => {
-              if (currElem?.type === "recent-news") {
-                return (
-                  <Link
-                    className="flex gap-4 items-center p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
-                    key={index}
-                    to={`/newsdetails/${currElem._id}`}
-                  >
-                    <img
-                      src={currElem?.images[0]?.url}
-                      alt=""
-                      className="w-30 h-20 object-cover rounded-md"
-                    />
-                    <p className="mt-2 w-[80%] text-sm text-gray-700 font-medium">
-                      {truncateText(currElem.title, 15)}
-                    </p>
-                  </Link>
-                );
-              }
-              return null;
-            })}
+            {sortedNews
+              .filter(
+                (currElem) =>
+                  currElem?.active === true && currElem?.type === "recent-news"
+              )
+              .map((currElem, index) => {
+                if (currElem?.type === "recent-news") {
+                  return (
+                    <Link
+                      className="flex gap-4 items-center p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+                      key={index}
+                      to={`/${currElem?.slug}`}
+                    >
+                      <img
+                        src={currElem?.images[0]?.url}
+                        alt=""
+                        className="w-30 h-20 object-cover rounded-md"
+                      />
+                      <p className="mt-2 w-[80%] text-sm text-gray-700 font-medium">
+                        {truncateText(currElem.title, 15)}
+                      </p>
+                    </Link>
+                  );
+                }
+                return null;
+              })}
             <br />
             {Array.isArray(ads) &&
               ads.map(
@@ -72,22 +77,24 @@ const News = () => {
             <p className="text-3xl font-bold text-center my-5">BIG NEWS</p>
             <br />
             <div className="grid  gap-4">
-              {sortedNews.map((currEle, index) => {
-                if (currEle?.type === "big-news") {
-                  return (
-                    <Link
-                      to={`/newsdetails/${currEle._id}`}
-                      key={index}
-                      className="bg-white rounded-lg shadow-md p-4 mb-4"
-                    >
-                      <p className="text-sm font-bold text-gray-800 mb-2">
-                        {truncateText(currEle.title, 20)}
-                      </p>
-                    </Link>
-                  );
-                }
-                return null;
-              })}
+              {sortedNews
+                .filter((currElem) => currElem?.active === true)
+                .map((currEle, index) => {
+                  if (currEle?.type === "big-news") {
+                    return (
+                      <Link
+                        to={`/${currEle.slug}`}
+                        key={index}
+                        className="bg-white rounded-lg shadow-md p-4 mb-4"
+                      >
+                        <p className="text-sm font-bold text-gray-800 mb-2">
+                          {truncateText(currEle.title, 20)}
+                        </p>
+                      </Link>
+                    );
+                  }
+                  return null;
+                })}
             </div>
           </div>
         </div>
@@ -96,56 +103,62 @@ const News = () => {
         <div className="second col-span-1 md:col-span-2">
           <p className="text-3xl font-bold text-center mt-3">TOP NEWS</p>
           <br />
-          {sortedNews.map((currEle, index) => {
-            if (currEle?.type === "top-news") {
-              return (
-                <Link
-                  to={`/newsdetails/${currEle._id}`}
-                  key={index}
-                  className="bg-white rounded-lg overflow-hidden shadow-md mb-4"
-                >
-                  <img
-                    src={currEle.images[0]?.url}
-                    alt=""
-                    className="w-full object-cover"
-                  />
-                  <div className="p-4">
-                    <p className="text-xl font-bold text-gray-800 mb-2">
-                      {currEle.title}
-                    </p>
-                    <p className="text-gray-600">{currEle.subtitle}</p>
-                  </div>
-                </Link>
-              );
-            }
-            return null;
-          })}
+          {sortedNews
+            .filter((currElem) => currElem?.active === true)
 
-          <p className="text-3xl font-bold text-center mt-3">ALL NEWS</p>
-          <br />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {sortedNews?.map((currEle, index) => {
-              if (currEle?.type === "all") {
+            .map((currEle, index) => {
+              if (currEle?.type === "top-news") {
                 return (
                   <Link
-                    to={`/newsdetails/${currEle._id}`}
+                    to={`/${currEle.slug}`}
                     key={index}
-                    className="bg-white rounded-lg shadow-md p-4 mb-4"
+                    className="bg-white rounded-lg overflow-hidden shadow-md mb-4"
                   >
                     <img
                       src={currEle.images[0]?.url}
                       alt=""
                       className="w-full object-cover"
                     />
-                    <p className="text-sm font-bold text-gray-800 mb-2">
-                      {truncateText(currEle.title, 20)}
-                    </p>
-                    {/* <p className="text-gray-600 tex-sm">{currEle.subtitle}</p> */}
+                    <div className="p-4">
+                      <p className="text-xl font-bold text-gray-800 mb-2">
+                        {currEle.title}
+                      </p>
+                      <p className="text-gray-600">{currEle.subtitle}</p>
+                    </div>
                   </Link>
                 );
               }
               return null;
             })}
+
+          <p className="text-3xl font-bold text-center mt-3">ALL NEWS</p>
+          <br />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {sortedNews
+              ?.filter((currElem) => currElem?.active === true)
+
+              .map((currEle, index) => {
+                if (currEle?.type === "all") {
+                  return (
+                    <Link
+                      to={`/${currEle.slug}`}
+                      key={index}
+                      className="bg-white rounded-lg shadow-md p-4 mb-4"
+                    >
+                      <img
+                        src={currEle.images[0]?.url}
+                        alt=""
+                        className="w-full object-cover"
+                      />
+                      <p className="text-sm font-bold text-gray-800 mb-2">
+                        {truncateText(currEle.title, 20)}
+                      </p>
+                      {/* <p className="text-gray-600 tex-sm">{currEle.subtitle}</p> */}
+                    </Link>
+                  );
+                }
+                return null;
+              })}
           </div>
         </div>
 

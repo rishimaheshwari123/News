@@ -3,6 +3,7 @@ const News = require('../models/newsModel')
 const Category = require('../models/category');
 const SubCategory = require('../models/subCategory');
 const Notification = require("../models/notification")
+const User = require("../models/authModel")
 // Function to validate category ID
 const validateCategory = async (categoryId) => {
   return await Category.exists({ _id: categoryId });
@@ -25,10 +26,15 @@ const validateRequiredFields = (req) => {
     description,
     language,
     images,
+   
+    slug
 
   } = req.body;
 
-  if (!type || !title || !subtitle || !language || !location || !category || !subcategory || !description || !images) {
+console.log(req.body)
+
+
+  if (!type || !title || !subtitle || !language || !location || !category || !subcategory || !description || !images  || !slug ) {
     return false;
   }
   return true;
@@ -51,8 +57,23 @@ const createNews = async (req, res) => {
     description,
     images,
     youtubeurl,
-    notificationSend
+    notificationSend,
+    tag:_tag,
+    slug
   } = req.body;
+  
+  const userId = req.user.id
+
+
+  const authDetails = await User.findById(userId)
+
+  const tag = JSON.parse(_tag);
+
+ 
+  if (!Array.isArray(tag) || !tag.length) {
+    return res.status(400).json({ error: 'Tags must be a non-empty array' });
+  }
+
 
   // Parse images array from JSON string to JavaScript object
   const imagesArray = JSON.parse(images);
@@ -70,6 +91,10 @@ const createNews = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid subcategory ID' });
     }
 
+    let active = true
+    if(authDetails.role === "Admin"){
+      active = false
+    }
     const newNews = new News({
       title,
       subtitle,
@@ -78,6 +103,10 @@ const createNews = async (req, res) => {
       subcategory,
       language,
       type,
+      active:active,
+      tag,
+      slug,
+      author:authDetails._id,
       // expire: new Date(expire), // Convert expire to Date format
       description,
       images: imagesArray, // Assign parsed images array
@@ -114,6 +143,7 @@ const createNews = async (req, res) => {
 
     res.status(201).json({ success: true, message: 'News article created successfully', news: newNews });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -133,6 +163,8 @@ const updateNewsById = async (req, res) => {
     category,
     subcategory,
     // expire,
+    tag: _tag,
+    slug,
     type,
     description,
     images,
@@ -141,6 +173,8 @@ const updateNewsById = async (req, res) => {
 
   // Parse images array from JSON string to JavaScript object
   const imagesArray = JSON.parse(images);
+  const tag = JSON.parse(_tag)
+  console.log("tag", tag)
 
   try {
     // Validate category ID
@@ -161,6 +195,8 @@ const updateNewsById = async (req, res) => {
       location,
       category,
       subcategory,
+      tag,
+      slug,
       // expire: new Date(expire), // Convert expire to Date format
       description,
       type,
@@ -244,7 +280,7 @@ const getNewsById = async (req, res) => {
 
 
   try {
-    const news = await News.findById(newsId)
+    const news = await News.findOne({slug:newsId})
       .populate({
         path: 'subcategory',
         populate: { path: 'news' } // Populate subcategory and include all news
@@ -254,6 +290,7 @@ const getNewsById = async (req, res) => {
         populate: { path: 'news' } // Populate subcategories and include all news
 
       }).populate("comments.author")
+      .populate("author")
       .exec();
 
     if (!news) {

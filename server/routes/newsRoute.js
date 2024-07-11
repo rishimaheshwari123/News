@@ -17,7 +17,7 @@ const {
 const { auth, isUser, isAdmin } = require("../middleware/auth");
 
 
-router.post('/create', createNews);
+router.post('/create',auth, createNews);
 
 router.put('/update', updateNewsById);
 

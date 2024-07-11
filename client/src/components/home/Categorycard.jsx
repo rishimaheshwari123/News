@@ -39,7 +39,7 @@ export default function Categorycard({ category }) {
           {/* //top */}
           <div className=" col-span-2">
             {latestNews[0] && (
-              <Link to={`/newsdetails/${latestNews[0]?._id}`}>
+              <Link to={`/${latestNews[0]?.slug}`}>
                 <img src={latestNews[0]?.images[0]?.url} alt="" className="" />
                 <p className="font-semibold">
                   {truncateText(latestNews[0]?.title, 20)}
@@ -49,7 +49,7 @@ export default function Categorycard({ category }) {
 
             {latestNews[1] && (
               <Link
-                to={`/newsdetails/${latestNews[1]?._id}`}
+                to={`/${latestNews[1]?.slug}`}
                 className="flex gap-2 mt-4"
               >
                 <img
@@ -68,7 +68,7 @@ export default function Categorycard({ category }) {
             <div>
               {latestNews.slice(2).map((news) => (
                 <Link
-                to={`/newsdetails/${latestNews[1]?._id}`}
+                to={`/${latestNews[1]?.slug}`}
                 
                  key={news._id} className="mb-4 flex gap-2">
                   <img src={news?.images[0]?.url} alt="" className="h-[60px]" />

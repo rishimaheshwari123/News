@@ -13,6 +13,8 @@ import "react-quill/dist/quill.snow.css";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { FiAlertCircle } from 'react-icons/fi';
+
 
 function AddNews() {
 
@@ -30,6 +32,28 @@ function AddNews() {
   const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
   const maxWords = 3000; // Maximum allowed words
+
+
+
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
+
+  const handleAddTag = () => {
+    if (tagInput && !formik.values.tag.includes(tagInput)) {
+      formik.setFieldValue('tag', [...formik.values.tag, tagInput]);
+      setTagInput('');
+    }
+    console.log(tags)
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    formik.setFieldValue('tag', formik.values.tag.filter(tag => tag !== tagToRemove));
+  };
+
+
+
+
+
 
   const handleChange = (html) => {
     // Count words
@@ -109,7 +133,14 @@ function AddNews() {
     category: Yup.string().required("Category is required"),
     subcategory: Yup.string().required("Subcategory is required"),
     type: Yup.string().required("Type is required"),
-  });
+    slug: Yup.string()
+    .matches(/^[a-zA-Z0-9-_]+$/, 'Slug can only contain letters, numbers, hyphens, and underscores, and no spaces')
+    .required('Custom Url is required'),
+    tag: Yup.array()
+    .of(Yup.string().required('Tag is required'))
+    .required('Tags are required')
+    .min(1, 'At least one tag is required'),
+     });
 
   // Formik Form Initial Values
   const initialValues = {
@@ -124,6 +155,9 @@ function AddNews() {
     youtubeurl: product?.youtubeurl || "",
     type: product?.type || "",
     notificationSend: false,
+    slug:product?.slug || "",
+    tag: product?.tag || []
+
   };
 
   // Formik Form Submission
@@ -131,6 +165,8 @@ function AddNews() {
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("description", editorHtml);
+    formData.append("slug", values.slug);
+    formData.append("tag", JSON.stringify(values.tag));
     formData.append("subtitle", values.subtitle);
     formData.append("category", values.category);
     formData.append("language", values.language);
@@ -144,9 +180,9 @@ function AddNews() {
 
     await createNews(formData, token);
 
-    resetForm();
-    setEditorHtml(""); // Clear the ReactQuill editor
-    setImages([]); // Clear uploaded images
+    // resetForm();
+    // setEditorHtml(""); // Clear the ReactQuill editor
+    // setImages([]); // Clear uploaded images
   };
 
   // Formik Hook
@@ -165,8 +201,13 @@ function AddNews() {
   }, [formik.values.category, categories]);
 
 
-  if ( !user?.permissions?.canAdd ) {
-    return <div className="max-w-3xl mx-auto p-4 h-full items-center">Access denied</div>;
+  if (!user?.permissions?.canAdd) {
+    return (
+      <div className="max-w-3xl mx-auto p-4 h-full flex items-center justify-center">
+        <FiAlertCircle className="text-red-500 mr-2" size={24} /> {/* Adjust size and color as needed */}
+        <div>Access denied</div>
+      </div>
+    );
   }
   return (
     <div className="max-w-3xl mx-auto p-4">
@@ -440,7 +481,71 @@ function AddNews() {
                 </div>
               )}
           </div>
+
+
+        <div>
+        <div className="flex items-center">
+          <input
+            type="text"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <button
+            type="button"
+            onClick={handleAddTag}
+            className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Add Tag
+          </button>
+
         </div>
+          {formik.touched.tag && formik.errors.tag && (
+              <div className="text-red-500">{formik.errors.tag}</div>
+            )}
+        <div className="mt-2">
+          {formik.values.tag.map((tag, index) => (
+            <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+              {tag}
+              <button type="button" onClick={() => handleRemoveTag(tag,formik)} className="ml-2 text-red-500 hover:text-red-700">x</button>
+            </span>
+          ))}
+        </div>
+        </div>
+
+
+
+        </div>
+
+
+<div>
+<div className="space-y-2">
+            <label
+              htmlFor="slug"
+              className="block font-medium text-gray-700"
+            >
+              Custome URL
+            </label>
+            <input
+              id="slug"
+              name="slug"
+              type="text"
+              placeholder="Enter Custom URL"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.slug}
+              className="form-input"
+            />
+            {formik.touched.slug && formik.errors.slug && (
+              <div className="text-red-500">{formik.errors.slug}</div>
+            )}
+          </div>
+
+</div>
+
+
+
+
 
         {/* Upload Image */}
         <div className="space-y-2">

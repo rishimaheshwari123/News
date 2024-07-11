@@ -48,7 +48,7 @@ function Notification({ isOpen, toggleNoti }) {
                 <ul className=' flex flex-col gap-4'>
                     {notifications?.map((notification) => (
                         <Link
-                  to={`/newsdetails/${notification?.news?._id}`}
+                  to={`/${notification?.news?.slug}`}
                         
                         key={notification?._id}>
                           <div className=' flex gap-3 lg:flex-row flex-col'>
