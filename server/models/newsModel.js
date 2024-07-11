@@ -85,6 +85,7 @@ const newsSchema = new Schema({
     type: String,
     required: true
   },
+
   comments: [commentSchema],
   likes: {
     type: Number,

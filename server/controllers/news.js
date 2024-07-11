@@ -203,7 +203,7 @@ const deleteNewsById = async (req, res) => {
   try {
     const deletedNews = await News.findByIdAndDelete(newsId);
 
-
+    console.log(deletedNews)
     if (!deletedNews) {
       return res.status(404).json({ success: false, message: 'News article not found' });
     }
@@ -211,28 +211,29 @@ const deleteNewsById = async (req, res) => {
 
     // Remove news article ID from Category
     await Category.findByIdAndUpdate(
-      { _id: newsToDelete.category },
+      { _id: deletedNews.category },
       {
         $pull: {
-          news: newsToDelete._id,
+          news: deletedNews._id,
         },
       }
     );
 
     // Remove news article ID from SubCategory
     await SubCategory.findByIdAndUpdate(
-      { _id: newsToDelete.subcategory },
+      { _id: deletedNews.subcategory },
       {
         $pull: {
-          news: newsToDelete._id,
+          news: deletedNews._id,
         },
       }
     );
 
 
 
-    res.json({ success: true, message: 'News article deleted successfully' });
+    return res.status(200).json({ success: true, message: 'News article deleted successfully' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, message: error.message });
   }
 };

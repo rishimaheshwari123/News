@@ -7,12 +7,12 @@ export const MobileLinks = [
         icon: <IoHomeOutline className="text-lg" />,
         path: "/"
     },
-    {
-        id: 2,
-        title: "Reels",
-        icon: <IoFilmOutline className="text-lg" />,
-        path: "/reel"
-    },
+    // {
+    //     id: 2,
+    //     title: "Reels",
+    //     icon: <IoFilmOutline className="text-lg" />,
+    //     path: "/reel"
+    // },
     {
         id: 3,
         title: "Live",

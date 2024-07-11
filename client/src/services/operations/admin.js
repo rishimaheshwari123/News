@@ -339,14 +339,9 @@ export const editNews = async (data, token) => {
   }
 };
 
+
 export const deleteNews = async (id, token) => {
-  const toastId = Swal.fire({
-    title: "Loading...",
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
+
 
   try {
     const response = await apiConnector(
@@ -358,30 +353,20 @@ export const deleteNews = async (id, token) => {
       }
     );
 
-    console.log("DELETE News API RESPONSE............", response);
+    console.log("DELETE News API RESPONSE............", response.data);
+
 
     if (!response?.data?.success) {
-      throw new Error("Could Not Delete News");
+      throw new Error(toast.error("Could Not Delete News"));
     }
+    toast.success("News deleted successfully!")
 
-    Swal.fire({
-      icon: "success",
-      title: "News Deleted Successfully",
-      timer: 2000,
-      timerProgressBar: true,
-      showConfirmButton: false,
-    });
   } catch (error) {
-    console.log("DELETE News API ERROR............", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: error.message,
-    });
-  } finally {
-    Swal.close(toastId);
+    console.log(error)
+    toast.error("Error in deleting news")
   }
 };
+
 
 export const getSingleNews = async (newsId) => {
   try {
@@ -403,7 +388,7 @@ export const getSingleNews = async (newsId) => {
 
 export const activeToggle = async (data, token) => {
   console.log(data);
-  const toastId = Swal.fire({
+  Swal.fire({
     title: "Loading...",
     allowOutsideClick: false,
     didOpen: () => {
@@ -417,12 +402,13 @@ export const activeToggle = async (data, token) => {
       Authorization: `Bearer ${token}`,
     });
 
-    console.log("CREATE News API RESPONSE............", response);
+    console.log("Toggle News API RESPONSE............", response?.data?.success);
 
     if (!response?.data?.success) {
       throw new Error("Could Not Add News Details");
     }
 
+    Swal.close();
     Swal.fire({
       icon: "success",
       title: "News Details Added Successfully",
@@ -431,14 +417,13 @@ export const activeToggle = async (data, token) => {
       showConfirmButton: false,
     });
   } catch (error) {
-    console.log("CREATE News API ERROR............", error);
+    console.log("Toggle News API ERROR............", error);
+    Swal.close();
     Swal.fire({
       icon: "error",
       title: "Error",
       text: error.message,
     });
-  } finally {
-    Swal.close(toastId);
   }
 };
 

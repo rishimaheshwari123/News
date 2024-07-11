@@ -322,15 +322,6 @@ const Navbar = () => {
                 <span>Live Streaming</span>
               </Link>
             </li>
-
-            <li>
-              <Link
-                to="/reel"
-                className="flex items-center space-x-1 text-white"
-              >
-                <span>Reels</span>
-              </Link>
-            </li>
           </ul>
 
           <div className=" flex items-center space-x-4">

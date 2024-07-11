@@ -34,10 +34,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Sigup from "./pages/Sigup";
 
-
 import AdminLogin from "./pages/Login"; //user
 import TVChannel from "./test/Test";
-
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -85,7 +83,7 @@ const App = () => {
         <Route path="/newsdetails/:id" element={<NewsDetails />} />
         <Route path="/category/:id" element={<SingleCategory />} />
         <Route path="/subcategory/:id" element={<SubCategorySingle />} />
-        <Route path="/reel" element={<ReelSection />} />
+        {/* <Route path="/reel" element={<ReelSection />} /> */}
 
         <Route path="/live" element={<Live />} />
 
@@ -116,8 +114,6 @@ const App = () => {
           }
         />
 
-
-
         <Route
           element={
             <PrivateRoute>
@@ -125,27 +121,21 @@ const App = () => {
             </PrivateRoute>
           }
         >
+          {user?.role === "Admin" && (
+            <>
+              <Route path="/admin/dashboard" element={<DashBoard />} />
+              <Route path="admin/addnews" element={<AddNews />} />
+              <Route path="admin/addnews/:id" element={<AddNews />} />
+              <Route path="admin/allnews" element={<AllNews />} />
 
-        {
-          user?.role === "Admin" && 
-          <>
-
-          <Route path="/admin/dashboard" element={<DashBoard />} />
-          <Route path="admin/addnews" element={<AddNews />} />
-          <Route path="admin/addnews/:id" element={<AddNews />} />
-          <Route path="admin/allnews" element={<AllNews />} />
-
-          <Route path="admin/poll" element={<Poll />} />
-          <Route path="admin/breaking" element={<Breaking />} />
-          <Route path="admin/category" element={<Category />} />
-          <Route path="admin/subcategory" element={<Subcategory />} />
-          <Route path="admin/livestriming" element={<Livestreming />} />
-          <Route path="admin/ads" element={<CreateAdd />} />
-          </>
-        }
-         
-
-
+              <Route path="admin/poll" element={<Poll />} />
+              <Route path="admin/breaking" element={<Breaking />} />
+              <Route path="admin/category" element={<Category />} />
+              <Route path="admin/subcategory" element={<Subcategory />} />
+              <Route path="admin/livestriming" element={<Livestreming />} />
+              <Route path="admin/ads" element={<CreateAdd />} />
+            </>
+          )}
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
@@ -158,7 +148,7 @@ const App = () => {
         <Cube />
       </div>
 
-      {isMenuOpen && <SideNavbar></SideNavbar>}
+      {isMenuOpen && <SideNavbar />}
       <ScrollToTop />
     </div>
   );
