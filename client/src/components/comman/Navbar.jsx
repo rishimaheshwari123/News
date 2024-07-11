@@ -21,7 +21,7 @@ import { IoMenu } from "react-icons/io5";
 import Notification from "./Navbar/Notification";
 
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assest/logo.jpg";
 import { fetchCategory } from "../../services/operations/admin";
 import { handleIsMenuOpen } from "../../redux/newsSlice";
@@ -38,7 +38,7 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [click, setClick] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
+const navigate = useNavigate()
   const { user } = useSelector((state) => state.auth);
 
   const { category } = useSelector((state) => state.news);
@@ -184,7 +184,7 @@ const Navbar = () => {
           </div>
           {user ? (
             <button
-              onClick={() => dispatch(logout())}
+              onClick={() => dispatch(logout(navigate))}
               className="px-5 py-1 mb-1 flex items-center gap-2 bg-[#2156a4] text-white rounded-md"
             >
               Logout <IoIosLogOut />

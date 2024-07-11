@@ -165,7 +165,7 @@ function AddNews() {
   }, [formik.values.category, categories]);
 
 
-  if ( !user?.permissions?.canAdd) {
+  if ( !user?.permissions?.canAdd ) {
     return <div className="w-full h-full items-center justify-center">Access denied</div>;
   }
   return (
