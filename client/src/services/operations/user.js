@@ -88,6 +88,7 @@ export const addCommentMain = async (data, token) => {
       localStorage.removeItem("token")
       localStorage.removeItem("user")
       toast.success("Logged Out")
+      navigate("/")
     
     }
   }

@@ -8,6 +8,12 @@ const AllNews = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    // console.log(allNews);
+  }, [allNews]);
+
   const handleToggleActive = async (newsId, currentStatus) => {
     const newStatus = !currentStatus;
     const updatedNews = allNews.map((news) =>

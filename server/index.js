@@ -13,7 +13,7 @@ const newsRoutes = require("./routes/newsRoute")
 const categoryRoutes = require("./routes/categoryRoutes")
 const subcategoryRoutes = require("./routes/subcategoryRoutes")
 const imageRoute = require("./routes/imageRoute");
-
+const adminRoutes = require("./routes/adminAccess")
 
 dotenv.config();
 
@@ -43,6 +43,7 @@ cloudinaryConnect();
 
 // routes  
 app.use("/api/v1/auth", authRoutes)
+app.use("/api/v1/admin", adminRoutes)
 app.use("/api/v1/news", newsRoutes)
 app.use("/api/v1/category", categoryRoutes)
 app.use("/api/v1/subcategory", subcategoryRoutes)

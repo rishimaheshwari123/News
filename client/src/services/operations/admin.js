@@ -74,8 +74,8 @@ export async function signUp(formData, navigate, dispatch) {
     localStorage.setItem("user", JSON.stringify(response.data.user))
 
     localStorage.setItem("token", JSON.stringify(response.data.token))
-
-    navigate("/");
+    
+    // navigate("/");
 
   } catch (error) {
     console.log("SIGNUP API ERROR............", error);
@@ -120,7 +120,7 @@ export async function login(email, password, navigate, dispatch) {
     });
     dispatch(setToken(response?.data?.token));
     dispatch(setUser(response.data.user));
-    navigate("/admin/dashboard");
+    // navigate("/admin/dashboard");
   } catch (error) {
     console.log("LOGIN API ERROR............", error);
     Swal.fire({

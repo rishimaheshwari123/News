@@ -97,7 +97,7 @@ const Navbar = () => {
     <nav className=" text-white text-xl  fixed w-screen h-[50px] top-0 z-50 ">
       <div className=" -h-[50px] bg-[#f26434]  pt-1 min-w-[100vw]">
         <div className="flex justify-end items-center w-11/12 mx-auto gap-2 flex-wrap ">
-          {user?.role === "Admin" && (
+          {(user?.role === "Admin" || user?.role === "SuperAdmin")   && (
             <div>
               <Link
                 to="/admin/dashboard"
