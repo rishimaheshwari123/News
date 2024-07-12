@@ -6,10 +6,10 @@ const router = express.Router()
 const {
     imageUpload,
     uploadImages
-}=require("../controllers/imageCtrl")
+} = require("../controllers/imageCtrl")
 
-router.post("/upload",imageUpload)
-router.post("/multi",uploadImages)
+router.post("/upload", imageUpload)
+router.post("/multi", uploadImages)
 
 
 // export all router
