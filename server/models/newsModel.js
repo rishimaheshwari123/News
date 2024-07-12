@@ -97,7 +97,7 @@ const newsSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'auth',
-    required: true,
+    // required: true,
   },
 
   comments: [commentSchema],

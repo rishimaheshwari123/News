@@ -26,7 +26,7 @@ import MobileMenu from "./components/home/MobileMenu";
 
 //
 import SideNavbar from "./components/comman/Navbar/SideNavbar";
-import { saveCategory, setAds } from "./redux/newsSlice";
+import { saveCategory, setAds, setYT } from "./redux/newsSlice";
 import Cube from "./components/comman/Cube";
 import ReelSection from "./test/Reel";
 import CreateAdd from "./components/Admin/pages/CreateAdd";
@@ -45,21 +45,22 @@ const App = () => {
   const { isMenuOpen } = useSelector((state) => state.news);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  useEffect(() => {
-    //Categoyr
-    const fetchCategories = async () => {
-      try {
-        const categoriesData = await fetchCategory();
-        dispatch(saveCategory(categoriesData?.categories || []));
-      } catch (error) {
-        console.error("Error fetching categories:", error);
+;
+
+
+  
+  const getAllYt = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/yt/getAll`);
+      if (!response?.data?.success) {
+        throw new Error(toast.error(response.data.message));
       }
-    };
-
-    fetchCategories();
-
-    dispatch(getAllNews());
-  }, []);
+      dispatch(setYT(response?.data?.videos));
+      // console.log(response?.data?.ads);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getAllAds = async () => {
     try {
@@ -74,9 +75,24 @@ const App = () => {
     }
   };
 
+
   useEffect(() => {
+    //Categoyr
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await fetchCategory();
+        dispatch(saveCategory(categoriesData?.categories || []));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+
     getAllAds();
-  }, []);
+    getAllYt();
+    dispatch(getAllNews());
+  }, [])
 
   return (
     <div>
