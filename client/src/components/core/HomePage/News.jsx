@@ -21,6 +21,13 @@ const News = () => {
   const sortedNews = [...allNews].sort(
     (a, b) => new Date(b.publish) - new Date(a.publish)
   );
+  const ytVideo = [...yt].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  const rightYtVideos = yt.filter((currElem) => currElem?.type === "right-yt");
+  const firstThreeVideos = rightYtVideos.slice(0, 4);
+  const remainingVideos = rightYtVideos.slice(4);
 
   return (
     <>
@@ -165,8 +172,9 @@ const News = () => {
         {/* Third Section */}
         <div className="third col-span-1 md:col-span-1">
           {/* <TVChannel /> */}
-          {yt.map((currElem, index) => (
+          {firstThreeVideos.map((currElem, index) => (
             <iframe
+              key={index}
               className="mt-3 h-[315px] w-full"
               src={currElem?.url}
               title="YouTube video player"
@@ -176,35 +184,6 @@ const News = () => {
               allowFullScreen
             ></iframe>
           ))}
-
-          {/* <iframe
-            className="mt-3 h-[315px] w-full"
-            src="https://www.youtube.com/embed/9C5Df-6Pi00?autoplay=5&si=qieq04s5ZED1gq8b"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-
-          <iframe
-            className="mt-3 h-[550px] w-full"
-            src="https://www.youtube.com/embed/8JShxwJcWng?si=8mTPqNv8c-2M44NL"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-          <iframe
-            className="mt-3 h-[315px] w-full"
-            src="https://www.youtube.com/embed/GzCLtdhF_nc?si=e3tvC2_SUCWrByHq"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe> */}
 
           <br />
           <br />
@@ -227,6 +206,19 @@ const News = () => {
                   </Link>
                 )
             )}
+
+          {remainingVideos.map((currElem, index) => (
+            <iframe
+              key={index + 3} // Ensure unique key for the second part
+              className="mt-3 h-[315px] w-full"
+              src={currElem?.url}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
+          ))}
         </div>
       </div>
     </>

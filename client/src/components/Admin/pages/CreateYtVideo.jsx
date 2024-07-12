@@ -160,8 +160,9 @@ function CreateYtVideo() {
               <option value="" disabled>
                 Select Add position
               </option>
-              <option value="right-yt">Right Add</option>
-              <option value="middle-yt">Left Add</option>
+              <option value="right-yt">Top Right</option>
+              <option value="middle-yt">Middle Right</option>
+              <option value="middle">Middle</option>
             </select>
           </div>
 
