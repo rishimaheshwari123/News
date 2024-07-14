@@ -10,7 +10,7 @@
 
 html,
 body {
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
 }
 
 /* Form Input */
@@ -225,6 +225,21 @@ body {
   .cube-face.top    { transform: rotateX( 90deg) translateZ(25px); }
   .cube-face.bottom { transform: rotateX(-90deg) translateZ(25px); }
 }
+
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
 
 @media only screen and (max-width:639px) {
   .mobile{

@@ -40,33 +40,35 @@ const BreakingNews = () => {
             modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
             spaceBetween={50}
             slidesPerView={1}
-            // pagination={{ clickable: true }}
             autoplay={{ delay: 2000 }}
-            className="max-w-7xl mx-auto"
+            className="max-w-7xl mx-auto relative"
           >
             {breakingNews.map(
               (currElem, index) =>
                 currElem.active === true && (
                   <SwiperSlide key={index}>
-                    <div className="relative bg-red-600 text-white px-5 py-6 rounded-lg">
-                      <div className="flex gap-3 text-center items-center">
-                        <p className="text-2xl lg:text-3xl font-bold italic">
+                    <div className="relative bg-red-600 text-white rounded-lg px-2">
+                      <div className="flex lg:gap-3 gap-2 text-center max-h-[50px] h-[50px] items-center">
+                        <p className="text-[14px] lg:text-3xl font-bold italic">
                           BREAKING NEWS ||
                         </p>
-                        <p className="lg:text-xl text-lg lg:ml-4 md:ml-8">
+                        <div className="min-h-[100px] min-w-[1px] bg-gray-500"></div>
+                        <p className="lg:text-xl text-[14px] lg:ml-4 md:ml-8">
                           {currElem.name}
                         </p>
                       </div>
-                      <IoCloseCircle
-                        size={28}
-                        className="absolute -top-0 -right-0 text-xl cursor-pointer bg-black p-1 rounded-full"
-                        onClick={() => setVisible(false)}
-                      />
+                     
                     </div>
                   </SwiperSlide>
                 )
             )}
           </Swiper>
+
+          <IoCloseCircle
+                        size={28}
+                        className="absolute top-0 right-0 text-white transform translate-x-1/2 -translate-y-1/2 text-xl cursor-pointer bg-black p-1 rounded-full z-50"
+                        onClick={() => setVisible(false)}
+                      />
         </div>
       )}
     </>
