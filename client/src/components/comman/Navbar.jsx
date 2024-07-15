@@ -111,55 +111,55 @@ const Navbar = () => {
           <div className="flex space-x-1 text-white text-[20px]">
             <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
-              href="https://www.facebook.com"
+              href="http://facebook.com/profile.php?id=61562140509758"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaFacebookF />
             </a>
-            <a
+            {/* <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaTwitter />
-            </a>
+            </a> */}
             <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
-              href="https://www.instagram.com"
+              href="http://instagram.com/indiaaheadtv"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaInstagram />
             </a>
-            <a
+            {/* <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
               href="https://www.pinterest.com"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaPinterest />
-            </a>
+            </a> */}
             <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
-              href="https://www.youtube.com"
+              href="https://www.youtube.com/@Indiaaheadnational"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaYoutube />
             </a>
-            <a
+            {/* <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
               href="https://www.linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaLinkedin />
-            </a>
+            </a> */}
             <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
-              href="https://telegram.org"
+              href="https://t.me/6267144122"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -167,7 +167,7 @@ const Navbar = () => {
             </a>
             <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
-              href="https://www.whatsapp.com"
+              href="https://wa.me/6267144122"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -175,7 +175,7 @@ const Navbar = () => {
             </a>
             <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
-              href="https://www.threads.net"
+              href="http://x.com/india_ahea60160"
               target="_blank"
               rel="noopener noreferrer"
             >
