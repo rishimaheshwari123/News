@@ -157,22 +157,22 @@ const Navbar = () => {
             >
               <FaLinkedin />
             </a> */}
-            <a
+            {/* <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
               href="https://t.me/6267144122"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaTelegram />
-            </a>
-            <a
+            </a> */}
+            {/* <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
               href="https://wa.me/6267144122"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaWhatsapp />
-            </a>
+            </a> */}
             <a
               className=" bg-green-900 text-sm p-1 rounded-full hover:scale-110"
               href="http://x.com/india_ahea60160"
