@@ -7,6 +7,7 @@ import {
   fetchSubCategory,
   createNews,
   getSingleNews,
+  editNews,
 } from "../../../services/operations/admin";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -14,12 +15,12 @@ import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FiAlertCircle } from 'react-icons/fi';
-
+import { useLocation } from "react-router-dom";
 
 function AddNews() {
 
   const { user } = useSelector((state) => state.auth);
-
+  const location = useLocation()
 
 
 
@@ -32,18 +33,26 @@ function AddNews() {
   const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
   const maxWords = 3000; // Maximum allowed words
-
+const[newsID,setNewsID]= useState("")
 
 
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState('');
+
+
+
+
+
+
+
+
 
   const handleAddTag = () => {
     if (tagInput && !formik.values.tag.includes(tagInput)) {
       formik.setFieldValue('tag', [...formik.values.tag, tagInput]);
       setTagInput('');
     }
-    console.log(tags)
+  
   };
 
   const handleRemoveTag = (tagToRemove) => {
@@ -93,8 +102,22 @@ function AddNews() {
       try {
         const response = await getSingleNews(id);
         setProduct(response);
+        setTags(response?.tag)
+        console.log(response)
+        console.log(response.type)
         setImages(response?.images);
         setEditorHtml(response?.description);
+        setNewsID(response?._id)
+        formik.setFieldValue("title",response?.title)
+        formik.setFieldValue("subtitle",response?.subtitle)
+        formik.setFieldValue("location",response?.location)
+        formik.setFieldValue("slug",response?.slug)
+        formik.setFieldValue("tag",response?.tag)
+        formik.setFieldValue("language",response?.language)
+        formik.setFieldValue("youtubeurl",response?.youtubeurl)
+        formik.setFieldValue("category",response?.category?._id)
+        formik.setFieldValue("subcategory",response?.subcategory?._id)
+        formik.setFieldValue("type",response?.type)
       } catch (error) {
         console.error("Error fetching news:", error);
       }
@@ -105,7 +128,7 @@ function AddNews() {
     }
     fetchSubCategoryMain();
     fetchCategoryMain();
-  }, [id]);
+  }, [id,location]);
 
   // Functions
   const uploadImage = async (acceptedFiles) => {
@@ -157,7 +180,7 @@ function AddNews() {
     notificationSend: false,
     slug:product?.slug || "",
     tag: product?.tag || []
-
+  
   };
 
   // Formik Form Submission
@@ -178,7 +201,20 @@ function AddNews() {
     formData.append("type", values.type);
     formData.append("notificationSend", values.notificationSend); // Add notificationSend
 
-    await createNews(formData, token);
+
+  // Assuming formData is already defined and populated with form data
+
+if (id) {
+  // If id exists, append it to formData
+  formData.append("id", newsID);
+
+  // Perform edit operation
+  await editNews(formData, token);
+} else {
+  // Perform create operation
+  await createNews(formData, token);
+}
+
 
     // resetForm();
     // setEditorHtml(""); // Clear the ReactQuill editor
@@ -210,7 +246,7 @@ function AddNews() {
     );
   }
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="max-w-3xl mx-auto p-4 mb-[100px]">
       <h3 className="text-xl font-bold mb-4">
         {id ? "Edit News" : "Add News"}
       </h3>

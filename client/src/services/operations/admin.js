@@ -301,6 +301,7 @@ export const createNews = async (data, token) => {
 };
 
 export const editNews = async (data, token) => {
+  console.log("hello")
   const toastId = Swal.fire({
     title: "Loading...",
     allowOutsideClick: false,
@@ -310,7 +311,7 @@ export const editNews = async (data, token) => {
   });
 
   try {
-    const response = await apiConnector("POST", UPDATE_NEWS_API, data, {
+    const response = await apiConnector("PUT", UPDATE_NEWS_API, data, {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     });

@@ -232,7 +232,7 @@ const Navbar = () => {
             {nav ? <FaTimes size={24} /> : <FaBars size={24} />}
           </div> */}
 
-          <ul className="hidden md:flex space-x-6 items-center text-lg">
+          <ul className="hidden md:flex space-x-4 items-center text-lg           ">
             <li>
               <Link to="/" className="flex items-center space-x-1 text-white">
                 <span>होम</span>

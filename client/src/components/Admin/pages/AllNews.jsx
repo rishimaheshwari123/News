@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { activeToggle, deleteNews } from "../../../services/operations/admin";
 import { saveNews } from "../../../redux/newsSlice";
-
+import {Link} from "react-router-dom"
 const AllNews = () => {
   const { allNews } = useSelector((state) => state.news);
   const dispatch = useDispatch();
@@ -152,6 +152,16 @@ const AllNews = () => {
                   >
                     Delete
                   </button>
+               }
+               {
+
+               user?.permissions?.canEdit &&  <Link
+               to={`/admin/addnews/${news?.slug}`}
+                    // onClick={() => navigate(news._id)}
+                    className="px-4 py-2 font-semibold text-sm bg-green-500 text-white rounded-full shadow-sm"
+                  >
+                    Edit
+                  </Link>
                }
                 </td>
               </tr>
