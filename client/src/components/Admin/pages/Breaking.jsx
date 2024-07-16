@@ -81,12 +81,14 @@ function Breaking() {
       </div>
 
       <div className="flex justify-end mb-4">
-   { user?.permissions?.canAdd &&     <button
-          onClick={() => setCreate(!openCreate)}
-          className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
-        >
-          <FaPlusCircle /> Create Breaking News
-        </button>}
+        {user?.permissions?.canAdd && (
+          <button
+            onClick={() => setCreate(!openCreate)}
+            className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
+          >
+            <FaPlusCircle /> Create Breaking News
+          </button>
+        )}
       </div>
 
       {openCreate && (
@@ -101,7 +103,7 @@ function Breaking() {
             }
             className="w-full mb-2 p-2 border rounded focus:outline-none"
           />
-          <input
+          {/* <input
             type="text"
             placeholder="URL"
             value={breakingNews.url}
@@ -109,7 +111,7 @@ function Breaking() {
               setBreakingNews({ ...breakingNews, url: e.target.value })
             }
             className="w-full mb-2 p-2 border rounded focus:outline-none"
-          />
+          /> */}
           <button
             onClick={handleCreateBreakingNews}
             className="w-full p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none"
@@ -124,7 +126,7 @@ function Breaking() {
           <thead className="bg-blue-950 text-white">
             <tr>
               <th className="py-3 px-6 text-left">Name</th>
-              <th className="py-3 px-6 text-left">URL</th>
+              {/* <th className="py-3 px-6 text-left">URL</th> */}
               <th className="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
@@ -132,7 +134,7 @@ function Breaking() {
             {breakingNewsList.map((news) => (
               <tr key={news._id} className="hover:bg-gray-100">
                 <td className="py-4 px-6">{news?.name || "N/A"}</td>
-                <td className="py-4 px-6">{news?.url || "N/A"}</td>
+                {/* <td className="py-4 px-6">{news?.url || "N/A"}</td> */}
                 <td className="py-2 px-6 flex items-center justify-center">
                   <button
                     onClick={() => handleActive(news._id, news.active)}
@@ -140,12 +142,14 @@ function Breaking() {
                   >
                     {news.active ? "Deactivate" : "Activate"}
                   </button>
-                 { user?.permissions?.canDelete &&  <button
-                    onClick={() => handleDelete(news._id)}
-                    className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2"
-                  >
-                    Delete
-                  </button>}
+                  {user?.permissions?.canDelete && (
+                    <button
+                      onClick={() => handleDelete(news._id)}
+                      className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
