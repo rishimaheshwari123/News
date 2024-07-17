@@ -19,6 +19,7 @@ import {
   FcVideoCall,
   FcAdvertising,
   FcManager,
+  FcPortraitMode
 } from "react-icons/fc";
 
 const Sidebar = () => {
@@ -77,6 +78,7 @@ const Sidebar = () => {
       label: "Live Streaming",
     },
     { to: "/admin/yt", icon: <FcStart />, label: "Add Youtube Video" },
+    // { to: "/admin/users", icon: <FcPortraitMode />, label: "All Users" }
   ];
 
   // Conditionally add the "Manage Admin" item for superadmin
@@ -85,6 +87,11 @@ const Sidebar = () => {
       to: "/admin/manageadmin",
       icon: <FcManager />,
       label: "Manage Admins",
+    });
+    navItems.push({
+      to: "/admin/users",
+      icon: <FcPortraitMode />,
+      label: "All Users",
     });
   }
 

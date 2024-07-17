@@ -234,44 +234,7 @@ function Category() {
               className="w-full mb-2 p-2 border rounded focus:outline-none"
             />
 
-            {/* <div> */}
-            {/* Image Upload */}
-            {/* <div className="space-y-2">
-              <label className="block font-medium text-gray-700">
-                Upload Images
-              </label>
-              <div className="bg-white border-2 border-blue-600 p-4">
-                <Dropzone
-                  onDrop={(acceptedFiles) => uploadImage(acceptedFiles)}
-                > */}
-            {/* {({ getRootProps, getInputProps }) => (
-                    <section className="text-center">
-                      <div {...getRootProps()} className="cursor-pointer">
-                        <input {...getInputProps()} />
-                        <p>
-                          Drag 'n' drop some files here, or click to select
-                          files
-                        </p>
-                      </div>
-                    </section>
-                  )}
-                </Dropzone>
-              </div> */}
-
-            {/* Display Uploaded Images */}
-            {/* <div className="flex gap-4 mt-4">
-                <div className="relative">
-                  {editCategory.image !== "" && (
-                    <img
-                      src={editCategory.image}
-                      alt=""
-                      className="w-40 h-40 object-cover rounded-lg shadow-md"
-                    />
-                  )}
-                </div>
-              </div>
-            </div> */}
-            {/* </div> */}
+          
 
             <div className="flex justify-end">
               <button

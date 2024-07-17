@@ -53,6 +53,7 @@ app.use("/api/v1/live", require("./routes/liveStream"));
 app.use("/api/v1/poll", require("./routes/pollRoute"));
 app.use("/api/v1/ads", require("./routes/adsRoute"));
 app.use("/api/v1/yt", require("./routes/ytVideoRoute"));
+app.use("/api/v1/", require("./routes/dashboardRoutes"));
 
 
 // default route 

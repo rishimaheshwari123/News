@@ -18,7 +18,7 @@ const validateSubCategory = async (subcategoryId) => {
 const validateRequiredFields = (req) => {
   const {
     title,
-    subtitle,
+    // subtitle,
     location,
     category,
     subcategory,
@@ -34,7 +34,7 @@ const validateRequiredFields = (req) => {
 console.log(req.body)
 
 
-  if (!type || !title || !subtitle || !language || !location || !category || !subcategory || !description || !images  || !slug ) {
+  if (!type || !title  || !language || !location || !category || !subcategory || !description || !images  || !slug ) {
     return false;
   }
   return true;

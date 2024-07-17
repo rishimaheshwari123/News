@@ -38,6 +38,7 @@ import AdminLogin from "./pages/Login"; //user
 import TVChannel from "./test/Test";
 import AdminManage from "./components/Admin/pages/ManageAdmin";
 import CreateYtVideo from "./components/Admin/pages/CreateYtVideo";
+import UsersTable from "./components/Admin/pages/AllUser";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -46,6 +47,18 @@ const App = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 ;
+
+
+
+
+  const visitAdd = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/visit`);
+      
+    } catch (error) {
+      console.error('Failed to add visit record dashboard ', error);
+    }
+  };
 
 
   
@@ -92,6 +105,11 @@ const App = () => {
     getAllAds();
     getAllYt();
     dispatch(getAllNews());
+    if (user?.role !== "Admin" && user?.role !== "SuperAdmin") {
+      visitAdd();
+    }
+    
+
   }, [])
 
   return (
@@ -154,6 +172,7 @@ const App = () => {
               <Route path="admin/livestriming" element={<Livestreming />} />
               <Route path="admin/ads" element={<CreateAdd />} />
               <Route path="admin/yt" element={<CreateYtVideo />} />
+              <Route path="admin/users" element={<UsersTable />} />
 
               {user?.role === "SuperAdmin" && (
                 <Route path="admin/manageadmin" element={<AdminManage />} />

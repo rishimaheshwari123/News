@@ -150,7 +150,7 @@ const[newsID,setNewsID]= useState("")
   // Formik Form Validation Schema
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
-    subtitle: Yup.string().required("Sub Title is required"),
+    // subtitle: Yup.string().required("Sub Title is required"),
     location: Yup.string().required("Location is required"),
     language: Yup.string().required("Language is required"),
     category: Yup.string().required("Category is required"),
@@ -190,7 +190,7 @@ const[newsID,setNewsID]= useState("")
     formData.append("description", editorHtml);
     formData.append("slug", values.slug);
     formData.append("tag", JSON.stringify(values.tag));
-    formData.append("subtitle", values.subtitle);
+    // formData.append("subtitle", values.subtitle);
     formData.append("category", values.category);
     formData.append("language", values.language);
     formData.append("subcategory", values.subcategory);
@@ -257,7 +257,7 @@ if (id) {
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label htmlFor="title" className="block font-medium text-gray-700">
-              Title
+              Title *
             </label>
             <input
               id="title"
@@ -279,7 +279,7 @@ if (id) {
               htmlFor="subtitle"
               className="block font-medium text-gray-700"
             >
-              Sub Title
+              Sub Title <span className=" text-[11px]">(Optional)</span>
             </label>
             <input
               id="subtitle"
@@ -291,9 +291,7 @@ if (id) {
               value={formik.values.subtitle}
               className="form-input"
             />
-            {formik.touched.subtitle && formik.errors.subtitle && (
-              <div className="text-red-500">{formik.errors.subtitle}</div>
-            )}
+        
           </div>
         </div>
 
@@ -303,7 +301,7 @@ if (id) {
             htmlFor="description"
             className="block font-medium text-gray-700"
           >
-            Description
+            Description *
           </label>
           <ReactQuill
             theme="snow"
@@ -334,7 +332,7 @@ if (id) {
               htmlFor="language"
               className="block font-medium text-gray-700"
             >
-              Language
+              Language *
             </label>
             <select
               id="language"
@@ -355,7 +353,7 @@ if (id) {
 
           <div className="space-y-2">
             <label htmlFor="type" className="block font-medium text-gray-700">
-              Type
+              Type *
             </label>
             <select
               id="type"
@@ -381,7 +379,7 @@ if (id) {
               htmlFor="category"
               className="block font-medium text-gray-700"
             >
-              Category
+              Category *
             </label>
             <select
               id="category"
@@ -408,7 +406,7 @@ if (id) {
               htmlFor="subcategory"
               className="block font-medium text-gray-700"
             >
-              Sub Category
+              Sub Category *
             </label>
             <select
               id="subcategory"
@@ -438,7 +436,7 @@ if (id) {
               htmlFor="location"
               className="block font-medium text-gray-700"
             >
-              Location
+              Location *
             </label>
             <input
               id="location"
@@ -460,7 +458,7 @@ if (id) {
               htmlFor="youtubeurl"
               className="block font-medium text-gray-700"
             >
-              YouTube URL
+              YouTube URL <span className=" text-[11px]">(Optional)</span>
             </label>
             <input
               id="youtubeurl"
@@ -499,7 +497,7 @@ if (id) {
         <div className=" grid lg:grid-cols-2 grid-cols-1 gap-x-4">
           <div className="space-y-2">
             <label className="block font-medium text-gray-700">
-              Send Notification
+              Send Notification <span className=" text-[11px]">(Optional)</span>
             </label>
             <input
               id="notificationSend"
@@ -532,7 +530,7 @@ if (id) {
             onClick={handleAddTag}
             className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Add Tag
+            Add Tag *
           </button>
 
         </div>
@@ -560,7 +558,7 @@ if (id) {
               htmlFor="slug"
               className="block font-medium text-gray-700"
             >
-              Custome URL
+              Custome URL *
             </label>
             <input
               id="slug"
@@ -586,7 +584,7 @@ if (id) {
         {/* Upload Image */}
         <div className="space-y-2">
           <label htmlFor="images" className="block font-medium text-gray-700">
-            Upload Image
+            Upload Image *
           </label>
           <Dropzone onDrop={uploadImage}>
             {({ getRootProps, getInputProps }) => (

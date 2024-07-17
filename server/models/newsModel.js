@@ -34,7 +34,7 @@ const newsSchema = new Schema({
   },
   subtitle: {
     type: String,
-    required: true,
+    // required: true,
   },
   slug:{
     type:String,
