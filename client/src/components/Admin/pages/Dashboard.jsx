@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaUsers, FaNewspaper, FaChartBar, FaListAlt, FaTags } from 'react-icons/fa';
 import axios from 'axios';
-import 'chart.js/auto';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
