@@ -112,9 +112,52 @@ const updateLiveStreamStatus = async (req, res) => {
   }
 };
 
+
+
+const updateLiveStream = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, active, url } = req.body;
+
+    if (!id || !name || active === undefined || !url) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all fields",
+      });
+    }
+
+    const liveStream = await LiveStreamModel.findByIdAndUpdate(
+      id,
+      { name, active, url },
+      { new: true, runValidators: true }
+    );
+
+    if (!liveStream) {
+      return res.status(404).json({
+        success: false,
+        message: "Live stream not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Live stream updated successfully!",
+      liveStream,
+    });
+  } catch (error) {
+    console.error("Error in update live stream api:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error in update live stream api!",
+    });
+  }
+};
+
+
 module.exports = {
   createLiveStream,
   getAllLiveStreams,
   deleteLiveStream,
   updateLiveStreamStatus,
+  updateLiveStream
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle, FaEdit } from "react-icons/fa";
 import {
   createLiveStream,
   fetchLiveStreams,
@@ -7,10 +7,14 @@ import {
 } from "../../../services/operations/admin";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Swal from 'sweetalert2';
+import Modal from '../Modal'; // Import the Modal component
 
 function LiveStream() {
   const [openCreate, setCreate] = useState(false);
-  const { token,user } = useSelector((state) => state.auth);
+  const [openEdit, setEdit] = useState(false);
+  const [editingStream, setEditingStream] = useState(null);
+  const { token, user } = useSelector((state) => state.auth);
   const [liveStreamsList, setLiveStreamsList] = useState([]);
   const [liveStream, setLiveStream] = useState({
     name: "",
@@ -73,6 +77,60 @@ function LiveStream() {
     }
   };
 
+  const handleEditLiveStream = (stream) => {
+    setEditingStream(stream);
+    setEdit(true);
+  };
+
+  const handleUpdateLiveStream = async () => {
+    // Show loading SweetAlert2
+    Swal.fire({
+      title: 'Updating...',
+      text: 'Please wait while the live stream is being updated.',
+      icon: 'info',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
+  
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/live/livestream/${editingStream._id}`,
+        editingStream,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (res?.data?.success) {
+        const response = await fetchLiveStreams();
+        setLiveStreamsList(response || []);
+        setEdit(false);
+        setEditingStream(null);
+  
+        // Update SweetAlert2 to success
+        Swal.fire({
+          title: 'Success!',
+          text: 'The live stream has been successfully updated.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+      } else {
+        throw new Error('Failed to update live stream.');
+      }
+    } catch (error) {
+      console.error('Error updating live stream:', error);
+  
+      // Update SweetAlert2 to error
+      Swal.fire({
+        title: 'Error!',
+        text: 'There was an error updating the live stream. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
   return (
     <div className="w-11/12 mx-auto p-4">
       <div className="text-center text-2xl font-semibold underline mb-4">
@@ -80,12 +138,14 @@ function LiveStream() {
       </div>
 
       <div className="flex justify-end mb-4">
-      { user?.permissions?.canAdd &&  <button
-          onClick={() => setCreate(!openCreate)}
-          className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
-        >
-          <FaPlusCircle /> Create Live Stream
-        </button>}
+        {user?.permissions?.canAdd && (
+          <button
+            onClick={() => setCreate(!openCreate)}
+            className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
+          >
+            <FaPlusCircle /> Create Live Stream
+          </button>
+        )}
       </div>
 
       {openCreate && (
@@ -118,33 +178,73 @@ function LiveStream() {
         </div>
       )}
 
+      <Modal
+        show={openEdit && editingStream}
+        onClose={() => setEdit(false)}
+        onSave={handleUpdateLiveStream}
+      >
+        <input
+          type="text"
+          placeholder="Name"
+          value={editingStream?.name || ""}
+          onChange={(e) =>
+            setEditingStream({ ...editingStream, name: e.target.value })
+          }
+          className="w-full mb-2 p-2 border rounded focus:outline-none"
+        />
+        <input
+          type="text"
+          placeholder="URL"
+          value={editingStream?.url || ""}
+          onChange={(e) =>
+            setEditingStream({ ...editingStream, url: e.target.value })
+          }
+          className="w-full mb-2 p-2 border rounded focus:outline-none"
+        />
+      </Modal>
+
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg overflow-hidden">
-          <thead className="bg-blue-950 text-white">
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
             <tr>
-              <th className="py-3 px-6 text-left">Name</th>
-              <th className="py-3 px-6 text-left">URL</th>
-              <th className="py-3 px-6 text-center">Actions</th>
+              <th className="px-4 py-2 border">Name</th>
+              <th className="px-4 py-2 border">URL</th>
+              <th className="px-4 py-2 border">Active</th>
+              <th className="px-4 py-2 border">Actions</th>
             </tr>
           </thead>
           <tbody>
             {liveStreamsList.map((stream) => (
-              <tr key={stream._id} className="hover:bg-gray-100">
-                <td className="py-4 px-6">{stream?.name || "N/A"}</td>
-                <td className="py-4 px-6">{stream?.url || "N/A"}</td>
-                <td className="py-2 px-6 flex items-center justify-center">
+              <tr key={stream._id}>
+                <td className="px-4 py-2 border">{stream.name}</td>
+                <td className="px-4 py-2 border">{stream.url}</td>
+                <td className="px-4 py-2 border">
                   <button
                     onClick={() => handleActive(stream._id, stream.active)}
-                    className="p-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 focus:outline-none"
+                    className={`px-4 py-2 rounded ${
+                      stream.active ? "bg-green-600" : "bg-red-600"
+                    } text-white hover:opacity-75`}
                   >
-                    {stream.active ? "Deactivate" : "Activate"}
+                    {stream.active ? "Active" : "Inactive"}
                   </button>
-              { user?.permissions?.canDelete &&    <button
-                    onClick={() => handleDelete(stream._id)}
-                    className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2"
-                  >
-                    Delete
-                  </button>}
+                </td>
+                <td className="px-4 py-2 border flex space-x-2">
+                  {user?.permissions?.canEdit && (
+                    <button
+                      onClick={() => handleEditLiveStream(stream)}
+                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+                    >
+                      Edit
+                    </button>
+                  )}
+                  {user?.permissions?.canDelete && (
+                    <button
+                      onClick={() => handleDelete(stream._id)}
+                      className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
