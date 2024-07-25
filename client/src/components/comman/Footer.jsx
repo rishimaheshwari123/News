@@ -238,8 +238,18 @@ const Footer = () => {
         </div>
         <hr className="mt-12" />
         <div className="mt-8 text-center text-white text-sm">
-         <div> © {new Date().getFullYear()} Your Company. All rights reserved.</div>
-
+        <div className="container mx-auto text-center">
+        <div className="mb-4">
+          © {new Date().getFullYear()} India Ahead. All rights reserved.
+        </div>
+        <div className="mb-4 text-sm">
+          Developed and maintained by - 
+          <a href="https://inextets.online/" target="_blank" rel="noopener noreferrer" className="ml-1 hover:text-gray-400">
+            I-Next ETS
+          </a>
+        </div>
+     
+      </div>
          <div>
           Sites Visit {count}
          </div>

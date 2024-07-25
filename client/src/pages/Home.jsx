@@ -12,6 +12,8 @@ import AddSlideBar from "../components/comman/AddSlideBar";
 import VIdeos from "../components/home/VIdeos";
 import LiveSection from "../components/home/LiveSection";
 import ButtomAdd from "../components/comman/ButtomAdd";
+import BannerImage from "../components/core/HomePage/BannerImage";
+
 const Home = () => {
   return (
     <div>
@@ -33,6 +35,7 @@ const Home = () => {
       </div>
       <br />
       <br />
+      <BannerImage />
       <Footer />
     </div>
   );

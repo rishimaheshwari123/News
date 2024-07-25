@@ -114,7 +114,8 @@ const App = () => {
 
   return (
     <div>
-      <Routes>
+     <div className="mb-[58px] lg:mb-0">
+     <Routes>
         <Route path="/" element={<Home />} />
       
         <Route path="/:id" element={<NewsDetails />} />
@@ -182,8 +183,9 @@ const App = () => {
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
+     </div>
 
-      <div className="fixed bottom-0 z-40">
+      <div className="fixed bottom-0 z-40 ">
         <MobileMenu />
       </div>
 
