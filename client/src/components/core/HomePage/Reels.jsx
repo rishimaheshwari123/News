@@ -1,14 +1,16 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import YouTube from "react-youtube";
 
 const Reels = () => {
-  const videoIds = [
-    { id: 1, name: "VUj5UNjE5ww" },
-    { id: 2, name: "VUj5UNjE5ww" },
-    { id: 3, name: "VUj5UNjE5ww" },
-    { id: 4, name: "VUj5UNjE5ww" },
-  ];
+  const {  yt } = useSelector((state) => state.news);
 
+
+  const videoIds = yt.filter((currElem) => currElem?.type === "short");
+
+
+
+ 
   const opts = {
     height: "400",
     width: "300",
@@ -24,7 +26,7 @@ const Reels = () => {
       </p>
       <div className="max-w-7xl mx-auto grid justify-center items-center gap-y-4 md:grid-cols-2 lg:grid-cols-4">
         {videoIds.map((video) => (
-          <YouTube key={video.id} videoId={video.name} opts={opts} />
+          <YouTube key={video?._id} videoId={video?.url} opts={opts} />
         ))}
       </div>
     </div>

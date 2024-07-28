@@ -9,6 +9,8 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 function CreateYtVideo() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [openCreate, setCreate] = useState(false);
   const [formData, setFormData] = useState({
     url: "",
@@ -107,6 +109,22 @@ function CreateYtVideo() {
     }
   };
 
+
+  // serach
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+
+  const filteredYoutube = yt.filter((ytOne) =>
+    ytOne.type.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
+  
+
+  const sortedYT = [...filteredYoutube].sort(
+    (a, b) => new Date(b.publish) - new Date(a.publish)
+  );
+
   return (
     <div className="w-11/12 mx-auto p-4">
       <div className="text-center text-2xl font-semibold underline mb-4">
@@ -163,6 +181,7 @@ function CreateYtVideo() {
               <option value="right-yt">Top Right</option>
               <option value="middle-yt">Middle Right</option>
               <option value="middle">Middle</option>
+              <option value="short">Shorts Video</option>
             </select>
           </div>
 
@@ -174,6 +193,13 @@ function CreateYtVideo() {
           </button>
         </form>
       )}
+   <input
+        type="text"
+        placeholder="Search Youtube..."
+        value={searchTerm}
+        onChange={handleSearch}
+        className="mb-4 p-2 border border-gray-300 rounded"
+      />
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
@@ -185,7 +211,7 @@ function CreateYtVideo() {
             </tr>
           </thead>
           <tbody>
-            {yt?.map((ad) => (
+            {sortedYT?.map((ad) => (
               <tr
                 key={ad._id}
                 className="hover:bg-gray-100 transition duration-200 ease-in-out"

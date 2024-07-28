@@ -31,7 +31,7 @@ const News = () => {
 
   return (
     <>
-      <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6 ">
+      <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6 sticky top-0 ">
         <div className="first col-span-1 md:col-span-1 mt-3">
           <div className="second grid gap-1">
             <p className="text-3xl font-bold text-center my-5">RECENT NEWS</p>

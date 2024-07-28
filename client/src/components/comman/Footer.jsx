@@ -185,24 +185,10 @@ const Footer = () => {
             <ul className="space-y-2 text-[14px]">
               <li>
                 <Link to="/" className="text-white hover:text-white">
-                  एबीपी न्यूज लाइव टीवी
+                 Comming Soon
                 </Link>
               </li>
-              <li>
-                <Link to="/services" className="text-white hover:text-white">
-                  एबीपी आनंदा लाइव टीवी
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-white hover:text-white">
-                  एबीपी माझा लाइव टीवी
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-white hover:text-white">
-                  एबीपी अस्मिता लाइव टीवी
-                </Link>
-              </li>
+             
             </ul>
           </div>
           <div>
