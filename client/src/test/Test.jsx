@@ -5,7 +5,7 @@ const VideoPlayer = () => {
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const url = "http://live.indiaaheadlive.com/0.m3u8"; // Ensure this URL is correct
-
+  
   useEffect(() => {
     const video = videoRef.current;
 
