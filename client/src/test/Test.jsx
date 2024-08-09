@@ -2,29 +2,35 @@ import React, { useRef, useEffect, useState } from 'react';
 import Hls from 'hls.js';
 
 const VideoPlayer = () => {
+  const BASE_Url = process.env.REACT_APP_BASE_URL
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const url = "http://live.indiaaheadlive.com/3.m3u8"; // Ensure this URL is correct
+  const url = `${BASE_Url}/stream`; // URL of your backend
 
   useEffect(() => {
     const video = videoRef.current;
 
     const handlePlay = () => {
-      video.muted = false; // Unmute the video after it starts playing
+      video.muted = false;
     };
 
     if (Hls.isSupported()) {
-      const hls = new Hls({
-        startLevel: -1 // Start with the lowest quality level
-      });
+      const hls = new Hls();
       hls.loadSource(url);
       hls.attachMedia(video);
+
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         setIsLoaded(true);
-        video.muted = true; // Mute the video to bypass autoplay restrictions
+        video.muted = true;
         video.play().then(handlePlay).catch(error => {
           console.error('Error playing video:', error);
         });
+      });
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        if (data.fatal) {
+          console.error('HLS Error:', data);
+        }
       });
 
       return () => {
@@ -34,7 +40,7 @@ const VideoPlayer = () => {
       video.src = url;
       video.addEventListener('canplay', () => {
         setIsLoaded(true);
-        video.muted = true; // Mute the video to bypass autoplay restrictions
+        video.muted = true;
         video.play().then(handlePlay).catch(error => {
           console.error('Error playing video:', error);
         });
@@ -49,6 +55,7 @@ const VideoPlayer = () => {
       <video ref={videoRef} controls autoPlay>
         Your browser does not support the video tag.
       </video>
+      {!isLoaded && <p>Loading...</p>}
     </div>
   );
 };
