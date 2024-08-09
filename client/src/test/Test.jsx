@@ -5,9 +5,14 @@ const VideoPlayer = () => {
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const url = "http://live.indiaaheadlive.com/3.m3u8"; // Ensure this URL is correct
-  
+
   useEffect(() => {
     const video = videoRef.current;
+
+    const handlePlay = () => {
+      video.muted = false; // Unmute the video after it starts playing
+    };
+
     if (Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(url);
@@ -15,9 +20,7 @@ const VideoPlayer = () => {
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         setIsLoaded(true);
         video.muted = true; // Mute the video to bypass autoplay restrictions
-        video.play().then(() => {
-          video.muted = false;
-        }).catch(error => {
+        video.play().then(handlePlay).catch(error => {
           console.error('Error playing video:', error);
         });
       });
@@ -30,9 +33,7 @@ const VideoPlayer = () => {
       video.addEventListener('canplay', () => {
         setIsLoaded(true);
         video.muted = true; // Mute the video to bypass autoplay restrictions
-        video.play().then(() => {
-          video.muted = false;
-        }).catch(error => {
+        video.play().then(handlePlay).catch(error => {
           console.error('Error playing video:', error);
         });
       });
