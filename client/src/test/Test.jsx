@@ -4,7 +4,7 @@ import Hls from 'hls.js';
 const VideoPlayer = () => {
   const videoRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const url = "http://live.indiaaheadlive.com/3.m3u8"; // Ensure this URL is correct
+  const url = "http://feeds.intoday.in/aajtak/api/aajtakhd/master.m3u8"; // Ensure this URL is correct
 
   useEffect(() => {
     const video = videoRef.current;
@@ -14,7 +14,9 @@ const VideoPlayer = () => {
     };
 
     if (Hls.isSupported()) {
-      const hls = new Hls();
+      const hls = new Hls({
+        startLevel: -1 // Start with the lowest quality level
+      });
       hls.loadSource(url);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
