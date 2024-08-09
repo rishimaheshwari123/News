@@ -1,61 +1,56 @@
-import React, { useRef, useEffect, useState } from 'react';
-import Hls from 'hls.js';
-
+import React, { useEffect, useRef, useState } from 'react';
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css'; // Import Video.js styles
+import poster from "../assest/poster.jpg"
 const VideoPlayer = () => {
-  const BASE_Url = process.env.REACT_APP_BASE_URL
   const videoRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const url = `${BASE_Url}/stream`; // URL of your backend
+  const [player, setPlayer] = useState(null);
+  const [isMuted, setIsMuted] = useState(true); // Start with muted
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const url = `${BASE_URL}/stream`; // URL of your backend
 
   useEffect(() => {
-    const video = videoRef.current;
+    if (videoRef.current) {
+      const videoJsPlayer = videojs(videoRef.current, {
+        autoplay: true,
+        controls: true,
+        muted: isMuted, // Control mute status here
+        sources: [{
+          src: url,
+          type: 'application/x-mpegURL'
+        }],
+        techOrder: ['html5']
+      });
 
-    const handlePlay = () => {
-      video.muted = false;
-    };
-
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(url);
-      hls.attachMedia(video);
-
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        setIsLoaded(true);
-        video.muted = true;
-        video.play().then(handlePlay).catch(error => {
-          console.error('Error playing video:', error);
+      videoJsPlayer.ready(() => {
+        if (!isMuted) {
+          videoJsPlayer.muted(true); // Unmute if needed
+        }
+        videoJsPlayer.play().catch(error => {
+          console.error('Autoplay error:', error);
         });
       });
 
-      hls.on(Hls.Events.ERROR, (event, data) => {
-        if (data.fatal) {
-          console.error('HLS Error:', data);
-        }
-      });
+      setPlayer(videoJsPlayer);
 
       return () => {
-        hls.destroy();
+        if (player) {
+          player.dispose();
+        }
       };
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = url;
-      video.addEventListener('canplay', () => {
-        setIsLoaded(true);
-        video.muted = true;
-        video.play().then(handlePlay).catch(error => {
-          console.error('Error playing video:', error);
-        });
-      });
-    } else {
-      console.error('HLS is not supported in this browser.');
     }
-  }, [url]);
+  }, [url, isMuted]);
+
+
+
+
 
   return (
-    <div className='w-[90%] lg:min-h-[70vh] lg:w-[70vw] mx-auto mt-5'>
-      <video ref={videoRef} controls autoPlay>
-        Your browser does not support the video tag.
-      </video>
-      {!isLoaded && <p>Loading...</p>}
+    <div className="w-[100%] min-h-[60vh] mx-auto  flex justify-center items-center">
+      <div data-vjs-player>
+        <video ref={videoRef} className="video-js vjs-default-skin" poster={poster} />
+      </div>
+   
     </div>
   );
 };
