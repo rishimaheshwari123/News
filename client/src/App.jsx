@@ -126,7 +126,7 @@ const App = () => {
         <Route path="/live" element={<Live />} />
 
         <Route path="/testt" element={<TVChannel />} />
-        <Route path="/testt.m3u8" element={<TVChannel />} />
+        <Route path="/livetv/master.m3u8" element={<TVChannel />} />
 
         <Route
           path="/login"

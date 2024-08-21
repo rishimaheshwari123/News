@@ -6,7 +6,7 @@ const { cloudinaryConnect } = require("./config/cloudinary")
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db")
-
+const axios = require('axios');
 //routes
 const authRoutes = require("./routes/authRoute")
 const newsRoutes = require("./routes/newsRoute")
@@ -55,6 +55,45 @@ app.use("/api/v1/ads", require("./routes/adsRoute"));
 app.use("/api/v1/yt", require("./routes/ytVideoRoute"));
 app.use("/api/v1/", require("./routes/dashboardRoutes"));
 
+
+
+
+
+
+const streamBaseUrl = 'http://live.indiaaheadlive.com'; // Base URL for stream segments
+
+app.get('/api/v1/stream', async (req, res) => {
+  try {
+    const response = await axios({
+      url: 'http://live.indiaaheadlive.com/3.m3u8',
+      method: 'GET',
+      responseType: 'stream'
+    });
+
+    res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
+    response.data.pipe(res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching stream');
+  }
+});
+
+app.get('/api/v1/*', async (req, res) => {
+  const segmentUrl = `${streamBaseUrl}/${req.params[0]}`;
+  try {
+    const response = await axios({
+      url: segmentUrl,
+      method: 'GET',
+      responseType: 'stream'
+    });
+
+    res.setHeader('Content-Type', 'video/MP2T'); // Set MIME type for .ts
+    response.data.pipe(res);
+  } catch (error) {
+    console.error(error);
+    res.status(404).send('Segment not found');
+  }
+});
 
 // default route 
 app.get("/", (req, res) => {

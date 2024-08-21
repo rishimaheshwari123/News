@@ -1,54 +1,56 @@
-import React, { useRef, useEffect, useState } from 'react';
-import Hls from 'hls.js';
-
+import React, { useEffect, useRef, useState } from 'react';
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css'; // Import Video.js styles
+import poster from "../assest/poster.jpg"
 const VideoPlayer = () => {
   const videoRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const url = "http://live.indiaaheadlive.com/3.m3u8"; // Ensure this URL is correct
+  const [player, setPlayer] = useState(null);
+  const [isMuted, setIsMuted] = useState(true); // Start with muted
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const url = `${BASE_URL}/stream`; // URL of your backend
 
   useEffect(() => {
-    const video = videoRef.current;
-
-    const handlePlay = () => {
-      video.muted = false; // Unmute the video after it starts playing
-    };
-
-    if (Hls.isSupported()) {
-      const hls = new Hls({
-        startLevel: -1 // Start with the lowest quality level
+    if (videoRef.current) {
+      const videoJsPlayer = videojs(videoRef.current, {
+        autoplay: true,
+        controls: true,
+        muted: isMuted, // Control mute status here
+        sources: [{
+          src: url,
+          type: 'application/x-mpegURL'
+        }],
+        techOrder: ['html5']
       });
-      hls.loadSource(url);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        setIsLoaded(true);
-        video.muted = true; // Mute the video to bypass autoplay restrictions
-        video.play().then(handlePlay).catch(error => {
-          console.error('Error playing video:', error);
+
+      videoJsPlayer.ready(() => {
+        if (!isMuted) {
+          videoJsPlayer.muted(true); // Unmute if needed
+        }
+        videoJsPlayer.play().catch(error => {
+          console.error('Autoplay error:', error);
         });
       });
+
+      setPlayer(videoJsPlayer);
 
       return () => {
-        hls.destroy();
+        if (player) {
+          player.dispose();
+        }
       };
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = url;
-      video.addEventListener('canplay', () => {
-        setIsLoaded(true);
-        video.muted = true; // Mute the video to bypass autoplay restrictions
-        video.play().then(handlePlay).catch(error => {
-          console.error('Error playing video:', error);
-        });
-      });
-    } else {
-      console.error('HLS is not supported in this browser.');
     }
-  }, [url]);
+  }, [url, isMuted]);
+
+
+
+
 
   return (
-    <div className='w-[90%] lg:min-h-[70vh] lg:w-[70vw] mx-auto mt-5'>
-      <video ref={videoRef} controls autoPlay>
-        Your browser does not support the video tag.
-      </video>
+    <div className="w-[100%] min-h-[60vh] mx-auto  flex justify-center items-center">
+      <div data-vjs-player>
+        <video ref={videoRef} className="video-js vjs-default-skin" poster={poster} />
+      </div>
+   
     </div>
   );
 };
