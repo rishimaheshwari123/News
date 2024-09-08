@@ -40,7 +40,7 @@ const BreakingNews = () => {
             modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
             spaceBetween={50}
             slidesPerView={1}
-            autoplay={{ delay: 2000 }}
+            autoplay={{ delay: 4000 }}
             className="max-w-7xl mx-auto relative"
           >
             {breakingNews.map(
