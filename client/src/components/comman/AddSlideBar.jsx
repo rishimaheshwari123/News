@@ -13,7 +13,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import banner from "../../assest/banner2.jpg"
+import banner from "../../assest/mainbanner.png"
 const AddSlideBar = () => {
   const { ads } = useSelector((state) => state.news);
 
