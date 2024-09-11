@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import TVChannel from "../../../test/Test";
-const News = () => {
-  const { allNews, ads, yt } = useSelector((state) => state.news);
+import LiveTv from "../../../test/LiveTv";
+import LiveSection from "../../home/LiveSection";
+import channel from "../../../assest/chanel.jpg"
 
+const News = () => {
+  const { allNews, ads,yt } = useSelector((state) => state.news);
+ 
   const displayNews = allNews.slice(9);
-  useEffect(() => {
-    // console.log(allNews);
-  }, [allNews]);
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -18,22 +19,34 @@ const News = () => {
     return text;
   };
 
-  const sortedNews = [...allNews].sort(
-    (a, b) => new Date(b.publish) - new Date(a.publish)
-  );
+  const sortedNews = [...allNews].flat().sort((a, b) => {
+    const dateA = new Date(a.publish);
+    const dateB = new Date(b.publish);
+   
+    return dateB - dateA;
+  });
+
   const ytVideo = [...yt].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
+  useEffect(() => {
+    // console.log(sortedNews);
+  }, [sortedNews]);
+
   const rightYtVideos = yt.filter((currElem) => currElem?.type === "right-yt");
-  const firstThreeVideos = rightYtVideos.slice(0, 4);
-  const remainingVideos = rightYtVideos.slice(4);
+  const firstThreeVideos = rightYtVideos.slice(0, 2);
+  const remainingVideos = rightYtVideos.slice(2, 5);
 
   return (
     <>
       <div className="main grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1500px] mx-auto px-5 lg:pl-6 sticky top-0 ">
         <div className="first col-span-1 md:col-span-1 mt-3">
           <div className="second grid gap-1">
+
+          <div>
+      <img src={channel} alt="" className="" />
+    </div>
             <p className="text-3xl font-bold text-center my-5">RECENT NEWS</p>
 
             {sortedNews
@@ -41,6 +54,8 @@ const News = () => {
                 (currElem) =>
                   currElem?.active === true && currElem?.type === "recent-news"
               )
+              .slice(0, 6)
+
               .map((currElem, index) => {
                 if (currElem?.type === "recent-news") {
                   return (
@@ -64,28 +79,35 @@ const News = () => {
               })}
             <br />
             {Array.isArray(ads) &&
-              ads.map(
-                (currElem, index) =>
-                  currElem?.type === "left-add" && (
-                    <Link
-                      to={currElem?.url}
-                      key={index}
-                      className="block mb-4"
-                      target="_blank"
-                    >
-                      <img
-                        src={currElem?.image}
-                        alt="Ad Image"
-                        className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
-                      />
-                    </Link>
-                  )
-              )}
+              ads
+                ?.filter((currElem) => currElem?.type === "left-add")
+                ?.slice(0, 1)
+                ?.map(
+                  (currElem, index) =>
+                    currElem?.type === "left-add" && (
+                      <Link
+                        to={currElem?.url}
+                        key={index}
+                        className="block mb-4"
+                        target="_blank"
+                      >
+                        <img
+                          src={currElem?.image}
+                          alt="Ad Image"
+                          className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                        />
+                      </Link>
+                    )
+                )}
             <p className="text-3xl font-bold text-center my-5">BIG NEWS</p>
             <br />
             <div className="grid  gap-4">
               {sortedNews
-                .filter((currElem) => currElem?.active === true)
+                .filter(
+                  (currElem) =>
+                    currElem?.active === true && currElem?.type === "big-news"
+                )
+                .slice(0, 6)
                 .map((currEle, index) => {
                   if (currEle?.type === "big-news") {
                     return (
@@ -102,63 +124,92 @@ const News = () => {
                   }
                   return null;
                 })}
+              <br />
+              {Array.isArray(ads) &&
+                ads
+                  ?.filter((currElem) => currElem?.type === "left-add")
+                  ?.slice(3, 4)
+                  ?.map(
+                    (currElem, index) =>
+                      currElem?.type === "left-add" && (
+                        <Link
+                          to={currElem?.url}
+                          key={index}
+                          className="block mb-4"
+                          target="_blank"
+                        >
+                          <img
+                            src={currElem?.image}
+                            alt="Ad Image"
+                            className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                          />
+                        </Link>
+                      )
+                  )}
             </div>
           </div>
         </div>
 
         {/* Second Section */}
         <div className="second col-span-1 md:col-span-2">
+          <div className="mobile ">
+            <LiveSection />
+          </div>
           <p className="text-3xl font-bold text-center mt-3">TOP NEWS</p>
           <br />
-          {sortedNews
-            .filter((currElem) => currElem?.active === true)
 
-            .map((currEle, index) => {
-              if (currEle?.type === "top-news") {
-                return (
-                  <Link
-                    to={`/${currEle.slug}`}
-                    key={index}
-                    className="bg-white rounded-lg overflow-hidden shadow-md mb-4"
-                  >
-                    <img
-                      src={currEle.images[0]?.url}
-                      alt=""
-                      className="w-full object-cover"
-                    />
-                    <div className="p-4">
-                      <p className="text-xl font-bold text-gray-800 mb-2">
-                        {currEle.title}
-                      </p>
-                      <p className="text-gray-600">{currEle.subtitle}</p>
-                    </div>
-                  </Link>
-                );
-              }
-              return null;
-            })}
-
-          <p className="text-3xl font-bold text-center mt-3">ALL NEWS</p>
-          <br />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className=" grid lg:grid-cols-3 grid-cols-2">
             {sortedNews
-              ?.filter((currElem) => currElem?.active === true)
-
-              .map((currEle, index) => {
-                if (currEle?.type === "all") {
-                  return (
+              .filter((currElem) => currElem?.active === true)
+              .filter((currEle) => currEle?.type === "top-news")
+              .slice(0, 15)
+              .map(
+                (currEle, index) =>
+                  currEle?.type === "top-news" && (
                     <Link
                       to={`/${currEle.slug}`}
                       key={index}
-                      className="bg-white rounded-lg shadow-md p-4 mb-4"
+                      className="bg-white rounded-lg overflow-hidden shadow-md mb-4"
                     >
                       <img
                         src={currEle.images[0]?.url}
                         alt=""
-                        className="w-full object-cover"
+                        className="w-[70%] object-cover"
                       />
-                      <p className="text-sm font-bold text-gray-800 mb-2">
-                        {truncateText(currEle.title, 20)}
+                      <div className="p-4">
+                        <p className="text-sm font-bold text-gray-800 mb-2">
+                          {currEle.title}
+                        </p>
+                        <p className="text-gray-600">{currEle.subtitle}</p>
+                      </div>
+                    </Link>
+                  )
+              )}
+          </div>
+
+          <p className="text-3xl font-bold text-center mt-3">ALL NEWS</p>
+          <br />
+
+          <div></div>
+          <div className="all-news-scroll-container flex gap-4 max-h-[320px] overflow-x-scroll overflow-y-hidden bg-blue-800 p-4">
+            {sortedNews
+              ?.filter((currElem) => currElem?.active === true)
+              .slice(0, 20)
+              .map((currEle, index) => {
+                if (true) {
+                  return (
+                    <Link
+                      to={`/${currEle.slug}`}
+                      key={index}
+                      className="text-center rounded-lg shadow-md p- mb-4 w-[200px] bg-white "
+                    >
+                      <img
+                        src={currEle.images[0]?.url}
+                        alt=""
+                        className="w-fl min-w-[200px] object-cover h-[200px]"
+                      />
+                      <p className="text-[10px] font-bold text-gray-800 mb- p-2">
+                        {truncateText(currEle.title, 15)}
                       </p>
                       {/* <p className="text-gray-600 tex-sm">{currEle.subtitle}</p> */}
                     </Link>
@@ -189,23 +240,26 @@ const News = () => {
           <br />
           <br />
           {Array.isArray(ads) &&
-            ads.map(
-              (currElem, index) =>
-                currElem?.type === "right-add" && (
-                  <Link
-                    to={currElem?.url}
-                    key={index}
-                    className="block mb-4"
-                    target="_blank"
-                  >
-                    <img
-                      src={currElem?.image}
-                      alt="Ad Image"
-                      className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
-                    />
-                  </Link>
-                )
-            )}
+            ads
+              ?.filter((currElem) => currElem?.type === "right-add")
+              ?.slice(0, 1)
+              .map(
+                (currElem, index) =>
+                  currElem?.type === "right-add" && (
+                    <Link
+                      to={currElem?.url}
+                      key={index}
+                      className="block mb-4"
+                      target="_blank"
+                    >
+                      <img
+                        src={currElem?.image}
+                        alt="Ad Image"
+                        className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                      />
+                    </Link>
+                  )
+              )}
 
           {remainingVideos.map((currElem, index) => (
             <iframe

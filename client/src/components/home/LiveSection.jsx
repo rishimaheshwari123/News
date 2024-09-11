@@ -21,7 +21,7 @@ function LiveSection() {
   }, []);
   return (
     <>
-      <div className=" flex justify-center mt-8">
+      <div className=" flex justify-center mt- gap-3">
         <p className=" flex gap-1 items-center text-[16px] bg-red-600 animate-blink p-1 rounded-md text-white font-semibold px-3">
           Live <CgMediaLive />
         </p>

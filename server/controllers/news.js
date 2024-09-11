@@ -226,9 +226,12 @@ const updateNewsById = async (req, res) => {
 const getAllNews = async (req, res) => {
   try {
     const news = await News.find()
-      .populate('category', 'name') // Populate category with categoryName field
-      .populate('subcategory', 'name')
-      .populate("comments.author") // Populate subcategory with subcategoryName field
+      .populate('category', 'name')   // Populate category with categoryName field
+      .populate('subcategory', 'name') // Populate subcategory with subcategoryName field
+      .populate('comments.author')    // Populate comments' author
+      .sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+      .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
+      .limit(100)                     // Limit to 100 results
       .exec();
 
     res.json({ success: true, news });
@@ -236,6 +239,8 @@ const getAllNews = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
 
 // Function to delete a news article by ID
 const deleteNewsById = async (req, res) => {

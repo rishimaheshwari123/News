@@ -51,11 +51,11 @@ const LiveTv = () => {
   }, [url]);
 
   return (
-    <div className='w-[90%] lg:min-h-[70vh] mx-auto mt-5 flex justify-center items-center'>
+    <div className='  mx-auto mb-10 mt-2 flex justify-center items-center'>
       <video ref={videoRef} controls autoPlay>
         Your browser does not support the video tag.
       </video>
-      {!isLoaded && <p>Loading...</p>}
+      {/* {!isLoaded && <p>Loading...</p>} */}
     </div>
   );
 };

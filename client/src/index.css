@@ -245,3 +245,32 @@ body {
   .mobile{
    display: none;
   }}
+
+
+
+  /* For Webkit browsers (Chrome, Safari) */
+.all-news-scroll-container::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.all-news-scroll-container::-webkit-scrollbar-track {
+  background: #94e413; /* Color of the track */
+  border-radius: 6px; 
+}
+
+.all-news-scroll-container::-webkit-scrollbar-thumb {
+  background: #80e91d; /* Color of the scrollbar handle */
+  border-radius: 4px; /* Rounded corners for the handle */
+}
+
+.all-news-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #bb0e0e; /* Color of the scrollbar handle on hover */
+  border-radius: 6px; 
+}
+
+/* For Mozilla Firefox */
+.all-news-scroll-container {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #f30000 #5cd822; /* Handle color and track color */
+  border-radius: 20px; 
+}

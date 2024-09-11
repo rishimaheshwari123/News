@@ -52,7 +52,9 @@ const CategoryTabs = () => {
               activeTab === subCategory?._id ? "block" : "hidden"
             } transition-opacity duration-300 grid grid-cols-1 md:grid-cols-3 gap-4`}
           >
-            {subCategory.news.map((newsItem, index) => (
+            {subCategory.news
+            
+             .map((newsItem, index) => (
               <Link
                 to={`/${newsItem?.slug}`}
                 key={index}

@@ -116,6 +116,7 @@ function CreateAdd() {
       console.log(error);
     }
   };
+  const sortedAds = [...ads].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <div className="w-11/12 mx-auto p-4">
@@ -213,7 +214,8 @@ function CreateAdd() {
             </tr>
           </thead>
           <tbody>
-            {ads.map((ad) => (
+            {sortedAds.
+            map((ad) => (
               <tr
                 key={ad._id}
                 className="hover:bg-gray-100 transition duration-200 ease-in-out"

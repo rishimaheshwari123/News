@@ -110,7 +110,9 @@ const newsSchema = new Schema({
     ref: 'auth',
   }],
 
-});
+},
+{ timestamps: true }
+);
 
 const News = mongoose.model('News', newsSchema);
 

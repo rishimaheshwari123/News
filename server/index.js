@@ -73,7 +73,7 @@ app.get('/api/v1/stream', async (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
     response.data.pipe(res);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).send('Error fetching stream');
   }
 });
@@ -90,7 +90,7 @@ app.get('/api/v1/*', async (req, res) => {
     res.setHeader('Content-Type', 'video/MP2T'); // Set MIME type for .ts
     response.data.pipe(res);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(404).send('Segment not found');
   }
 });

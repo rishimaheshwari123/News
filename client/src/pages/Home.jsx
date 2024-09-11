@@ -21,7 +21,9 @@ const Home = () => {
       <div className="mt-24">
         <AddSlideBar />
         <BreakingNews />
+        <div className=" lg:hidden md:hidden xl:hidden mt-6">
         <LiveSection />
+        </div>
         <br />
         <News />
         <br />

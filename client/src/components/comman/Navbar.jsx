@@ -238,86 +238,92 @@ const Navbar = () => {
                 <span>होम</span>
               </Link>
             </li>
-            {categories.map((category, index) => (
-              <li
-                key={category._id}
-                className=" group"
-                onMouseEnter={() => {
-                  handleDropdownClick(index);
-                  setClick(true);
-                }}
-                onMouseLeave={() => {
-                  handleDropdownClick(null);
-                  setClick(false);
-                }}
-                onClick={() => setNav(false)}
-              >
-                <div>
-                  <Link
-                    to={`/category/${category._id}`}
-                    className={`flex items-center space-x-1 ${
-                      dropdownIndex === index ? "text-gray-300" : "text-white"
-                    }`}
-                    onClick={() => setClick(false)}
-                  >
-                    <span>{category.name}</span>
-                  </Link>
-                </div>
+            {categories.map((category, index) => {
+  // Ensure category is valid and active
+  if (category?.active) {
+    return (
+      <li
+        key={category._id}
+        className="group relative"
+        onMouseEnter={() => {
+          handleDropdownClick(index);
+          setClick(true);
+        }}
+        onMouseLeave={() => {
+          handleDropdownClick(null);
+          setClick(false);
+        }}
+        onClick={() => setNav(false)}
+      >
+        <div>
+          <Link
+            to={`/category/${category._id}`}
+            className={`flex items-center space-x-1 ${
+              dropdownIndex === index ? 'text-gray-300' : 'text-white'
+            }`}
+            onClick={() => setClick(false)}
+          >
+            <span>{category.name}</span>
+          </Link>
+        </div>
 
-                {/* &&                category?.subCategories?.length !== 0  */}
-                {dropdownIndex === index && click && (
-                  <div className="absolute top-8 left-0 bg-[#2156a4] text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16  ">
-                    <ul className=" text-[13px]">
-                      {category.subCategories &&
-                        category?.subCategories?.length !== 0 &&
-                        category.subCategories.map((subCategory) => (
-                          <li key={subCategory._id} className="">
-                            <Link
-                              to={`/subcategory/${subCategory._id}`}
-                              className=" hover:text-[#f26434]"
-                            >
-                              {truncateText(subCategory.name, 15)}
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
+        {dropdownIndex === index && click && (
+          <div className="absolute top-8 left-0 bg-[#2156a4] text-white rounded-md mt-2 py-5 px-4 min-w-[90vw] flex gap-16">
+            <ul className="text-[13px]">
+              {category.subCategories && category.subCategories.length > 0 && (
+                category.subCategories.map((subCategory) => (
+                  <li key={subCategory._id}>
+                    <Link
+                      to={`/subcategory/${subCategory._id}`}
+                      className="hover:text-[#f26434]"
+                    >
+                      {truncateText(subCategory.name, 15)}
+                    </Link>
+                  </li>
+                ))
+              )}
+            </ul>
 
-                    <div>
-                      <div className="grid grid-cols-4 gap-4 mt-2">
-                        {category.news &&
-                          category.news
-                            .slice(0, 4)
-                            .filter((currElem) => currElem?.active === true)
-
-                            .map((newsItem) => (
-                              <div
-                                key={newsItem._id}
-                                className="border rounded-md overflow-hidden hover:shadow-lg"
-                              >
-                                <Link
-                                  to={`/${newsItem.slug}`}
-                                  onClick={() => setClick(false)}
-                                >
-                                  <img
-                                    src={newsItem?.images[0]?.url}
-                                    alt={newsItem.title}
-                                    className="w-full h-32 object-cover"
-                                  />
-                                  <div className="p-2">
-                                    <h3 className="text-sm font-medium">
-                                      {truncateText(newsItem.title, 15)}
-                                      {/* {newsItem.title} */}
-                                    </h3>
-                                  </div>
-                                </Link>
-                              </div>
-                            ))}
+            <div>
+              <div className="grid grid-cols-4 gap-4 mt-2">
+                {category.news &&
+                  category.news
+                    .slice(0, 4)
+                    .filter((newsItem) => newsItem?.active === true)
+                    .map((newsItem) => (
+                      <div
+                        key={newsItem._id}
+                        className="border rounded-md overflow-hidden hover:shadow-lg"
+                      >
+                        <Link
+                          to={`/${newsItem.slug}`}
+                          onClick={() => setClick(false)}
+                        >
+                          <img
+                            src={newsItem?.images[0]?.url}
+                            alt={newsItem.title}
+                            className="w-full h-32 object-cover"
+                          />
+                          <div className="p-2">
+                            <h3 className="text-sm font-medium">
+                              {truncateText(newsItem.title, 15)}
+                            </h3>
+                          </div>
+                        </Link>
                       </div>
-                    </div>
-                  </div>
-                )}
-              </li>
-            ))}
+                    ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </li>
+    );
+  }
+
+  // Return null if the category is not active
+  return null;
+})}
+
             <li>
               <Link
                 to="/live"
