@@ -65,7 +65,7 @@ const streamBaseUrl = 'http://live.indiaaheadlive.com'; // Base URL for stream s
 app.get('/api/v1/stream', async (req, res) => {
   try {
     const response = await axios({
-      url: 'http://live.indiaaheadlive.com/3.m3u8',
+      url: 'http://live.indiaaheadlive.com/1.m3u8',
       method: 'GET',
       responseType: 'stream'
     });
