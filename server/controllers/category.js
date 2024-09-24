@@ -49,13 +49,32 @@ const deleteCategory = async (req, res) => {
 // Get all categories with populated subCategories
 const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find().populate({
-      path: "subCategories",
-      populate: {
-        path: "news",
-        model: "News",
-      },
-    }).populate("news").lean();
+    // const categories = await Category.find().populate({
+    //   path: "subCategories",
+    //   populate: {
+    //     path: "news",
+    //     model: "News",
+    //   }      .sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+    //   .sort({ publish: -1 }) ,
+    // }).populate("news").lean();
+
+
+
+    const categories = await Category.find()
+  .populate({
+    path: "subCategories",
+    populate: {
+      path: "news",
+      model: "News",
+      options: { sort: { createdAt: -1 } },  // Sort news by publish field in descending order (newest first)
+    },
+  })
+  .populate({
+    path: "news",
+    options: { sort: { createdAt: -1 } },  // Sort main news (if directly associated with the category) in descending order
+  })
+  .lean();
+
     const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
 
     // Function to get random elements from an array

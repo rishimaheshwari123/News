@@ -5,7 +5,7 @@ import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 export default function Categorycard({ category }) {
   const latestNews = [...(category?.news || [])]
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt))
     .slice(0, 5);
 
   const truncateText = (text, wordLimit) => {
