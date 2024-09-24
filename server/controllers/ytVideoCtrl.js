@@ -20,7 +20,9 @@ const createYTVideo = async (req, res) => {
 const getYTVideo = async (req, res) => {
     try {
 
-        const videos = await ytModel.find({});
+                         // Limit to 100 results
+      const videos = await ytModel.find({}).sort({ createdAt: -1 }).limit(100) ;
+
         return res.status(200).json({
             success: true,
             message: "Yt Video get successfully!",

@@ -34,7 +34,7 @@ const News = () => {
     // console.log(sortedNews);
   }, [sortedNews]);
 
-  const rightYtVideos = yt.filter((currElem) => currElem?.type === "right-yt");
+  const rightYtVideos = ytVideo.filter((currElem) => currElem?.type === "right-yt");
   const firstThreeVideos = rightYtVideos.slice(0, 2);
   const remainingVideos = rightYtVideos.slice(2, 5);
 
