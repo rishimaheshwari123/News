@@ -21,6 +21,8 @@ const {
   GET_ALL_CATEGORY_API,
   DETAILS_CATEGORY_API,
   DELETE_CATEGORY_API,
+  TOGGLE_CATEGORY_API,
+
 
   ADD_SUBCATEGORY_API,
   GET_ALL_SUBCATEGORY_API,
@@ -917,6 +919,48 @@ export const fetchNotification = async () => {
   }
 };
 
+
+
+export const activeCategoryToggle = async (data, token) => {
+
+  Swal.fire({
+    title: "Loading...",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  try {
+    const response = await apiConnector("PUT", TOGGLE_CATEGORY_API, data, {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log("Toggle News API RESPONSE............", response?.data?.success);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Add News Details");
+    }
+
+    Swal.close();
+    Swal.fire({
+      icon: "success",
+      title: "Change Category Status",
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+  } catch (error) {
+    console.log("Toggle News API ERROR............", error);
+    Swal.close();
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: error.message,
+    });
+  }
+};
 
 
 

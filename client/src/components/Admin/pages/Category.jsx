@@ -7,9 +7,11 @@ import {
   fetchSingleCategory,
   updateCategory,
   imageUpload,
+  activeCategoryToggle,
 } from "../../../services/operations/admin";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
+
 
 function Category() {
   const [openCreate, setCreate] = useState(false);
@@ -27,16 +29,16 @@ function Category() {
     description: "",
     // image: "",
   });
-
+  const fetchCategories = async () => {
+    try {
+      const response = await fetchCategory();
+      setCategories(response?.categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetchCategory();
-        setCategories(response?.categories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+   
 
     fetchCategories();
   }, []);
@@ -87,6 +89,13 @@ function Category() {
       // Optionally handle error display to the user
     }
   };
+
+  const handleActive = async (categoryId,status)=>{
+    const activeStatus = status ? false : true
+ await   activeCategoryToggle({categoryId,activeStatus},token)
+    
+ fetchCategories();
+  }
 
   return (
     <div className="w-11/12 mx-auto p-4">
@@ -201,6 +210,16 @@ function Category() {
                   >
                     Delete
                   </button>}
+
+
+
+                  <button
+                    onClick={() => handleActive(category._id, category.active)}
+                    className={`p-2  text-white ml-4 rounded-lg hover:bg-yellow-700 focus:outline-none ${category.active ? "bg-green-600": "bg-red-900"}`}
+                  >
+                    {category.active ? "Click To Deactivate" : "Click To Activate"}
+                  </button>
+               
                 </td>
               </tr>
             ))}

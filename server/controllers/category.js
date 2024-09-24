@@ -136,7 +136,7 @@ const getCategoryById = async (req, res) => {
 const toggleActive = async (req, res) => {
   const { categoryId, activeStatus } = req.body;
 
-
+console.log(req.body)
   try {
     const category = await Category.findByIdAndUpdate(categoryId, { active: activeStatus }, { new: true });
     if (!category) {

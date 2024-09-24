@@ -54,21 +54,53 @@ const Navbar = () => {
   };
 
   const dispatch = useDispatch();
+  const priorityOrder = ["राजनीति", "देश", "राज्य", "खेल", "शिक्षा", "मनोरंजन", "ऐस्ट्रो", "लाइफस्टाइल"];
+
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const categoriesData = await fetchCategory();
+  //       setCategories(categoriesData?.categories || []);
+  //     } catch (error) {
+  //       console.error("Error fetching categories:", error);
+  //     }
+  //   };
+
+  //   if (category.length !== 0) {
+  //     setCategories(category);
+  //   } else fetchCategories();
+  // }, []);
+
+
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const categoriesData = await fetchCategory();
-        setCategories(categoriesData?.categories || []);
+        const sortedCategories = sortCategories(categoriesData?.categories || []);
+        setCategories(sortedCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
-
+  
+    const sortCategories = (categories) => {
+      // Create a copy of the array using slice() or spread operator
+      return [...categories].sort((a, b) => {
+        const indexA = priorityOrder.indexOf(a.name);
+        const indexB = priorityOrder.indexOf(b.name);
+        return (indexA === -1 ? Infinity : indexA) - (indexB === -1 ? Infinity : indexB);
+      });
+    };
+  
     if (category.length !== 0) {
-      setCategories(category);
-    } else fetchCategories();
+      const sortedCategories = sortCategories(category);
+      setCategories(sortedCategories);
+    } else {
+      fetchCategories();
+    }
   }, []);
+
 
   const toggleVisibility = () => {
     if (window.pageYOffset > 10) {
@@ -208,8 +240,8 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className=" bg-[#2156a4] ">
-        <div className=" mx-auto flex justify-between w-11/12  items-center relative min-h-[50px]">
+      <div className=" bg-[#2156a4] relative ">
+        <div className=" mx-auto flex justify-between w-11/12  items-center  min-h-[50px]">
           <div className="text-2xl font-bold flex  items-center gap-5">
             <div>
               <IoMenu
@@ -244,7 +276,7 @@ const Navbar = () => {
     return (
       <li
         key={category._id}
-        className="group relative"
+        className="group "
         onMouseEnter={() => {
           handleDropdownClick(index);
           setClick(true);

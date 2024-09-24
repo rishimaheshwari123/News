@@ -32,7 +32,7 @@ const Home = () => {
         <ButtomAdd />
 
         {/* <Reels /> */}
-        <PollAns />
+        {/* <PollAns /> */}
         <Tab />
       </div>
       <br />

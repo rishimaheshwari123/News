@@ -60,6 +60,7 @@ export const adminEndpoints = {
   UPDATE_CATEGORY_API: BASE_URL + "/category/update",
   GET_ALL_CATEGORY_API: BASE_URL + "/category/all",
   DETAILS_CATEGORY_API: BASE_URL + "/category",
+ TOGGLE_CATEGORY_API: BASE_URL + "/category/toggleActive",
 
 
 

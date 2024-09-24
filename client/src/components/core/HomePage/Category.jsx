@@ -43,7 +43,7 @@ function Category() {
             ></iframe>
           ))}
           {/* WhatsApp and Telegram join links */}
-          <div className="my-10 text-2xl text-white font-bold shadow-xl p-4">
+          {/* <div className="my-10 text-2xl text-white font-bold shadow-xl p-4">
             <a
               href="https://wa.me/6267144122"
               target="_blank"
@@ -62,7 +62,7 @@ function Category() {
               <FaTelegram size={30} />
               ज्वॉइन टेलिग्राम चैनल
             </a>
-          </div>
+          </div> */}
 
           {/* Remaining YouTube videos */}
           {remainingVideos.map((currElem, index) => (

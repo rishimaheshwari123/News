@@ -185,7 +185,17 @@ const Footer = () => {
             <ul className="space-y-2 text-[14px]">
               <li>
                 <Link to="/" className="text-white hover:text-white">
-                 Comming Soon
+                Airtel TV CH No. 378
+                </Link>
+              </li>
+              <li>
+                <Link to="/" className="text-white hover:text-white">
+                Tata Sky  Comming Soon
+                </Link>
+              </li>
+              <li>
+                <Link to="/" className="text-white hover:text-white">
+                VideoCon  Comming Soon
                 </Link>
               </li>
              
