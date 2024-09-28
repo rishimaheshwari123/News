@@ -273,7 +273,7 @@ function NewsDetails() {
                   <div>
                     <p className=" font-semibold italic text-[12px]">
                       {" "}
-                      {dateFormate(product?.publish)}
+                      {dateFormate(product?.createdAt)}
                     </p>
                   </div>
                 </div>
