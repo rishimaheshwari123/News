@@ -37,7 +37,7 @@ const Home = () => {
       </div>
       <br />
       <br />
-      <BannerImage />
+      {/* <BannerImage /> */}
       <Footer />
     </div>
   );
