@@ -45,7 +45,7 @@ const News = () => {
           <div className="second grid gap-1">
 
           <div>
-      <img src={channel} alt="" className="" />
+      {/* <img src={channel} alt="" className="" /> */}
     </div>
             <p className="text-3xl font-bold text-center my-5">RECENT NEWS</p>
 
