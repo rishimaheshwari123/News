@@ -101,20 +101,41 @@ const getCategoryById = async (req, res) => {
   const categoryId = req.params.id;
 
   try {
-    // Fetch the requested category with populated subCategories
+    // Fetch the requested category with populated subCategories and news
     const category = await Category.findById(categoryId)
       .populate("subCategories")
-      .populate("news"); // Assuming 'news' is another related field
+      .populate("news");
 
     if (!category) {
       return res.status(404).json({ success: false, message: "Category not found" });
     }
 
+    // Sort the populated news by publish date or createdAt
+    if (category.news) {
+      category.news.sort((a, b) => {
+        const publishA = new Date(a.publish || a.createdAt);
+        const publishB = new Date(b.publish || b.createdAt);
+        return publishB - publishA; // Sort in descending order
+      });
+    }
+
     // Fetch multiple random categories
     const categories = await Category.find({ _id: { $ne: categoryId } })
-      .limit(5) // Adjust the limit as per your requirement
-      .populate("subCategories").populate("news")
-      .lean(); // Use lean() for better performance if you don't need to modify the documents
+      .limit(5)
+      .populate("subCategories")
+      .populate("news")
+      .lean();
+
+    // Sort the news in random categories similarly
+    categories.forEach(cat => {
+      if (cat.news) {
+        cat.news.sort((a, b) => {
+          const publishA = new Date(a.publish || a.createdAt);
+          const publishB = new Date(b.publish || b.createdAt);
+          return publishB - publishA; // Sort in descending order
+        });
+      }
+    });
 
     // Prepare the response object
     const response = {
@@ -130,6 +151,8 @@ const getCategoryById = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
 
 
 
